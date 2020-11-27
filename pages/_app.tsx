@@ -5,6 +5,7 @@ import {
     InMemoryCache,
   } from "@apollo/client";
   import fetch from "node-fetch"; // Use node-fetch here to allow SSR
+  import '../styles/globals.css'
   
   const client = new ApolloClient({
     link: new HttpLink({ uri: "/api/graphql", fetch: fetch as any }),
