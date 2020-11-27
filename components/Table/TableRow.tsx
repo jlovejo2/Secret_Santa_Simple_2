@@ -15,7 +15,7 @@ const TableRow = (props: TableRowProps) => {
         <Fragment>
                     {groupDetails.map((groupMemberInfo, index)=> {
                        return ( 
-                       <tr key={index}>
+                       <tr className='bg-blue-200' key={index}>
                             {groupKeysArray.map((groupKey, keyIndex)=> {
                                 console.log('group key table row: ', groupDetails, groupMemberInfo[groupKey] )
                                 return (
