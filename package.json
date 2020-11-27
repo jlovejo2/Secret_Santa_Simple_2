@@ -1,0 +1,29 @@
+{
+  "name": "secret_santa",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "generate": "graphql-codegen"
+  },
+  "dependencies": {
+    "apollo-server-micro": "^2.19.0",
+    "graphql": "^15.4.0",
+    "graphql-import-node": "^0.0.4",
+    "next": "10.0.3",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.19.3",
+    "@graphql-codegen/typescript": "^1.18.1",
+    "@graphql-codegen/typescript-resolvers": "^1.17.12",
+    "@types/node": "^14.14.10",
+    "@types/react": "^17.0.0",
+    "prettier": "^2.2.0",
+    "typescript": "^4.1.2",
+    "webpack-graphql-loader": "^1.0.2"
+  }
+}
