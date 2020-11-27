@@ -5,6 +5,12 @@ hooks:
 schema:
   - ./src/graphql/schema.graphql
 generates:
+  ./src/dao/types.ts:
+    plugins:
+      - typescript
+      - typescript-mongodb
+    config:
+      skipTypename: true
   ./src/graphql/types.tsx:
     documents: # Provide list of files that needs to be checked for queries
       - ./pages/**/*.ts*
