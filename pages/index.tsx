@@ -64,7 +64,8 @@ const Index = () => {
   
     return (
       <>
-      <div>
+      <div className='flex grid grid-cols-3 gap-2 justify-center'>
+      <div className='col-start-2 col-span-2'>
         <input
           type="text"
           placeholder="What needs to be done?"
@@ -76,11 +77,12 @@ const Index = () => {
         </button>
             {body}
         </div>
-        <div>
+        <div className='col-start-2 col-span-1 justify-center'>
             <GroupForm groupDetails={groupDetails} />
         </div>
-        <div>
+        <div className='col-start-2 col-span-1'>
             <GroupSummary groupDetails={groupDetails} />
+        </div>
         </div>
       </>
     );

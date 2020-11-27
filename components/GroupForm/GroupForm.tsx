@@ -24,7 +24,7 @@ const GroupForm = (props: Props) => {
 
   return (
       <Fragment>
-       <form>
+       <form className='m-2'>
             <div>
                 <label className='block'>
                     <span className='text-gray-800'>First Name:</span> 
