@@ -1,7 +1,7 @@
 import { useIndexQuery } from "../src/graphql/types";
 import { gql } from "@apollo/client";
 import { Todo, GroupForm, GroupSummary } from "../components";
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, ChangeEvent, SyntheticEvent, useEffect, FormEvent } from "react";
 
 export type groupMember = {
     firstName: String,
@@ -44,7 +44,9 @@ const Index = () => {
   
     const onClickAddTodo = () => {};
   
-    const onClickAddGroupInput = () => {
+    const handleNewGroupMember = (e: FormEvent ) => {
+        event.preventDefault();
+        console.log('event: ', (e.currentTarget as HTMLFormElement))
 
     }
 
@@ -78,7 +80,7 @@ const Index = () => {
             {body}
         </div>
         <div className='col-start-2 col-span-1 justify-center'>
-            <GroupForm groupDetails={groupDetails} />
+            <GroupForm groupDetails={groupDetails} onSubmit={handleNewGroupMember}/>
         </div>
         <div className='col-start-2 col-span-1'>
             <GroupSummary groupDetails={groupDetails} />

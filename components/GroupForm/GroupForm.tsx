@@ -1,10 +1,11 @@
 import { gql } from "@apollo/client";
 import { useTodoQuery, useUpdateTodoMutation } from "../../src/graphql/types";
-import { useState, ChangeEvent, useEffect, Fragment } from "react";
+import { useState, ChangeEvent, useEffect, Fragment, FormEvent, } from "react";
 import { groupMember } from '../../pages/index';
 
 interface Props {
-    groupDetails: groupMember[]
+    groupDetails: groupMember[],
+    onSubmit: (e: FormEvent<HTMLFormElement>) => void,
 }
 
 // gql`
@@ -12,7 +13,7 @@ interface Props {
 // `;
 
 const GroupForm = (props: Props) => {
-    const {groupDetails } = props
+    const {groupDetails, onSubmit } = props
 //   const { loading, data } = useTodoQuery({
 //     variables: {
 //       todoId,
@@ -24,7 +25,7 @@ const GroupForm = (props: Props) => {
 
   return (
       <Fragment>
-       <form className='m-2'>
+       <form className='m-2' onSubmit={onSubmit} >
             <div>
                 <label className='block'>
                     <span className='text-gray-800'>First Name:</span> 

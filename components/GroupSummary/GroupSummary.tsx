@@ -5,7 +5,7 @@ import { groupMember } from '../../pages/index';
 import { TableHeader, TableRow } from "../Table";
 
 interface Props {
-    groupDetails: groupMember[]
+    groupDetails: groupMember[],
 }
 
 // gql`
