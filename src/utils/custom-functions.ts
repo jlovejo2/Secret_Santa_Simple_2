@@ -3,7 +3,6 @@ import { groupMember } from "../../pages";
 export function chooseSecretSanta(groupMembersArray: groupMember[]) {
 
     console.log('entered chooisng...')
-    console.log('Input array:' , groupMembersArray)
     
     const randomGroupMembers = randomizeArray(groupMembersArray)
     let duplicateArray = [].concat(groupMembersArray)
@@ -22,19 +21,16 @@ export function chooseSecretSanta(groupMembersArray: groupMember[]) {
 
         chosingIndex = arrayLength - 1;
         picksIndex = Math.floor(Math.random() * duplicateArray.length);
-        console.log('Chosing Index: ', chosingIndex)
 
         if (randomGroupMembers[chosingIndex]['secret_pick']){
             console.log('already has a pick')
             arrayLength--;
         }
         else if(randomGroupMembers[chosingIndex].email !== duplicateArray[picksIndex].email ) {
-            console.log('did not equal eachother', randomGroupMembers[chosingIndex], duplicateArray[picksIndex])
             randomGroupMembers[chosingIndex]['secret_pick'] = duplicateArray[picksIndex]
             duplicateArray.splice(picksIndex,1)
             arrayLength--;
         } else {
-            console.log('did equal eachother', randomGroupMembers[chosingIndex], duplicateArray[chosingIndex])
             chosingIndex = Math.floor(Math.random() * arrayLength);
         }
       
