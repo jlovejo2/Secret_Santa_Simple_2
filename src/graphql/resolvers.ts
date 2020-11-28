@@ -1,7 +1,9 @@
-import { Resolvers, TodoMvc } from "./types";
-import { connect } from "../dao";
+import {Request, Response } from 'express';
+import { Resolvers, TodoMvc, GroupMember } from "./types";
+import { connect, emailSender } from "../dao";
 import { TodoMvcDbObject } from "../dao/types";
 import { ObjectID } from "mongodb";
+
 
 const dbPromise = connect();
 
@@ -55,9 +57,34 @@ const resolvers: Resolvers = {
           returnOriginal: false,
         }
       );
-
       return fromDbObject(result.value);
     },
+    sendPicks: async (_:any, { input }, res: Response) => {
+        let toAddress: string;
+        let fromAddress = process.env.MY_EMAIL;
+        let subject = 'This is your pick for SECRET SANTA!!!!!  Only Open if you are alone';
+        let body: string;
+        
+        
+        for (let member of input) {
+            toAddress=member.email
+            body = `
+            Hi ${member.first_name} ${member.last_name},
+
+            your have the honor, nay the pleasure of ${member.secret_pick} for secret santa
+
+            sincerely,
+            The Internet
+            `
+
+            emailSender(toAddress,fromAddress,subject,body)
+                .then((responseObj) => res.send(true))
+                .catch(console.error);
+        }
+
+
+        return('Sent successfully')
+    }
   },
 };
 

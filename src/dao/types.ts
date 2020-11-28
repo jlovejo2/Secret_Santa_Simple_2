@@ -28,6 +28,7 @@ export type QueryTodoArgs = {
 export type Mutation = {
 	createTodo: TodoMvc;
 	updateTodo?: Maybe<TodoMvc>;
+	sendPicks?: Maybe<Scalars['String']>;
 };
 
 export type MutationCreateTodoArgs = {
@@ -39,9 +40,20 @@ export type MutationUpdateTodoArgs = {
 	data: UpdateTodoInput;
 };
 
+export type MutationSendPicksArgs = {
+	input: Array<GroupMember>;
+};
+
 export type UpdateTodoInput = {
 	description?: Maybe<Scalars['String']>;
 	completed?: Maybe<Scalars['Boolean']>;
+};
+
+export type GroupMember = {
+	first_name: Scalars['String'];
+	last_name: Scalars['String'];
+	email: Scalars['String'];
+	secret_pick?: Maybe<Array<Maybe<GroupMember>>>;
 };
 
 export type TodoMvc = {
