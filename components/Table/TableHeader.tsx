@@ -5,6 +5,18 @@ type TableHeaderProps = {
     groupDetails: groupMember[]
 }
 
+const convertToDisplay = (inputString: string) => {
+    const splitArray = inputString.split("_")
+    console.log(splitArray)
+    let displayString = '';
+
+    for (let i of splitArray) {
+        displayString = displayString + ' ' + i
+    }
+
+    return displayString
+}
+
 const TableHeader = (props: TableHeaderProps) => {
 
     const { groupDetails } = props
@@ -16,7 +28,7 @@ const TableHeader = (props: TableHeaderProps) => {
             <tr>
                 {groupKeysArray.map((groupKey, index)=> {
                     console.log('group key table header: ', groupKey)
-                    return <th key={index}>{groupKey}</th>
+                    return <th key={index} className=''>{convertToDisplay(groupKey)}</th>
                 })}
             </tr>
         </thead>

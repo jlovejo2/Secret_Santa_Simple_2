@@ -17,7 +17,7 @@ const GroupSummary = (props: Props) => {
 
   return (
       <Fragment>
-              <table className='table-auto'>
+              <table className='table-auto w-full text-center'>
                   <TableHeader groupDetails={groupDetails} />
                   <tbody>
                     <TableRow groupDetails={groupDetails} />

@@ -47,7 +47,6 @@ const Index = () => {
         e.preventDefault();
 
         setGroupDetails([...groupDetails, currentGroupMember])
-
     }
 
     const handleChangeGroupForm = (e: ChangeEvent) => {
@@ -89,8 +88,8 @@ const Index = () => {
   
     return (
       <>
-      <div className='flex grid grid-cols-3 gap-2 justify-center'>
-      <div className='col-start-2 col-span-2'>
+      <div className='flex grid grid-cols-6 gap-2 justify-center'>
+      <div className='col-start-3 col-span-2'>
         <input
           type="text"
           placeholder="What needs to be done?"
@@ -102,10 +101,10 @@ const Index = () => {
         </button>
             {body}
         </div>
-        <div className='col-start-2 col-span-1 justify-center'>
+        <div className='col-start-3 col-span-2 justify-center'>
             <GroupForm groupDetails={groupDetails} handleChangeGroupForm={handleChangeGroupForm} onSubmit={handleNewGroupMember}/>
         </div>
-        <div className='col-start-2 col-span-1'>
+        <div className='col-start-2 col-span-4'>
             <GroupSummary groupDetails={groupDetails} />
         </div>
         </div>
