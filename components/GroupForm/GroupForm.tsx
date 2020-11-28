@@ -14,7 +14,7 @@ interface Props {
 // `;
 
 const GroupForm = (props: Props) => {
-    const {groupDetails, onSubmit, handleChangeGroupForm } = props
+    const {onSubmit, handleChangeGroupForm } = props
 //   const { loading, data } = useTodoQuery({
 //     variables: {
 //       todoId,
@@ -46,7 +46,7 @@ const GroupForm = (props: Props) => {
                 </label>
             </div>
             <div>
-                <button type='submit' className="btn-primary mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-purple-900 text-white font-normal py-2 px-4 mr-1 rounded" >
+                <button type='submit' className="btn-primary mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-900 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded" >
                     Submit
                 </button>
             </div>

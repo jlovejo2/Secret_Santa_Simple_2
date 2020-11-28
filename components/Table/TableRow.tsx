@@ -17,7 +17,6 @@ const TableRow = (props: TableRowProps) => {
                        return ( 
                        <tr className='bg-blue-200' key={index}>
                             {groupKeysArray.map((groupKey, keyIndex)=> {
-                                console.log('group key table row: ', groupDetails, groupMemberInfo[groupKey] )
                                 return (
                                 <td key={keyIndex}>{groupMemberInfo[groupKey]} </td>
                                 )
