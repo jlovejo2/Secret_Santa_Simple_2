@@ -1,6 +1,6 @@
 import { useIndexQuery } from "../src/graphql/types";
 import { gql } from "@apollo/client";
-import { Todo, GroupForm, GroupSummary } from "../components";
+import { Todo, GroupForm, GroupSummary, Navbar } from "../components";
 import { useState, ChangeEvent, SyntheticEvent, useEffect, FormEvent } from "react";
 
 export type groupMember = {
@@ -129,6 +129,9 @@ const Index = () => {
   
     return (
       <>
+      <div>
+          <Navbar />
+      </div>
       <div className='flex grid grid-cols-6 gap-2 justify-center'>
       <div className='col-start-3 col-span-2'>
         <input
