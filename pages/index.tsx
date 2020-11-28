@@ -4,8 +4,8 @@ import { Todo, GroupForm, GroupSummary } from "../components";
 import { useState, ChangeEvent, SyntheticEvent, useEffect, FormEvent } from "react";
 
 export type groupMember = {
-    firstName: String,
-    lastName: String,
+    first_name: String,
+    last_name: String,
     email: String
 }
 
@@ -20,8 +20,8 @@ gql`
 const Index = () => {
     const { data, loading } = useIndexQuery();
     const [newTodoDescription, setNewTodoDescription] = useState("");
-    const [groupDetails, setGroupDetails ] = useState<groupMember[]>([{firstName:'Eddie', lastName:"Lovejoy",email:'james.lovejoy2@gmail.com'}]);
-    const [currentGroupMember, setCurrentGroupMember] = useState("")
+    const [groupDetails, setGroupDetails ] = useState<groupMember[]>([{first_name:'Eddie', last_name:"Lovejoy", email:'james.lovejoy2@gmail.com'}]);
+    const [currentGroupMember, setCurrentGroupMember] = useState<groupMember>()
 
     const [todoIds, setTodoIds] = useState<string[]>();
   
@@ -38,16 +38,39 @@ const Index = () => {
     };
 
     const changeCurrentGroupMember = (e: ChangeEvent) => {
-        console.log('event: ', (e.target as HTMLInputElement).value.toString())
-        setCurrentGroupMember((e.target as HTMLInputElement).value.toString())
+
     }
   
     const onClickAddTodo = () => {};
   
     const handleNewGroupMember = (e: FormEvent ) => {
-        event.preventDefault();
-        console.log('event: ', (e.currentTarget as HTMLFormElement))
+        e.preventDefault();
 
+        setGroupDetails([...groupDetails, currentGroupMember])
+
+    }
+
+    const handleChangeGroupForm = (e: ChangeEvent) => {
+
+        const fieldName = (e.currentTarget as HTMLInputElement).name
+        const fieldValue = (e.currentTarget as HTMLInputElement).value
+
+        switch (fieldName) {
+            case 'firstName':
+                setCurrentGroupMember({...currentGroupMember, first_name: fieldValue })
+                break;
+            case 'lastName':
+                setCurrentGroupMember({...currentGroupMember, last_name: fieldValue })
+                break;
+            case 'email':
+                setCurrentGroupMember({...currentGroupMember, email: fieldValue })
+                break;
+            default:
+                console.log('current group member: ', currentGroupMember)
+                break;
+        }
+
+        console.log('current group memeber: ', currentGroupMember)
     }
 
     const todoElements = todoIds?.map((id) => <Todo todoId={id} key={id} />);
@@ -80,7 +103,7 @@ const Index = () => {
             {body}
         </div>
         <div className='col-start-2 col-span-1 justify-center'>
-            <GroupForm groupDetails={groupDetails} onSubmit={handleNewGroupMember}/>
+            <GroupForm groupDetails={groupDetails} handleChangeGroupForm={handleChangeGroupForm} onSubmit={handleNewGroupMember}/>
         </div>
         <div className='col-start-2 col-span-1'>
             <GroupSummary groupDetails={groupDetails} />
