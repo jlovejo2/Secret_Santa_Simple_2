@@ -6,8 +6,52 @@ import { useState, ChangeEvent, SyntheticEvent, useEffect, FormEvent } from "rea
 export type groupMember = {
     first_name: String,
     last_name: String,
-    email: String
+    email: String,
+    secret_pick?: Object;
 }
+
+const psuedoGroup = [
+    {
+        first_name: 'Eddie',
+        last_name: 'Lovejoy',
+        email: 'james.lovejoy2@gmail.com'
+    },
+    {
+        first_name: 'Kelly',
+        last_name: 'Phelan',
+        email: 'kelyphelan8@gmail.com'
+    },
+    {
+        first_name: 'Jane',
+        last_name: 'Watt',
+        email: 'jane@gmail.com'
+    },
+    {
+        first_name: 'Darius',
+        last_name: 'Watt',
+        email: 'darius@gmail.com'
+    },    
+    {
+        first_name: 'Brian',
+        last_name: 'Phelan',
+        email: 'bphelan@gmail.com'
+    },
+    {
+        first_name: 'Gina',
+        last_name: 'Phelan',
+        email: 'gphelan@gmail.com'
+    },
+    {
+        first_name: 'Sharon',
+        last_name: 'Phelan',
+        email: 'phelan.sharon.l@gmail.com'
+    },
+    {
+        first_name: 'Tom',
+        last_name: 'Phelan',
+        email: 'phelan.thomas.j@gmail.com'
+    }
+]
 
 gql`
   query Index {
@@ -20,7 +64,7 @@ gql`
 const Index = () => {
     const { data, loading } = useIndexQuery();
     const [newTodoDescription, setNewTodoDescription] = useState("");
-    const [groupDetails, setGroupDetails ] = useState<groupMember[]>([{first_name:'Eddie', last_name:"Lovejoy", email:'james.lovejoy2@gmail.com'}]);
+    const [groupDetails, setGroupDetails ] = useState<groupMember[]>(psuedoGroup);
     const [currentGroupMember, setCurrentGroupMember] = useState<groupMember>()
 
     const [todoIds, setTodoIds] = useState<string[]>();
@@ -65,11 +109,8 @@ const Index = () => {
                 setCurrentGroupMember({...currentGroupMember, email: fieldValue })
                 break;
             default:
-                console.log('current group member: ', currentGroupMember)
                 break;
         }
-
-        console.log('current group memeber: ', currentGroupMember)
     }
 
     const todoElements = todoIds?.map((id) => <Todo todoId={id} key={id} />);
