@@ -8,7 +8,7 @@ type Mutation {
 	createTodo(description: String!): TodoMVC!
 	updateTodo(todoId: ID!, data: UpdateTodoInput!): TodoMVC
 	sendPicks(input: SendPicksInput!): String
-	createGroup(input: CreateGroupInput!): Group
+	createGroup(input: [CreateGroupInput!]!): Group
 }
 
 input UpdateTodoInput {

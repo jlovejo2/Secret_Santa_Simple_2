@@ -1,7 +1,7 @@
 import {Request, Response } from 'express';
 import { Resolvers, TodoMvc, GroupMember } from "./types";
 import { connect, emailSender } from "../dao";
-import { TodoMvcDbObject } from "../dao/types";
+import { Group, GroupDbObject, TodoMvcDbObject } from "../dao/types";
 import { ObjectID } from "mongodb";
 
 
@@ -71,7 +71,7 @@ const resolvers: Resolvers = {
             body = `
             Hi ${member.first_name} ${member.last_name},
 
-            your have the honor, nay the pleasure of ${member.secret_pick} for secret santa
+            your have the honor, nay the pleasure of having ${member.secret_pick} for secret santa
 
             sincerely,
             The Internet
@@ -84,6 +84,26 @@ const resolvers: Resolvers = {
 
 
         return('Sent successfully')
+    },
+    createGroup: async (_:any, { input }) => {
+        
+        const db = await connect()
+
+        const data: Omit<GroupDbObject, "_id"> = {
+            members: input
+        };
+        
+        const createdGroup = await db.collection<GroupDbObject>("Group").insertOne(data)
+
+        const fromGroupDbObject = (dbObject: GroupDbObject): Group => ({
+            groupId: dbObject._id.toHexString(),
+            members: dbObject.members,
+          });
+
+        return fromGroupDbObject({
+            ...data,
+            _id: createdGroup.insertedId,
+          });
     }
   },
 };

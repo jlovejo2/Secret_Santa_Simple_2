@@ -46,7 +46,7 @@ export type MutationSendPicksArgs = {
 };
 
 export type MutationCreateGroupArgs = {
-	input: CreateGroupInput;
+	input: Array<CreateGroupInput>;
 };
 
 export type UpdateTodoInput = {
