@@ -29,6 +29,7 @@ export type Mutation = {
 	createTodo: TodoMvc;
 	updateTodo?: Maybe<TodoMvc>;
 	sendPicks?: Maybe<Scalars['String']>;
+	createGroup?: Maybe<Group>;
 };
 
 export type MutationCreateTodoArgs = {
@@ -41,7 +42,11 @@ export type MutationUpdateTodoArgs = {
 };
 
 export type MutationSendPicksArgs = {
-	input: Array<GroupMember>;
+	input: SendPicksInput;
+};
+
+export type MutationCreateGroupArgs = {
+	input: CreateGroupInput;
 };
 
 export type UpdateTodoInput = {
@@ -49,11 +54,15 @@ export type UpdateTodoInput = {
 	completed?: Maybe<Scalars['Boolean']>;
 };
 
-export type GroupMember = {
+export type CreateGroupInput = {
 	first_name: Scalars['String'];
 	last_name: Scalars['String'];
 	email: Scalars['String'];
-	secret_pick?: Maybe<Array<Maybe<GroupMember>>>;
+	secret_pick: Scalars['String'];
+};
+
+export type SendPicksInput = {
+	GroupId: Scalars['Int'];
 };
 
 export type TodoMvc = {
@@ -67,6 +76,19 @@ export type User = {
 	first_name: Scalars['String'];
 	last_name: Scalars['String'];
 	email: Scalars['String'];
+	groups?: Maybe<Array<Maybe<Group>>>;
+};
+
+export type Group = {
+	groupId: Scalars['ID'];
+	members?: Maybe<Array<Maybe<GroupMember>>>;
+};
+
+export type GroupMember = {
+	first_name: Scalars['String'];
+	last_name: Scalars['String'];
+	email: Scalars['String'];
+	secret_pick: Scalars['String'];
 };
 
 export type AdditionalEntityFields = {
@@ -82,7 +104,14 @@ export type TodoMvcDbObject = {
 };
 
 export type UserDbObject = {
+	_id: ObjectID;
 	first_name: string;
 	last_name: string;
 	email: string;
+	groups?: Maybe<Array<Maybe<Group>>>;
+};
+
+export type GroupDbObject = {
+	_id: ObjectID;
+	members?: Maybe<Array<Maybe<GroupMember>>>;
 };

@@ -7,7 +7,8 @@ type Query {
 type Mutation {
 	createTodo(description: String!): TodoMVC!
 	updateTodo(todoId: ID!, data: UpdateTodoInput!): TodoMVC
-	sendPicks(input: [GroupMember!]!): String
+	sendPicks(input: SendPicksInput!): String
+	createGroup(input: CreateGroupInput!): Group
 }
 
 input UpdateTodoInput {
@@ -15,11 +16,15 @@ input UpdateTodoInput {
 	completed: Boolean
 }
 
-input GroupMember {
+input CreateGroupInput {
 	first_name: String!
 	last_name: String!
 	email: String!
-	secret_pick: [GroupMember]
+	secret_pick: String!
+}
+
+input SendPicksInput {
+	GroupId: Int!
 }
 
 type TodoMVC @entity {
@@ -29,8 +34,21 @@ type TodoMVC @entity {
 }
 
 type User @entity {
-	userId: ID!
+	userId: ID! @id
 	first_name: String! @column
 	last_name: String! @column
 	email: String! @column
+	groups: [Group] @column
+}
+
+type Group @entity {
+	groupId: ID! @id
+	members: [GroupMember] @column
+}
+
+type GroupMember {
+	first_name: String!
+	last_name: String!
+	email: String!
+	secret_pick: String!
 }
