@@ -1,6 +1,6 @@
-import { groupMember } from "../../pages";
+import { GroupMember } from "../graphql/types";
 
-export function chooseSecretSanta(groupMembersArray: groupMember[]) {
+export function chooseSecretSanta(groupMembersArray: GroupMember[]) {
 
     console.log('entered chooisng...')
     
