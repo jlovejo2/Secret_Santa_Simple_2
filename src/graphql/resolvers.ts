@@ -65,25 +65,29 @@ const resolvers: Resolvers = {
         let subject = 'This is your pick for SECRET SANTA!!!!!  Only Open if you are alone';
         let body: string;
         
+        console.log('Entered send picks!!')
         
         for (let member of input.members) {
             toAddress=member.email
             body = `
             Hi ${member.first_name} ${member.last_name},
 
-            you have the honor, nay the pleasure of having ${member.secret_pick} ${member.secret_pick.last_name} for secret santa
+            you have the honor, nay the pleasure of having ${member.secret_pick} for secret santa
 
             sincerely,
             The Internet
             `
 
-            emailSender(toAddress,fromAddress,subject,body)
-                .then((responseObj) => res.send(true))
-                .catch(console.error);
+            console.log('inside the for loop in send picks')
+
+          const sentEmail = await emailSender(toAddress,fromAddress,subject,body)
+          console.log(sentEmail)
         }
 
 
-        return('Sent successfully')
+        return { 
+          message: 'Sent successfully'
+        }
     },
     createGroup: async (_:any, { input }) => {
         

@@ -36,7 +36,7 @@ export type QueryTodoArgs = {
 export type Mutation = {
 	createTodo: TodoMvc;
 	updateTodo?: Maybe<TodoMvc>;
-	sendPicks?: Maybe<Scalars['String']>;
+	sendPicks?: Maybe<SendPicksResponse>;
 	createGroup?: Maybe<Group>;
 	updateGroup?: Maybe<Group>;
 };
@@ -103,6 +103,10 @@ export type GroupMember = {
 	last_name: Scalars['String'];
 	email: Scalars['String'];
 	secret_pick?: Maybe<Scalars['String']>;
+};
+
+export type SendPicksResponse = {
+	message?: Maybe<Scalars['String']>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -233,6 +237,7 @@ export type ResolversTypes = {
 	User: ResolverTypeWrapper<User>;
 	Group: ResolverTypeWrapper<Group>;
 	GroupMember: ResolverTypeWrapper<GroupMember>;
+	SendPicksResponse: ResolverTypeWrapper<SendPicksResponse>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -249,6 +254,7 @@ export type ResolversParentTypes = {
 	User: User;
 	Group: Group;
 	GroupMember: GroupMember;
+	SendPicksResponse: SendPicksResponse;
 };
 
 export type QueryResolvers<
@@ -282,7 +288,7 @@ export type MutationResolvers<
 		RequireFields<MutationUpdateTodoArgs, 'todoId' | 'data'>
 	>;
 	sendPicks?: Resolver<
-		Maybe<ResolversTypes['String']>,
+		Maybe<ResolversTypes['SendPicksResponse']>,
 		ParentType,
 		ContextType,
 		RequireFields<MutationSendPicksArgs, 'input'>
@@ -355,6 +361,14 @@ export type GroupMemberResolvers<
 	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type SendPicksResponseResolvers<
+	ContextType = any,
+	ParentType extends ResolversParentTypes['SendPicksResponse'] = ResolversParentTypes['SendPicksResponse']
+> = {
+	message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
 	Query?: QueryResolvers<ContextType>;
 	Mutation?: MutationResolvers<ContextType>;
@@ -362,6 +376,7 @@ export type Resolvers<ContextType = any> = {
 	User?: UserResolvers<ContextType>;
 	Group?: GroupResolvers<ContextType>;
 	GroupMember?: GroupMemberResolvers<ContextType>;
+	SendPicksResponse?: SendPicksResponseResolvers<ContextType>;
 };
 
 /**

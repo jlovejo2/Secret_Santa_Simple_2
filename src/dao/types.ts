@@ -28,7 +28,7 @@ export type QueryTodoArgs = {
 export type Mutation = {
 	createTodo: TodoMvc;
 	updateTodo?: Maybe<TodoMvc>;
-	sendPicks?: Maybe<Scalars['String']>;
+	sendPicks?: Maybe<SendPicksResponse>;
 	createGroup?: Maybe<Group>;
 	updateGroup?: Maybe<Group>;
 };
@@ -95,6 +95,10 @@ export type GroupMember = {
 	last_name: Scalars['String'];
 	email: Scalars['String'];
 	secret_pick?: Maybe<Scalars['String']>;
+};
+
+export type SendPicksResponse = {
+	message?: Maybe<Scalars['String']>;
 };
 
 export type AdditionalEntityFields = {

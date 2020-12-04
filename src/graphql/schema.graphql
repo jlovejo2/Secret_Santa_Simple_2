@@ -7,7 +7,7 @@ type Query {
 type Mutation {
 	createTodo(description: String!): TodoMVC!
 	updateTodo(todoId: ID!, data: UpdateTodoInput!): TodoMVC
-	sendPicks(input: SendPicksInput!): String
+	sendPicks(input: SendPicksInput!): SendPicksResponse
 	createGroup(input: [CreateGroupInput!]!): Group
 	updateGroup(input: [CreateGroupInput!]!): Group
 }
@@ -53,4 +53,8 @@ type GroupMember {
 	last_name: String!
 	email: String!
 	secret_pick: String
+}
+
+type SendPicksResponse {
+	message: String
 }
