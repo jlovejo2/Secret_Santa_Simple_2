@@ -67,7 +67,8 @@ export type CreateGroupInput = {
 };
 
 export type SendPicksInput = {
-	GroupId: Scalars['Int'];
+	groupId: Scalars['String'];
+	members: Array<CreateGroupInput>;
 };
 
 export type TodoMvc = {

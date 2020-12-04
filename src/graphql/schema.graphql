@@ -25,7 +25,8 @@ input CreateGroupInput {
 }
 
 input SendPicksInput {
-	GroupId: Int!
+	groupId: String!
+	members: [CreateGroupInput!]!
 }
 
 type TodoMVC @entity {

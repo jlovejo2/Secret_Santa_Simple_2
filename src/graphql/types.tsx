@@ -75,7 +75,8 @@ export type CreateGroupInput = {
 };
 
 export type SendPicksInput = {
-	GroupId: Scalars['Int'];
+	groupId: Scalars['String'];
+	members: Array<CreateGroupInput>;
 };
 
 export type TodoMvc = {
@@ -228,7 +229,6 @@ export type ResolversTypes = {
 	Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 	CreateGroupInput: CreateGroupInput;
 	SendPicksInput: SendPicksInput;
-	Int: ResolverTypeWrapper<Scalars['Int']>;
 	TodoMVC: ResolverTypeWrapper<TodoMvc>;
 	User: ResolverTypeWrapper<User>;
 	Group: ResolverTypeWrapper<Group>;
@@ -245,7 +245,6 @@ export type ResolversParentTypes = {
 	Boolean: Scalars['Boolean'];
 	CreateGroupInput: CreateGroupInput;
 	SendPicksInput: SendPicksInput;
-	Int: Scalars['Int'];
 	TodoMVC: TodoMvc;
 	User: User;
 	Group: Group;

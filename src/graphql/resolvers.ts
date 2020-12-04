@@ -66,12 +66,12 @@ const resolvers: Resolvers = {
         let body: string;
         
         
-        for (let member of input) {
+        for (let member of input.members) {
             toAddress=member.email
             body = `
             Hi ${member.first_name} ${member.last_name},
 
-            you have the honor, nay the pleasure of having ${member.secret_pick.first_name} ${member.secret_pick.last_name} for secret santa
+            you have the honor, nay the pleasure of having ${member.secret_pick} ${member.secret_pick.last_name} for secret santa
 
             sincerely,
             The Internet
