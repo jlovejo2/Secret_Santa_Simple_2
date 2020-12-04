@@ -27,7 +27,7 @@ export function chooseSecretSanta(groupMembersArray: GroupMember[]) {
             arrayLength--;
         }
         else if(randomGroupMembers[chosingIndex].email !== duplicateArray[picksIndex].email ) {
-            randomGroupMembers[chosingIndex]['secret_pick'] = duplicateArray[picksIndex]
+            randomGroupMembers[chosingIndex]['secret_pick'] = `${duplicateArray[picksIndex].first_name} ${duplicateArray[picksIndex].last_name} `
             duplicateArray.splice(picksIndex,1)
             arrayLength--;
         } else {
