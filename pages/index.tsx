@@ -57,16 +57,6 @@ const Index = () => {
       </div>
       <div className='flex grid grid-cols-6 gap-2 justify-center'>
       <div className='col-start-3 col-span-2'>
-        <input
-          type="text"
-          placeholder="What needs to be done?"
-          value={newTodoDescription}
-          onChange={updateTodoDescription}
-        ></input>
-        <button type="button" onClick={onClickAddTodo}>
-          Add
-        </button>
-            {body}
         </div>
             <GroupCombined />
         </div>
