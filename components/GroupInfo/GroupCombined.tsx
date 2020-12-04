@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import { ChangeEvent, FormEvent, Fragment, useState } from "react";
 import { Group, GroupDbObject } from "../../src/dao";
-import { CreateGroupMutation, GroupMember, useCreateGroupMutation } from "../../src/graphql/types";
+import { CreateGroupMutation, GroupMember, SendPicksInput, useCreateGroupMutation, useSendPicksMutation } from "../../src/graphql/types";
 import { chooseSecretSanta } from "../../src/utils/custom-functions";
 import GroupForm from "./GroupForm";
 import GroupSummary from "./GroupSummary";
@@ -16,37 +16,37 @@ const psuedoGroup = [
     {
         first_name: 'Kelly',
         last_name: 'Phelan',
-        email: 'kelyphelan8@gmail.com'
+        email: 'james.lovejoy2@gmail.com'
     },
     {
         first_name: 'Jane',
         last_name: 'Watt',
-        email: 'jane@gmail.com'
+        email: 'james.lovejoy2@gmail.com'
     },
     {
         first_name: 'Darius',
         last_name: 'Watt',
-        email: 'darius@gmail.com'
+        email: 'james.lovejoy2@gmail.com'
     },    
     {
         first_name: 'Brian',
         last_name: 'Phelan',
-        email: 'bphelan@gmail.com'
+        email: 'james.lovejoy2@gmail.com'
     },
     {
         first_name: 'Gina',
         last_name: 'Phelan',
-        email: 'gphelan@gmail.com'
+        email: 'james.lovejoy2@gmail.com'
     },
     {
         first_name: 'Sharon',
         last_name: 'Phelan',
-        email: 'phelan.sharon.l@gmail.com'
+        email: 'james.lovejoy2@gmail.com'
     },
     {
         first_name: 'Tom',
         last_name: 'Phelan',
-        email: 'phelan.thomas.j@gmail.com'
+        email: 'james.lovejoy2@gmail.com'
     }
 ]
 
@@ -59,16 +59,26 @@ mutation createGroup($input: [CreateGroupInput!]!){
       last_name
       email
     }
-  }	
+  }
 }
+
+mutation sendPicks($input: SendPicksInput!){
+    sendPicks(input: $input){
+    message
+    }
+}	
 `;
 
 const GroupCombined = () => {
     const [groupDetails, setGroupDetails ] = useState<GroupMember[]>(psuedoGroup);
     const [currentGroupMember, setCurrentGroupMember] = useState<GroupMember>()
-    const [savedGroup, setSavedGroup] = useState<Group>()
+    const [savedGroup, setSavedGroup] = useState<Group | SendPicksInput>()
+
 
     const [createGroup] = useCreateGroupMutation()
+    const [sendPicks, error] = useSendPicksMutation()
+
+    if(error) console.log('send picks error', error)
 
     const handleNewGroupMember = (e: FormEvent ) => {
         e.preventDefault();
@@ -104,27 +114,32 @@ const GroupCombined = () => {
             }
         })
 
-        console.log('Data from save: ', data)
-        console.log('Group from save: ', data.createGroup)
-
         const groupObj = {
             groupId: data.createGroup.groupId,
-            members: data.createGroup.members
+            members: data.createGroup.members.filter((member) => {
+                delete member['__typename']
+                return member
+            })
         }
         setSavedGroup(groupObj)
     }
 
     const handleSecretSantaPicking = () => {
         const newSecretSanta: GroupMember[] = chooseSecretSanta(savedGroup.members)
-         console.log('picks: ', newSecretSanta)
-
         setGroupDetails(newSecretSanta)
-        setSavedGroup({...savedGroup, members: newSecretSanta})
+        setSavedGroup({groupId: savedGroup.groupId, members: newSecretSanta})
+    }
 
-        console.log('updated saved group, i think: ', savedGroup)
-     }
+    const handleSendPicks = async () => {
 
-    const handleSendPicks = () => {
+        const { data } = await sendPicks({
+            variables: {
+                input: savedGroup
+            }
+        })
+
+        console.log('data from send picks: ', data)
+
 
     }
 
