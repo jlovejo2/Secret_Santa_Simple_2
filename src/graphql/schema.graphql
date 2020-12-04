@@ -45,7 +45,7 @@ type User @entity {
 
 type Group @entity {
 	groupId: ID! @id
-	members: [GroupMember] @column
+	members: [GroupMember!]! @column
 }
 
 type GroupMember {

@@ -95,7 +95,7 @@ export type User = {
 
 export type Group = {
 	groupId: Scalars['ID'];
-	members?: Maybe<Array<Maybe<GroupMember>>>;
+	members: Array<GroupMember>;
 };
 
 export type GroupMember = {
@@ -339,7 +339,7 @@ export type GroupResolvers<
 > = {
 	groupId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 	members?: Resolver<
-		Maybe<Array<Maybe<ResolversTypes['GroupMember']>>>,
+		Array<ResolversTypes['GroupMember']>,
 		ParentType,
 		ContextType
 	>;
@@ -392,11 +392,17 @@ export type CreateGroupMutationVariables = Exact<{
 export type CreateGroupMutation = {
 	createGroup?: Maybe<
 		Pick<Group, 'groupId'> & {
-			members?: Maybe<
-				Array<Maybe<Pick<GroupMember, 'first_name' | 'last_name' | 'email'>>>
-			>;
+			members: Array<Pick<GroupMember, 'first_name' | 'last_name' | 'email'>>;
 		}
 	>;
+};
+
+export type SendPicksMutationVariables = Exact<{
+	input: SendPicksInput;
+}>;
+
+export type SendPicksMutation = {
+	sendPicks?: Maybe<Pick<SendPicksResponse, 'message'>>;
 };
 
 export type TodoQueryVariables = Exact<{
@@ -472,6 +478,54 @@ export type CreateGroupMutationResult = ApolloReactCommon.MutationResult<CreateG
 export type CreateGroupMutationOptions = ApolloReactCommon.BaseMutationOptions<
 	CreateGroupMutation,
 	CreateGroupMutationVariables
+>;
+export const SendPicksDocument = gql`
+	mutation sendPicks($input: SendPicksInput!) {
+		sendPicks(input: $input) {
+			message
+		}
+	}
+`;
+export type SendPicksMutationFn = ApolloReactCommon.MutationFunction<
+	SendPicksMutation,
+	SendPicksMutationVariables
+>;
+
+/**
+ * __useSendPicksMutation__
+ *
+ * To run a mutation, you first call `useSendPicksMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendPicksMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendPicksMutation, { data, loading, error }] = useSendPicksMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSendPicksMutation(
+	baseOptions?: ApolloReactHooks.MutationHookOptions<
+		SendPicksMutation,
+		SendPicksMutationVariables
+	>
+) {
+	return ApolloReactHooks.useMutation<
+		SendPicksMutation,
+		SendPicksMutationVariables
+	>(SendPicksDocument, baseOptions);
+}
+export type SendPicksMutationHookResult = ReturnType<
+	typeof useSendPicksMutation
+>;
+export type SendPicksMutationResult = ApolloReactCommon.MutationResult<SendPicksMutation>;
+export type SendPicksMutationOptions = ApolloReactCommon.BaseMutationOptions<
+	SendPicksMutation,
+	SendPicksMutationVariables
 >;
 export const TodoDocument = gql`
 	query Todo($todoId: ID!) {

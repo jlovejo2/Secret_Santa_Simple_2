@@ -87,7 +87,7 @@ export type User = {
 
 export type Group = {
 	groupId: Scalars['ID'];
-	members?: Maybe<Array<Maybe<GroupMember>>>;
+	members: Array<GroupMember>;
 };
 
 export type GroupMember = {
@@ -123,5 +123,5 @@ export type UserDbObject = {
 
 export type GroupDbObject = {
 	_id: ObjectID;
-	members?: Maybe<Array<Maybe<GroupMember>>>;
+	members: Array<GroupMember>;
 };
