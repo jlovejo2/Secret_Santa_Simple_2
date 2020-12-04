@@ -71,7 +71,7 @@ const resolvers: Resolvers = {
             body = `
             Hi ${member.first_name} ${member.last_name},
 
-            your have the honor, nay the pleasure of having ${member.secret_pick} for secret santa
+            you have the honor, nay the pleasure of having ${member.secret_pick.first_name} ${member.secret_pick.last_name} for secret santa
 
             sincerely,
             The Internet
@@ -94,6 +94,22 @@ const resolvers: Resolvers = {
         };
         
         const createdGroup = await db.collection<GroupDbObject>("Group").insertOne(data)
+
+        // const fromGroupDbObject = (dbObject: GroupDbObject): Group => ({
+        //   groupId: dbObject._id.toHexString(),  
+        //   members: dbObject.members,
+        //   });
+
+        return {
+            groupId: createdGroup.insertedId.toHexString(), 
+            members: data.members
+          };
+    },
+    updateGroup: async (_:any, { input }) => {
+        
+        const db = await connect()
+        
+        const createdGroup = await db.collection<GroupDbObject>("Group").findOneAndUpdate(data)
 
         const fromGroupDbObject = (dbObject: GroupDbObject): Group => ({
             groupId: dbObject._id.toHexString(),

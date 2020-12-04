@@ -9,6 +9,7 @@ type Mutation {
 	updateTodo(todoId: ID!, data: UpdateTodoInput!): TodoMVC
 	sendPicks(input: SendPicksInput!): String
 	createGroup(input: [CreateGroupInput!]!): Group
+	updateGroup(input: [CreateGroupInput!]!): Group
 }
 
 input UpdateTodoInput {
@@ -20,7 +21,7 @@ input CreateGroupInput {
 	first_name: String!
 	last_name: String!
 	email: String!
-	secret_pick: String!
+	secret_pick: String
 }
 
 input SendPicksInput {
@@ -50,5 +51,5 @@ type GroupMember {
 	first_name: String!
 	last_name: String!
 	email: String!
-	secret_pick: String!
+	secret_pick: String
 }

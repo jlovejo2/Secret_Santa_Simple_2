@@ -38,6 +38,7 @@ export type Mutation = {
 	updateTodo?: Maybe<TodoMvc>;
 	sendPicks?: Maybe<Scalars['String']>;
 	createGroup?: Maybe<Group>;
+	updateGroup?: Maybe<Group>;
 };
 
 export type MutationCreateTodoArgs = {
@@ -57,6 +58,10 @@ export type MutationCreateGroupArgs = {
 	input: Array<CreateGroupInput>;
 };
 
+export type MutationUpdateGroupArgs = {
+	input: Array<CreateGroupInput>;
+};
+
 export type UpdateTodoInput = {
 	description?: Maybe<Scalars['String']>;
 	completed?: Maybe<Scalars['Boolean']>;
@@ -66,7 +71,7 @@ export type CreateGroupInput = {
 	first_name: Scalars['String'];
 	last_name: Scalars['String'];
 	email: Scalars['String'];
-	secret_pick: Scalars['String'];
+	secret_pick?: Maybe<Scalars['String']>;
 };
 
 export type SendPicksInput = {
@@ -96,7 +101,7 @@ export type GroupMember = {
 	first_name: Scalars['String'];
 	last_name: Scalars['String'];
 	email: Scalars['String'];
-	secret_pick: Scalars['String'];
+	secret_pick?: Maybe<Scalars['String']>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -289,6 +294,12 @@ export type MutationResolvers<
 		ContextType,
 		RequireFields<MutationCreateGroupArgs, 'input'>
 	>;
+	updateGroup?: Resolver<
+		Maybe<ResolversTypes['Group']>,
+		ParentType,
+		ContextType,
+		RequireFields<MutationUpdateGroupArgs, 'input'>
+	>;
 };
 
 export type TodoMvcResolvers<
@@ -337,7 +348,11 @@ export type GroupMemberResolvers<
 	first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 	last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 	email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-	secret_pick?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+	secret_pick?: Resolver<
+		Maybe<ResolversTypes['String']>,
+		ParentType,
+		ContextType
+	>;
 	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -355,6 +370,20 @@ export type Resolvers<ContextType = any> = {
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+
+export type CreateGroupMutationVariables = Exact<{
+	input: Array<CreateGroupInput>;
+}>;
+
+export type CreateGroupMutation = {
+	createGroup?: Maybe<
+		Pick<Group, 'groupId'> & {
+			members?: Maybe<
+				Array<Maybe<Pick<GroupMember, 'first_name' | 'last_name' | 'email'>>>
+			>;
+		}
+	>;
+};
 
 export type TodoQueryVariables = Exact<{
 	todoId: Scalars['ID'];
@@ -377,6 +406,59 @@ export type IndexQueryVariables = Exact<{ [key: string]: never }>;
 
 export type IndexQuery = { allTodos: Array<Pick<TodoMvc, 'todoId'>> };
 
+export const CreateGroupDocument = gql`
+	mutation createGroup($input: [CreateGroupInput!]!) {
+		createGroup(input: $input) {
+			groupId
+			members {
+				first_name
+				last_name
+				email
+			}
+		}
+	}
+`;
+export type CreateGroupMutationFn = ApolloReactCommon.MutationFunction<
+	CreateGroupMutation,
+	CreateGroupMutationVariables
+>;
+
+/**
+ * __useCreateGroupMutation__
+ *
+ * To run a mutation, you first call `useCreateGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGroupMutation, { data, loading, error }] = useCreateGroupMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateGroupMutation(
+	baseOptions?: ApolloReactHooks.MutationHookOptions<
+		CreateGroupMutation,
+		CreateGroupMutationVariables
+	>
+) {
+	return ApolloReactHooks.useMutation<
+		CreateGroupMutation,
+		CreateGroupMutationVariables
+	>(CreateGroupDocument, baseOptions);
+}
+export type CreateGroupMutationHookResult = ReturnType<
+	typeof useCreateGroupMutation
+>;
+export type CreateGroupMutationResult = ApolloReactCommon.MutationResult<CreateGroupMutation>;
+export type CreateGroupMutationOptions = ApolloReactCommon.BaseMutationOptions<
+	CreateGroupMutation,
+	CreateGroupMutationVariables
+>;
 export const TodoDocument = gql`
 	query Todo($todoId: ID!) {
 		Todo(todoId: $todoId) {
