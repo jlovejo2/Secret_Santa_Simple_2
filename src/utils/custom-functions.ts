@@ -2,8 +2,6 @@ import { GroupMember } from "../graphql/types";
 
 export function chooseSecretSanta(groupMembersArray: GroupMember[]) {
 
-    console.log('entered chooisng...')
-    
     const randomGroupMembers = randomizeArray(groupMembersArray)
     let duplicateArray = [].concat(groupMembersArray)
     let arrayLength: number;
@@ -23,10 +21,9 @@ export function chooseSecretSanta(groupMembersArray: GroupMember[]) {
         picksIndex = Math.floor(Math.random() * duplicateArray.length);
 
         if (randomGroupMembers[chosingIndex]['secret_pick']){
-            console.log('already has a pick')
             arrayLength--;
         }
-        else if(randomGroupMembers[chosingIndex].email !== duplicateArray[picksIndex].email ) {
+        else if(randomGroupMembers[chosingIndex].first_name !== duplicateArray[picksIndex].first_name ) {
             randomGroupMembers[chosingIndex]['secret_pick'] = `${duplicateArray[picksIndex].first_name} ${duplicateArray[picksIndex].last_name} `
             duplicateArray.splice(picksIndex,1)
             arrayLength--;
@@ -35,7 +32,6 @@ export function chooseSecretSanta(groupMembersArray: GroupMember[]) {
         }
       
     }
-    console.log('returned array: ', randomGroupMembers)
 
     return randomGroupMembers
 }

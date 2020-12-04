@@ -7,48 +7,48 @@ import GroupForm from "./GroupForm";
 import GroupSummary from "./GroupSummary";
 
 
-const psuedoGroup = [
-    {
-        first_name: 'Eddie',
-        last_name: 'Lovejoy',
-        email: 'james.lovejoy2@gmail.com'
-    },
-    {
-        first_name: 'Kelly',
-        last_name: 'Phelan',
-        email: 'james.lovejoy2@gmail.com'
-    },
-    {
-        first_name: 'Jane',
-        last_name: 'Watt',
-        email: 'james.lovejoy2@gmail.com'
-    },
-    {
-        first_name: 'Darius',
-        last_name: 'Watt',
-        email: 'james.lovejoy2@gmail.com'
-    },    
-    {
-        first_name: 'Brian',
-        last_name: 'Phelan',
-        email: 'james.lovejoy2@gmail.com'
-    },
-    {
-        first_name: 'Gina',
-        last_name: 'Phelan',
-        email: 'james.lovejoy2@gmail.com'
-    },
-    {
-        first_name: 'Sharon',
-        last_name: 'Phelan',
-        email: 'james.lovejoy2@gmail.com'
-    },
-    {
-        first_name: 'Tom',
-        last_name: 'Phelan',
-        email: 'james.lovejoy2@gmail.com'
-    }
-]
+// const psuedoGroup = [
+//     {
+//         first_name: 'Eddie',
+//         last_name: 'Lovejoy',
+//         email: 'james.lovejoy2@gmail.com'
+//     },
+//     {
+//         first_name: 'Kelly',
+//         last_name: 'Phelan',
+//         email: 'james.lovejoy2@gmail.com'
+//     },
+//     {
+//         first_name: 'Jane',
+//         last_name: 'Watt',
+//         email: 'james.lovejoy2@gmail.com'
+//     },
+//     {
+//         first_name: 'Darius',
+//         last_name: 'Watt',
+//         email: 'james.lovejoy2@gmail.com'
+//     },    
+//     {
+//         first_name: 'Brian',
+//         last_name: 'Phelan',
+//         email: 'james.lovejoy2@gmail.com'
+//     },
+//     {
+//         first_name: 'Gina',
+//         last_name: 'Phelan',
+//         email: 'james.lovejoy2@gmail.com'
+//     },
+//     {
+//         first_name: 'Sharon',
+//         last_name: 'Phelan',
+//         email: 'james.lovejoy2@gmail.com'
+//     },
+//     {
+//         first_name: 'Tom',
+//         last_name: 'Phelan',
+//         email: 'james.lovejoy2@gmail.com'
+//     }
+// ]
 
 gql`
 mutation createGroup($input: [CreateGroupInput!]!){
@@ -70,7 +70,7 @@ mutation sendPicks($input: SendPicksInput!){
 `;
 
 const GroupCombined = () => {
-    const [groupDetails, setGroupDetails ] = useState<GroupMember[]>(psuedoGroup);
+    const [groupDetails, setGroupDetails ] = useState<GroupMember[]>();
     const [currentGroupMember, setCurrentGroupMember] = useState<GroupMember>()
     const [savedGroup, setSavedGroup] = useState<Group | SendPicksInput>()
 
@@ -83,7 +83,11 @@ const GroupCombined = () => {
     const handleNewGroupMember = (e: FormEvent ) => {
         e.preventDefault();
 
+        if (groupDetails) {
         setGroupDetails([...groupDetails, currentGroupMember])
+    } else {
+        setGroupDetails([currentGroupMember])
+    }
     }
 
     const handleChangeGroupForm = (e: ChangeEvent) => {
