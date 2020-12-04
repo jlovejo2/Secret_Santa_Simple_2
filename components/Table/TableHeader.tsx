@@ -1,8 +1,10 @@
 import React from 'react';
-import { groupMember } from '../../pages';
+import { CreateGroupInput } from '../../src/dao';
+import { GroupMember } from '../../src/graphql/types';
+
 
 type TableHeaderProps = {
-    groupDetails: groupMember[]
+    groupDetails: GroupMember[] | CreateGroupInput[]
 }
 
 const convertToDisplay = (inputString: string) => {

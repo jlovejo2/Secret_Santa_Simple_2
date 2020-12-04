@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
-import { groupMember } from '../../pages';
+import { GroupMember } from '../../src/graphql/types';
+
 
 type TableRowProps = {
-    groupDetails: groupMember[]
+    groupDetails: GroupMember[]
 }
 
 const TableRow = (props: TableRowProps) => {
@@ -18,7 +19,11 @@ const TableRow = (props: TableRowProps) => {
                        <tr className='bg-blue-200' key={index}>
                             {groupKeysArray.map((groupKey, keyIndex)=> {
                                 return (
-                                <td key={keyIndex}>{groupMemberInfo[groupKey]} </td>
+                                <td key={keyIndex}>
+                                    { typeof groupMemberInfo[groupKey]  === 'string' ?
+                                    groupMemberInfo[groupKey] : ( groupMemberInfo[groupKey].first_name ? 'pick successful' : 'No pick' )
+                                    }
+                                </td>
                                 )
                             })}
                         </tr>
