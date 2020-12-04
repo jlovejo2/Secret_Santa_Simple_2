@@ -1,4 +1,6 @@
 import {Request, Response } from 'express';
+import nodemailer from 'nodemailer';
+import sendGrid, { MailDataRequired } from '@sendgrid/mail';
 import { Resolvers, TodoMvc, GroupMember } from "./types";
 import { connect, emailSender } from "../dao";
 import { Group, GroupDbObject, TodoMvcDbObject } from "../dao/types";
@@ -60,30 +62,38 @@ const resolvers: Resolvers = {
       return fromDbObject(result.value);
     },
     sendPicks: async (_:any, { input }, res: Response) => {
-        let toAddress: string;
+      let msg: MailDataRequired;  
         let fromAddress = process.env.MY_EMAIL;
         let subject = 'This is your pick for SECRET SANTA!!!!!  Only Open if you are alone';
-        let body: string;
         
         console.log('Entered send picks!!')
+
+        sendGrid.setApiKey(process.env.secret_santa_app_key)
         
         for (let member of input.members) {
-            toAddress=member.email
-            body = `
-            Hi ${member.first_name} ${member.last_name},
 
+          msg = {
+            to: member.email,
+            from: fromAddress,
+            subject: subject,
+            text: `
+            Hi ${member.first_name} ${member.last_name},
             you have the honor, nay the pleasure of having ${member.secret_pick} for secret santa
 
             sincerely,
             The Internet
             `
+          }
 
-            console.log('inside the for loop in send picks')
-
-          const sentEmail = await emailSender(toAddress,fromAddress,subject,body)
-          console.log(sentEmail)
+          sendGrid
+            .send(msg)
+            .then(() => {
+              console.log('Email sent')
+            })
+            .catch((error) => {
+              console.error(error)
+            })
         }
-
 
         return { 
           message: 'Sent successfully'
