@@ -20,8 +20,8 @@ const TableRow = (props: TableRowProps) => {
                             {groupKeysArray.map((groupKey, keyIndex)=> {
                                 return (
                                 <td key={keyIndex}>
-                                    { typeof groupMemberInfo[groupKey]  === 'string' ?
-                                    groupMemberInfo[groupKey] : ( groupMemberInfo[groupKey].first_name ? 'pick successful' : 'No pick' )
+                                    { typeof groupMemberInfo[groupKey]  === 'string' && groupKey != 'secret_pick' ?
+                                    groupMemberInfo[groupKey] : ( groupKey === 'secret_pick' ? 'pick successful' : 'No pick' )
                                     }
                                 </td>
                                 )
