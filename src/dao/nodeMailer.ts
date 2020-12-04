@@ -3,6 +3,8 @@ import nodemailer from 'nodemailer';
 //This code was grabbed from the nodemail documentation with some slight modifications
 export async function emailSender(toAddress, fromAddress, subject, body) {
     // Generate test SMTP service account from ethereal.email
+
+    console.log('inside the emailSender function')
    
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
@@ -29,6 +31,7 @@ export async function emailSender(toAddress, fromAddress, subject, body) {
         } else {
 
             console.log("Message sent: " + info.response);
+            return (info.response)
         }
     });
 };
