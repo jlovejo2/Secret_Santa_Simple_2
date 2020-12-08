@@ -2,8 +2,6 @@ import React from 'react';
 import { useForm } from '../../hooks/useForm';
 import { signupForm } from '../../hooks/useForm/helper';
 
-import './SignupForm.css';
-
 export default function SignupForm() {
 	const { renderFormInputs } = useForm(signupForm);
 
