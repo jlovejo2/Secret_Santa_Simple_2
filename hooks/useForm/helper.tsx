@@ -68,10 +68,20 @@ export const createFormFieldConfig = (
 // object representation of signup form
 export const signupForm = {
 	name: {
-		...createFormFieldConfig('Full Name', 'name', 'text', 'Enter name here...')
+		...createFormFieldConfig('Full Name', 'name', 'text', 'Enter name here...'),
+		validationRules: [
+			requiredRule('name'),
+			minLengthRule('name', 3),
+			maxLengthRule('name', 12)
+		]
 	},
 	email: {
-		...createFormFieldConfig('Email', 'email', 'email', 'Enter email here...')
+		...createFormFieldConfig('Email', 'email', 'email', 'Enter email here...'),
+		validationRules: [
+			requiredRule('email'),
+			minLengthRule('email', 10),
+			maxLengthRule('email', 25)
+		]
 	},
 	password: {
 		...createFormFieldConfig(
@@ -79,7 +89,12 @@ export const signupForm = {
 			'password',
 			'password',
 			'Enter password here...'
-		)
+		),
+		validationRules: [
+			requiredRule('password'),
+			minLengthRule('password', 8),
+			maxLengthRule('password', 20)
+		]
 	},
 	confirmPassword: {
 		...createFormFieldConfig(
@@ -87,7 +102,8 @@ export const signupForm = {
 			'confirmPassword',
 			'password',
 			'Please confirm password...'
-		)
+		),
+		validationRules: [passwordMatchRule()]
 	}
 };
 
