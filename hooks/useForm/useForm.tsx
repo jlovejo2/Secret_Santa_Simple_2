@@ -19,11 +19,54 @@ const useForm = (formObj: any) => {
 		});
 	}
 
-	const onInputChange = useCallback((e: ChangeEvent) => {
-		// not yet implemented
+	const isInputFieldValid = useCallback(
+		inputField => {
+			for (const rule of inputField.validationRules) {
+				if (!rule.validate(inputField.value, form)) {
+					inputField.errorMessage = rule.message;
+					return false;
+				}
+			}
+		},
+		[form]
+	);
+
+	const onInputChange = useCallback(
+		(e: ChangeEvent) => {
+			const { name, value } = e.target as HTMLInputElement;
+			const inputObj = { ...form[name] };
+
+			inputObj.value = value;
+
+			const isValidInput = isInputFieldValid(inputObj);
+
+			if (isValidInput && !inputObj.valid) {
+				inputObj.valid = true;
+			} else if (!isValidInput && inputObj.valid) {
+				inputObj.valid = false;
+			}
+
+			inputObj.touched = true;
+			setForm({ ...form, [name]: inputObj });
+		},
+		[form, isInputFieldValid]
+	);
+
+	const isFormValid = useCallback(() => {
+		let isValid = true;
+		const arr: any[] = Object.values(form);
+
+		for (let i = 0; i < arr.length; i++) {
+			if (!arr[i].valid) {
+				isValid = false;
+				break;
+			}
+		}
+
+		return isValid;
 	}, []);
 
-	return { renderFormInputs };
+	return { renderFormInputs, isFormValid };
 };
 
 export default useForm;
