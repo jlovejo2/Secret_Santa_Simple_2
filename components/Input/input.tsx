@@ -1,5 +1,17 @@
+import React, { ChangeEvent } from 'react';
 
-function InputField(props) {
+export type InputFieldProps = {
+	name: string;
+	type: string;
+	label: string;
+	isValid: boolean;
+	value: string;
+	handleChange: (e: ChangeEvent) => void;
+	errorMessage: string;
+	placeholder: string;
+};
+
+const InputField = (props: InputFieldProps) => {
 	const {
 		label,
 		type,
@@ -26,6 +38,6 @@ function InputField(props) {
 			</label>
 		</div>
 	);
-}
+};
 
 export default InputField;
