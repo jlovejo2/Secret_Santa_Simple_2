@@ -33,6 +33,7 @@ const InputField = (props: InputFieldProps) => {
 					value={value}
 					onChange={handleChange}
 					placeholder={placeholder}
+					className='form-input mt-1 block w-full border-solid border-2 border-black-300'
 				/>
 				{errorMessage && !isValid && <span className='error'>{errorMessage}</span>}
 			</label>
