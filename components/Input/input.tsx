@@ -47,7 +47,9 @@ const InputField = (props: InputFieldProps) => {
 					placeholder={placeholder}
 					className='form-input mt-1 block w-full border-solid border-2 border-black-300'
 				/>
-				{errorMessage && !isValid && <span className='error'>{errorMessage}</span>}
+				{errorMessage && !isValid && (
+					<span className='text-red-500 m-1'>{errorMessage}</span>
+				)}
 			</label>
 		</div>
 	);
