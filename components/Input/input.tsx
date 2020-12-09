@@ -23,18 +23,6 @@ const InputField = (props: InputFieldProps) => {
 		placeholder
 	} = props;
 
-	console.log(
-		'props: ',
-		label,
-		type,
-		name,
-		handleChange,
-		errorMessage,
-		isValid,
-		value,
-		placeholder
-	);
-
 	return (
 		<div className='inputContainer block'>
 			<label>
