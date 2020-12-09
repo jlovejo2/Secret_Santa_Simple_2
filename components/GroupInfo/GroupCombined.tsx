@@ -11,6 +11,12 @@ import {
 import { chooseSecretSanta } from '../../src/utils/custom-functions';
 import GroupForm from './GroupForm';
 import GroupSummary from './GroupSummary';
+import {
+	createFormFieldConfig,
+	requiredRule,
+	maxLengthRule,
+	minLengthRule
+} from '../../hooks/useForm/helper';
 
 gql`
 	mutation createGroup($input: [CreateGroupInput!]!) {
@@ -30,6 +36,43 @@ gql`
 		}
 	}
 `;
+
+const groupFormObj = {
+	firstName: {
+		...createFormFieldConfig(
+			'First Name',
+			'firstName',
+			'text',
+			'Enter first name here...'
+		),
+		validationRules: [
+			requiredRule('name'),
+			minLengthRule('name', 3),
+			maxLengthRule('name', 12)
+		]
+	},
+	lastName: {
+		...createFormFieldConfig(
+			'Last Name',
+			'lastName',
+			'text',
+			'Enter last name here...'
+		),
+		validationRules: [
+			requiredRule('name'),
+			minLengthRule('name', 3),
+			maxLengthRule('name', 12)
+		]
+	},
+	email: {
+		...createFormFieldConfig('Email', 'email', 'email', 'Enter email here...'),
+		validationRules: [
+			requiredRule('email'),
+			minLengthRule('email', 10),
+			maxLengthRule('email', 25)
+		]
+	}
+};
 
 const GroupCombined = () => {
 	const [groupDetails, setGroupDetails] = useState<GroupMember[]>();
@@ -106,11 +149,12 @@ const GroupCombined = () => {
 	return (
 		<Fragment>
 			<div className='col-start-3 col-span-2 justify-center'>
-				<GroupForm
+				{}
+				{/* <GroupForm
 					groupDetails={groupDetails}
 					handleChangeGroupForm={handleChangeGroupForm}
 					onSubmit={handleNewGroupMember}
-				/>
+				/> */}
 			</div>
 			<div className='col-start-2 col-span-4'>
 				<GroupSummary groupDetails={groupDetails} />
