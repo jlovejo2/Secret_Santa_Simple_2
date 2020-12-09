@@ -1,5 +1,11 @@
 import { gql } from '@apollo/client';
-import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import {
+	ChangeEvent,
+	FormEvent,
+	Fragment,
+	isValidElement,
+	useState
+} from 'react';
 import { Group, GroupDbObject } from '../../src/dao';
 import {
 	CreateGroupMutation,
@@ -18,6 +24,7 @@ import {
 	maxLengthRule,
 	minLengthRule
 } from '../../hooks/useForm/helper';
+import { SignUp } from '../SignUp';
 
 gql`
 	mutation createGroup($input: [CreateGroupInput!]!) {
@@ -39,10 +46,10 @@ gql`
 `;
 
 const groupFormObj = {
-	firstName: {
+	first_name: {
 		...createFormFieldConfig(
 			'First Name',
-			'firstName',
+			'first_name',
 			'text',
 			'Enter first name here...'
 		),
@@ -52,10 +59,10 @@ const groupFormObj = {
 			maxLengthRule('name', 12)
 		]
 	},
-	lastName: {
+	last_name: {
 		...createFormFieldConfig(
 			'Last Name',
-			'lastName',
+			'last_name',
 			'text',
 			'Enter last name here...'
 		),
@@ -87,34 +94,45 @@ const GroupCombined = () => {
 
 	if (error) console.log('send picks error', error);
 
-	const handleNewGroupMember = (e: FormEvent) => {
+	const handleNewGroupMember = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
+		let newGroupMember: any = {};
+		const keysArr = Object.keys(groupFormObj);
+
+		for (let field of keysArr) {
+			newGroupMember[field] = e.currentTarget[field].value;
+		}
+
+		const filledGroupMember: GroupMember = newGroupMember;
+
+		console.log('group member info: ', newGroupMember, filledGroupMember);
+
 		if (groupDetails) {
-			setGroupDetails([...groupDetails, currentGroupMember]);
+			setGroupDetails([...groupDetails, filledGroupMember]);
 		} else {
-			setGroupDetails([currentGroupMember]);
+			setGroupDetails([filledGroupMember]);
 		}
 	};
 
-	const handleChangeGroupForm = (e: ChangeEvent) => {
-		const fieldName = (e.currentTarget as HTMLInputElement).name;
-		const fieldValue = (e.currentTarget as HTMLInputElement).value;
+	// const handleChangeGroupForm = (e: ChangeEvent) => {
+	// 	const fieldName = (e.currentTarget as HTMLInputElement).name;
+	// 	const fieldValue = (e.currentTarget as HTMLInputElement).value;
 
-		switch (fieldName) {
-			case 'firstName':
-				setCurrentGroupMember({ ...currentGroupMember, first_name: fieldValue });
-				break;
-			case 'lastName':
-				setCurrentGroupMember({ ...currentGroupMember, last_name: fieldValue });
-				break;
-			case 'email':
-				setCurrentGroupMember({ ...currentGroupMember, email: fieldValue });
-				break;
-			default:
-				break;
-		}
-	};
+	// 	switch (fieldName) {
+	// 		case 'firstName':
+	// 			setCurrentGroupMember({ ...currentGroupMember, first_name: fieldValue });
+	// 			break;
+	// 		case 'lastName':
+	// 			setCurrentGroupMember({ ...currentGroupMember, last_name: fieldValue });
+	// 			break;
+	// 		case 'email':
+	// 			setCurrentGroupMember({ ...currentGroupMember, email: fieldValue });
+	// 			break;
+	// 		default:
+	// 			break;
+	// 	}
+	// };
 
 	const handleSave = async () => {
 		const { data } = await createGroup({
@@ -146,13 +164,26 @@ const GroupCombined = () => {
 			}
 		});
 
-		console.log('data from send picks: ', data);
+		// 	console.log('data from send picks: ', data);
 	};
 
 	return (
 		<Fragment>
 			<div className='col-start-3 col-span-2 justify-center'>
-				{renderFormInputs()}
+				<form className='m-2' onSubmit={handleNewGroupMember}>
+					{renderFormInputs()}
+					<div>
+						<button
+							type='submit'
+							disabled={!isFormValid()}
+							className={`btn-primary ${
+								isFormValid() ? '' : 'disabled:opacity-50 disabled:bg-green-700'
+							} mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded`}
+						>
+							Submit
+						</button>
+					</div>
+				</form>
 				{/* <GroupForm
 					groupDetails={groupDetails}
 					handleChangeGroupForm={handleChangeGroupForm}
@@ -167,7 +198,7 @@ const GroupCombined = () => {
 					type='button'
 					onClick={handleSave}
 					className='btn-primary mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded'
-					disabled={!isFormValid()}
+					// disabled={!isFormValid()}
 				>
 					Save Group
 				</button>
