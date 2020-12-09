@@ -12,26 +12,15 @@ type useFormProps = {
 const useForm = (formObj: any) => {
 	const [form, setForm] = useState(formObj);
 
-	console.log('form state object: ', form);
-
 	function renderFormInputs() {
 		return Object.values(form).map((inputObj: any) => {
 			const { value, label, errorMessage, valid, renderInput } = inputObj;
-			console.log(
-				'input object values:',
-				value,
-				label,
-				errorMessage,
-				valid,
-				renderInput
-			);
 			return renderInput(onInputChange, value, valid, errorMessage, label);
 		});
 	}
 
 	const isInputFieldValid = useCallback(
 		inputField => {
-			console.log('in is input field valid...');
 			for (const rule of inputField.validationRules) {
 				if (!rule.validate(inputField.value, form)) {
 					inputField.errorMessage = rule.message;
@@ -48,8 +37,6 @@ const useForm = (formObj: any) => {
 			const { name, value } = e.target as HTMLInputElement;
 			const inputObj = { ...form[name] };
 
-			console.log('name: ', name);
-			console.log('value: ', value);
 			inputObj.value = value;
 
 			const isValidInput = isInputFieldValid(inputObj);
@@ -76,9 +63,8 @@ const useForm = (formObj: any) => {
 				break;
 			}
 		}
-
 		return isValid;
-	}, []);
+	}, [form]);
 
 	return { renderFormInputs, isFormValid };
 };
