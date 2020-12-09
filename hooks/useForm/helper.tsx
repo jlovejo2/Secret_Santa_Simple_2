@@ -35,7 +35,6 @@ export const createFormFieldConfig = (
 ) => {
 	const resultObj = {
 		renderInput: (handleChange, value, isValid, error, key): JSX.Element => {
-			console.log('props: ', handleChange, value, isValid, error, key);
 			return (
 				<InputField
 					key={key}
