@@ -167,6 +167,7 @@ const GroupCombined = () => {
 					type='button'
 					onClick={handleSave}
 					className='btn-primary mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded'
+					disabled={!isFormValid()}
 				>
 					Save Group
 				</button>
