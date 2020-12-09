@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 
 export type InputFieldProps = {
 	name: string;
@@ -22,6 +22,18 @@ const InputField = (props: InputFieldProps) => {
 		value,
 		placeholder
 	} = props;
+
+	console.log(
+		'props: ',
+		label,
+		type,
+		name,
+		handleChange,
+		errorMessage,
+		isValid,
+		value,
+		placeholder
+	);
 
 	return (
 		<div className='inputContainer block'>
