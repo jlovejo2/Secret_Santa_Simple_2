@@ -11,6 +11,7 @@ import {
 import { chooseSecretSanta } from '../../src/utils/custom-functions';
 import GroupForm from './GroupForm';
 import GroupSummary from './GroupSummary';
+import { useForm } from '../../hooks';
 import {
 	createFormFieldConfig,
 	requiredRule,
@@ -78,6 +79,8 @@ const GroupCombined = () => {
 	const [groupDetails, setGroupDetails] = useState<GroupMember[]>();
 	const [currentGroupMember, setCurrentGroupMember] = useState<GroupMember>();
 	const [savedGroup, setSavedGroup] = useState<Group | SendPicksInput>();
+
+	const { renderFormInputs, isFormValid } = useForm(groupFormObj);
 
 	const [createGroup] = useCreateGroupMutation();
 	const [sendPicks, error] = useSendPicksMutation();
@@ -149,7 +152,7 @@ const GroupCombined = () => {
 	return (
 		<Fragment>
 			<div className='col-start-3 col-span-2 justify-center'>
-				{}
+				{renderFormInputs()}
 				{/* <GroupForm
 					groupDetails={groupDetails}
 					handleChangeGroupForm={handleChangeGroupForm}
