@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import { InputField } from '../../components/Input';
 import { InputFieldProps } from '../../components/Input/input';
 
@@ -34,13 +34,8 @@ export const createFormFieldConfig = (
 	defaultValue = ''
 ) => {
 	const resultObj = {
-		renderInput: ({
-			handleChange,
-			value,
-			isValid,
-			error,
-			key
-		}: renderInputProps): JSX.Element => {
+		renderInput: (handleChange, value, isValid, error, key): JSX.Element => {
+			console.log('props: ', handleChange, value, isValid, error, key);
 			return (
 				<InputField
 					key={key}

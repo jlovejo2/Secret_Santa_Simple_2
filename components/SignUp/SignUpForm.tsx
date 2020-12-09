@@ -8,7 +8,6 @@ export default function SignupForm() {
 	return (
 		<form className='signupForm'>
 			<h1>Sign Up</h1>
-
 			{renderFormInputs()}
 			<button type='submit' disabled={!isFormValid()}>
 				Submit
