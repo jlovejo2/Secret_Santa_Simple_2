@@ -31,7 +31,7 @@ const GroupSummary = (props: Props) => {
 					</table>
 				</>
 			) : (
-				<div>Nothing to show.</div>
+				<div></div>
 			)}
 		</Fragment>
 	);
