@@ -6,7 +6,8 @@ import {
 	useEffect,
 	Fragment,
 	SetStateAction,
-	Dispatch
+	Dispatch,
+	SyntheticEvent
 } from 'react';
 import { TableHeader, TableRow } from '../Table';
 import { emailSender } from '../../src/dao/nodeMailer';
@@ -14,10 +15,11 @@ import { CreateGroupInput } from '../../src/dao';
 
 interface Props {
 	groupDetails: GroupMember[] | CreateGroupInput[];
+	handleDeleteGroupMember: (e: SyntheticEvent) => void;
 }
 
 const GroupSummary = (props: Props) => {
-	const { groupDetails } = props;
+	const { groupDetails, handleDeleteGroupMember } = props;
 
 	return (
 		<Fragment>
@@ -26,7 +28,10 @@ const GroupSummary = (props: Props) => {
 					<table className='table-auto w-full text-center'>
 						<TableHeader groupDetails={groupDetails} />
 						<tbody>
-							<TableRow groupDetails={groupDetails} />
+							<TableRow
+								groupDetails={groupDetails}
+								handleDeleteGroupMember={handleDeleteGroupMember}
+							/>
 						</tbody>
 					</table>
 				</>
