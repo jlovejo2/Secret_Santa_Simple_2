@@ -1,13 +1,23 @@
 import React from 'react';
-import { SignUp } from '../components';
+import { Layout, SignUp } from '../components';
 
 const Index = () => {
 	return (
 		<>
-			<div>
-				<p> This is the about page </p>
-				<SignUp />
-			</div>
+			<Layout>
+				<div>
+					<p>
+						{' '}
+						Welcome to the Secret Santa App! If you are sick of drawing over and over
+						to make sure no one picks their own name. Then this is the place to
+						quickly create your group. Generate the picks <strong>
+							SECRETLY
+						</strong>{' '}
+						and then send them out to all the group members.{' '}
+					</p>
+					<SignUp />
+				</div>
+			</Layout>
 		</>
 	);
 };
