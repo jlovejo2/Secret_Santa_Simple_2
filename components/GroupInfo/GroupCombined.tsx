@@ -4,6 +4,7 @@ import {
 	FormEvent,
 	Fragment,
 	isValidElement,
+	SyntheticEvent,
 	useState
 } from 'react';
 import { Group, GroupDbObject } from '../../src/dao';
@@ -85,8 +86,9 @@ const groupFormObj = {
 const GroupCombined = () => {
 	const [groupDetails, setGroupDetails] = useState<GroupMember[]>();
 	const [savedGroup, setSavedGroup] = useState<Group | SendPicksInput>();
+	const [groupForm, setGroupFrom] = useState(groupFormObj);
 
-	const { renderFormInputs, isFormValid } = useForm(groupFormObj);
+	const { renderFormInputs, isFormValid, setForm } = useForm(groupForm);
 
 	const [createGroup] = useCreateGroupMutation();
 	const [sendPicks, error] = useSendPicksMutation();
@@ -112,6 +114,18 @@ const GroupCombined = () => {
 		} else {
 			setGroupDetails([filledGroupMember]);
 		}
+	};
+
+	const handleDeleteGroupMember = (e: SyntheticEvent) => {
+		const { value } = e.currentTarget as HTMLButtonElement;
+
+		console.log('value: ', value);
+
+		const newGroupDetails = groupDetails.filter((groupMember, index) => {
+			return index.toString() !== value;
+		});
+
+		setGroupDetails(newGroupDetails);
 	};
 
 	const handleSave = async () => {
@@ -164,7 +178,10 @@ const GroupCombined = () => {
 				</form>
 			</div>
 			<div className='col-start-2 col-span-4'>
-				<GroupSummary groupDetails={groupDetails} />
+				<GroupSummary
+					groupDetails={groupDetails}
+					handleDeleteGroupMember={handleDeleteGroupMember}
+				/>
 			</div>
 			<div className='col-start-2 col-span-4'>
 				{groupDetails ? (
