@@ -66,7 +66,7 @@ const useForm = (formObj: any) => {
 		return isValid;
 	}, [form]);
 
-	return { renderFormInputs, isFormValid };
+	return { renderFormInputs, isFormValid, setForm };
 };
 
 export default useForm;
