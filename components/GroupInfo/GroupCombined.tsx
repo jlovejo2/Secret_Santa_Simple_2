@@ -84,7 +84,6 @@ const groupFormObj = {
 
 const GroupCombined = () => {
 	const [groupDetails, setGroupDetails] = useState<GroupMember[]>();
-	const [currentGroupMember, setCurrentGroupMember] = useState<GroupMember>();
 	const [savedGroup, setSavedGroup] = useState<Group | SendPicksInput>();
 
 	const { renderFormInputs, isFormValid } = useForm(groupFormObj);
@@ -115,25 +114,6 @@ const GroupCombined = () => {
 		}
 	};
 
-	// const handleChangeGroupForm = (e: ChangeEvent) => {
-	// 	const fieldName = (e.currentTarget as HTMLInputElement).name;
-	// 	const fieldValue = (e.currentTarget as HTMLInputElement).value;
-
-	// 	switch (fieldName) {
-	// 		case 'firstName':
-	// 			setCurrentGroupMember({ ...currentGroupMember, first_name: fieldValue });
-	// 			break;
-	// 		case 'lastName':
-	// 			setCurrentGroupMember({ ...currentGroupMember, last_name: fieldValue });
-	// 			break;
-	// 		case 'email':
-	// 			setCurrentGroupMember({ ...currentGroupMember, email: fieldValue });
-	// 			break;
-	// 		default:
-	// 			break;
-	// 	}
-	// };
-
 	const handleSave = async () => {
 		const { data } = await createGroup({
 			variables: {
@@ -163,8 +143,6 @@ const GroupCombined = () => {
 				input: savedGroup
 			}
 		});
-
-		// 	console.log('data from send picks: ', data);
 	};
 
 	return (
@@ -184,11 +162,6 @@ const GroupCombined = () => {
 						</button>
 					</div>
 				</form>
-				{/* <GroupForm
-					groupDetails={groupDetails}
-					handleChangeGroupForm={handleChangeGroupForm}
-					onSubmit={handleNewGroupMember}
-				/> */}
 			</div>
 			<div className='col-start-2 col-span-4'>
 				<GroupSummary groupDetails={groupDetails} />
@@ -197,8 +170,10 @@ const GroupCombined = () => {
 				<button
 					type='button'
 					onClick={handleSave}
-					className='btn-primary mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded'
-					// disabled={!isFormValid()}
+					className={`btn-primary ${
+						groupDetails ? '' : 'disabled:opacity-50 disabled:bg-green-700'
+					} mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded`}
+					disabled={groupDetails ? false : true}
 				>
 					Save Group
 				</button>
