@@ -167,33 +167,39 @@ const GroupCombined = () => {
 				<GroupSummary groupDetails={groupDetails} />
 			</div>
 			<div className='col-start-2 col-span-4'>
-				<button
-					type='button'
-					onClick={handleSave}
-					className={`btn-primary ${
-						groupDetails ? '' : 'disabled:opacity-50 disabled:bg-green-700'
-					} mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded`}
-					disabled={groupDetails ? false : true}
-				>
-					Save Group
-				</button>
-				<button
-					type='button'
-					onClick={handleSecretSantaPicking}
-					className={`btn-primary ${
-						savedGroup ? '' : 'disabled:opacity-50 disabled:bg-green-700'
-					} mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded`}
-					disabled={savedGroup ? false : true}
-				>
-					Start picking
-				</button>
-				<button
-					type='button'
-					onClick={handleSendPicks}
-					className='btn-primary mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded'
-				>
-					Send Picks
-				</button>
+				{groupDetails ? (
+					<Fragment>
+						<button
+							type='button'
+							onClick={handleSave}
+							className={`btn-primary ${
+								groupDetails ? '' : 'disabled:opacity-50 disabled:bg-green-700'
+							} mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded`}
+							disabled={groupDetails ? false : true}
+						>
+							Save Group
+						</button>
+						<button
+							type='button'
+							onClick={handleSecretSantaPicking}
+							className={`btn-primary ${
+								savedGroup ? '' : 'disabled:opacity-50 disabled:bg-green-700'
+							} mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded`}
+							disabled={savedGroup ? false : true}
+						>
+							Start picking
+						</button>
+						<button
+							type='button'
+							onClick={handleSendPicks}
+							className='btn-primary mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded'
+						>
+							Send Picks
+						</button>
+					</Fragment>
+				) : (
+					''
+				)}
 			</div>
 		</Fragment>
 	);
