@@ -12,7 +12,7 @@ interface Props {
 
 const Hero: FC<Props> = ({ headline, description }) => {
 	return (
-		<div className='col-start-1 col-span-6'>
+		<div className='relative col-start-1 col-span-6'>
 			<Image
 				src={'/assets/images/secret_santa_gift_box.jpg'}
 				alt={'Hero'}
@@ -24,8 +24,7 @@ const Hero: FC<Props> = ({ headline, description }) => {
 				loading='eager'
 				quality={100}
 			/>
-
-			<div className={s.root}>
+			<div className={`${s.root} absolute bottom-0`}>
 				<h2 className='text-4xl leading-10 font-extrabold text-white sm:text-5xl sm:leading-none sm:tracking-tight lg:text-6xl'>
 					{headline}
 				</h2>
