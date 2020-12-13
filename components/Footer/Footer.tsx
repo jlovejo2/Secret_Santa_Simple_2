@@ -13,8 +13,6 @@ interface Props {
 	children?: any;
 }
 
-const LEGAL_PAGES = ['terms-of-use', 'shipping-returns', 'privacy-policy'];
-
 const Footer: FC<Props> = ({ className }) => {
 	const rootClassName = cn(className);
 
