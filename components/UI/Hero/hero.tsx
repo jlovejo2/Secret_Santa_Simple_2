@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { RightArrow } from '../../icons';
 import s from './hero.module.css';
 import Link from 'next/link';
+import Image from 'next/Image';
 
 interface Props {
 	className?: string;
@@ -11,7 +12,19 @@ interface Props {
 
 const Hero: FC<Props> = ({ headline, description }) => {
 	return (
-		<div className='bg-black col-start-1 col-span-6'>
+		<div className='col-start-1 col-span-6'>
+			<Image
+				src={'/assets/images/secret_santa_gift_box.jpg'}
+				alt={'Hero'}
+				aria-label='Hero'
+				className={'block mx-auto align-middle content-center'}
+				layout='responsive'
+				width={250}
+				height={80}
+				loading='eager'
+				quality={100}
+			/>
+
 			<div className={s.root}>
 				<h2 className='text-4xl leading-10 font-extrabold text-white sm:text-5xl sm:leading-none sm:tracking-tight lg:text-6xl'>
 					{headline}
