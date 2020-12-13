@@ -16,7 +16,7 @@ const Layout = props => {
 			</div>
 			<div className='flex grid grid-cols-6 gap-2 justify-center'>{children}</div>
 			<div>
-				<Footer />
+				<Footer className={'bg-green-500'} />
 			</div>
 		</>
 	);
