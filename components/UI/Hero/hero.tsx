@@ -20,15 +20,15 @@ const Hero: FC<Props> = ({ headline, description }) => {
 				className={'block mx-auto align-middle content-center'}
 				layout='responsive'
 				width={250}
-				height={80}
+				height={150}
 				loading='eager'
 				quality={100}
 			/>
-			<div className={`${s.root} absolute bottom-0`}>
-				<h2 className='text-4xl leading-10 font-extrabold text-white sm:text-5xl sm:leading-none sm:tracking-tight lg:text-6xl'>
-					{headline}
-				</h2>
-				<div className='flex flex-col justify-between'>
+			<div className={`${s.root} absolute top-0 right-0 w-3/4`}>
+				<div className='flex flex-wrap content-center'>
+					<h2 className='text-4xl leading-10 font-extrabold text-white sm:text-5xl sm:leading-none sm:tracking-tight lg:text-6xl'>
+						{headline}
+					</h2>
 					<p className='mt-5 text-xl leading-7 text-accent-2 text-white'>
 						{description}
 					</p>
