@@ -12,7 +12,7 @@ interface Props {
 
 const Hero: FC<Props> = ({ headline, description }) => {
 	return (
-		<div className='relative col-start-1 col-span-6'>
+		<div className='relative h-150 col-start-1 col-span-6'>
 			<Image
 				src={'/assets/images/secret_santa_gift_box.jpg'}
 				alt={'Hero'}
@@ -24,7 +24,7 @@ const Hero: FC<Props> = ({ headline, description }) => {
 				loading='eager'
 				quality={100}
 			/>
-			<div className={`${s.root} absolute top-0 right-0 w-3/4`}>
+			<div className={`${s.root} absolute top-10 left-5`}>
 				<div className='flex flex-wrap content-center'>
 					<h2 className='text-4xl leading-10 font-extrabold text-white sm:text-5xl sm:leading-none sm:tracking-tight lg:text-6xl'>
 						{headline}
