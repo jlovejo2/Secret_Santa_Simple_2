@@ -20,6 +20,7 @@ module.exports = {
 		},
 		inset: {
 			0: '0px',
+			1: '1vw',
 			auto: 'auto',
 			'1/4': '25%',
 			'1/3': '33.33%',
