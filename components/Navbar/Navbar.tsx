@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { SignUp } from '..';
 
-const Navbar = () => {
+const Navbar = props => {
+	const { handleSignUPCLick } = props;
+
 	return (
 		<div className='relative bg-red-500'>
 			<div className='max-w-7xl mx-auto px-4 sm:px-6'>
@@ -27,7 +30,7 @@ const Navbar = () => {
 							Sign in
 						</a>
 						<a
-							href='#'
+							onClick={handleSignUPCLick}
 							className='ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-indigo-700'
 						>
 							Sign up

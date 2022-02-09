@@ -2,14 +2,13 @@ import React from 'react';
 import { useForm } from '../../hooks/useForm';
 import { signupForm } from '../../hooks/useForm/helper';
 
-export default function SignupForm() {
+export default function SignupForm(handleSignUpSubmit) {
 	const { renderFormInputs, isFormValid } = useForm(signupForm);
 
 	return (
 		<form className='signupForm'>
-			<h1>Sign Up</h1>
 			{renderFormInputs()}
-			<button type='submit' disabled={!isFormValid()}>
+			<button onClick={handleSignUpSubmit} type='submit' disabled={!isFormValid()}>
 				Submit
 			</button>
 		</form>
