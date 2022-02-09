@@ -26,14 +26,14 @@ const InputField = (props: InputFieldProps) => {
 	return (
 		<div className='inputContainer block'>
 			<label>
-				<span className='text-gray-800'>{label}</span>
+				<span className='text-gray-800 mt-2'>{label}</span>
 				<input
 					type={type}
 					name={name}
 					value={value}
 					onChange={handleChange}
 					placeholder={placeholder}
-					className='form-input mt-1 block w-full border-solid border-2 border-black-300'
+					className='form-input my-1 block w-full border-solid border-2 border-black-300'
 				/>
 				{errorMessage && !isValid && (
 					<span className='text-red-500 m-1'>{errorMessage}</span>

@@ -25,7 +25,6 @@ import {
 	maxLengthRule,
 	minLengthRule
 } from '../../hooks/useForm/helper';
-import { SignUp } from '../SignUp';
 
 gql`
 	mutation createGroup($input: [CreateGroupInput!]!) {

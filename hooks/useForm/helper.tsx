@@ -66,7 +66,7 @@ export const signupForm = {
 		validationRules: [
 			requiredRule('name'),
 			minLengthRule('name', 3),
-			maxLengthRule('name', 12)
+			maxLengthRule('name', 50)
 		]
 	},
 	email: {

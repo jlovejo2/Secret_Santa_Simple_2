@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { RightArrow } from '../../icons';
 import s from './hero.module.css';
 import Link from 'next/link';
-import Image from 'next/Image';
+import Image from 'next/image';
 
 interface Props {
 	className?: string;
