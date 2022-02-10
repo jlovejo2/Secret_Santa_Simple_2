@@ -15,26 +15,33 @@ export type Scalars = {
 	Float: number;
 };
 
-export type Query = {
-	allTodos: Array<TodoMvc>;
-	Todo?: Maybe<TodoMvc>;
-	allUsers: Array<User>;
-};
-
-export type QueryTodoArgs = {
-	todoId: Scalars['ID'];
-};
-
 export type Mutation = {
-	createTodo: TodoMvc;
-	updateTodo?: Maybe<TodoMvc>;
-	sendPicks?: Maybe<SendPicksResponse>;
 	createGroup?: Maybe<Group>;
+	createTodo: TodoMvc;
+	createUser?: Maybe<User>;
+	sendPicks?: Maybe<SendPicksResponse>;
 	updateGroup?: Maybe<Group>;
+	updateTodo?: Maybe<TodoMvc>;
+};
+
+export type MutationCreateGroupArgs = {
+	input: Array<CreateGroupInput>;
 };
 
 export type MutationCreateTodoArgs = {
 	description: Scalars['String'];
+};
+
+export type MutationCreateUserArgs = {
+	input?: Maybe<CreateUserInput>;
+};
+
+export type MutationSendPicksArgs = {
+	input: SendPicksInput;
+};
+
+export type MutationUpdateGroupArgs = {
+	input: SendPicksInput;
 };
 
 export type MutationUpdateTodoArgs = {
@@ -42,21 +49,9 @@ export type MutationUpdateTodoArgs = {
 	data: UpdateTodoInput;
 };
 
-export type MutationSendPicksArgs = {
-	input: SendPicksInput;
-};
-
-export type MutationCreateGroupArgs = {
-	input: Array<CreateGroupInput>;
-};
-
-export type MutationUpdateGroupArgs = {
-	input: SendPicksInput;
-};
-
-export type UpdateTodoInput = {
-	description?: Maybe<Scalars['String']>;
-	completed?: Maybe<Scalars['Boolean']>;
+export type SendPicksInput = {
+	groupId: Scalars['String'];
+	members: Array<CreateGroupInput>;
 };
 
 export type CreateGroupInput = {
@@ -66,23 +61,15 @@ export type CreateGroupInput = {
 	secret_pick?: Maybe<Scalars['String']>;
 };
 
-export type SendPicksInput = {
-	groupId: Scalars['String'];
-	members: Array<CreateGroupInput>;
+export type Query = {
+	Todo?: Maybe<TodoMvc>;
+	allGroups: Array<Group>;
+	allTodos: Array<TodoMvc>;
+	allUsers: Array<User>;
 };
 
-export type TodoMvc = {
+export type QueryTodoArgs = {
 	todoId: Scalars['ID'];
-	completed: Scalars['Boolean'];
-	description: Scalars['String'];
-};
-
-export type User = {
-	userId: Scalars['ID'];
-	first_name: Scalars['String'];
-	last_name: Scalars['String'];
-	email: Scalars['String'];
-	groups?: Maybe<Array<Maybe<Group>>>;
 };
 
 export type Group = {
@@ -101,12 +88,43 @@ export type SendPicksResponse = {
 	message?: Maybe<Scalars['String']>;
 };
 
+export type UpdateTodoInput = {
+	description?: Maybe<Scalars['String']>;
+	completed?: Maybe<Scalars['Boolean']>;
+};
+
+export type TodoMvc = {
+	todoId: Scalars['ID'];
+	completed: Scalars['Boolean'];
+	description: Scalars['String'];
+};
+
+export type CreateUserInput = {
+	first_name: Scalars['String'];
+	last_name: Scalars['String'];
+	email: Scalars['String'];
+	password: Scalars['String'];
+};
+
+export type User = {
+	userId: Scalars['ID'];
+	first_name: Scalars['String'];
+	last_name: Scalars['String'];
+	email: Scalars['String'];
+	groups?: Maybe<Array<Maybe<Group>>>;
+};
+
 export type AdditionalEntityFields = {
 	path?: Maybe<Scalars['String']>;
 	type?: Maybe<Scalars['String']>;
 };
 
 import { ObjectID } from 'mongodb';
+export type GroupDbObject = {
+	_id: ObjectID;
+	members: Array<GroupMember>;
+};
+
 export type TodoMvcDbObject = {
 	_id: ObjectID;
 	completed: boolean;
@@ -119,9 +137,4 @@ export type UserDbObject = {
 	last_name: string;
 	email: string;
 	groups?: Maybe<Array<Maybe<Group>>>;
-};
-
-export type GroupDbObject = {
-	_id: ObjectID;
-	members: Array<GroupMember>;
 };

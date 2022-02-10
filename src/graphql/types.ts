@@ -23,26 +23,33 @@ export type Scalars = {
 	Float: number;
 };
 
-export type Query = {
-	allTodos: Array<TodoMvc>;
-	Todo?: Maybe<TodoMvc>;
-	allUsers: Array<User>;
-};
-
-export type QueryTodoArgs = {
-	todoId: Scalars['ID'];
-};
-
 export type Mutation = {
-	createTodo: TodoMvc;
-	updateTodo?: Maybe<TodoMvc>;
-	sendPicks?: Maybe<SendPicksResponse>;
 	createGroup?: Maybe<Group>;
+	createTodo: TodoMvc;
+	createUser?: Maybe<User>;
+	sendPicks?: Maybe<SendPicksResponse>;
 	updateGroup?: Maybe<Group>;
+	updateTodo?: Maybe<TodoMvc>;
+};
+
+export type MutationCreateGroupArgs = {
+	input: Array<CreateGroupInput>;
 };
 
 export type MutationCreateTodoArgs = {
 	description: Scalars['String'];
+};
+
+export type MutationCreateUserArgs = {
+	input?: Maybe<CreateUserInput>;
+};
+
+export type MutationSendPicksArgs = {
+	input: SendPicksInput;
+};
+
+export type MutationUpdateGroupArgs = {
+	input: SendPicksInput;
 };
 
 export type MutationUpdateTodoArgs = {
@@ -50,21 +57,9 @@ export type MutationUpdateTodoArgs = {
 	data: UpdateTodoInput;
 };
 
-export type MutationSendPicksArgs = {
-	input: SendPicksInput;
-};
-
-export type MutationCreateGroupArgs = {
-	input: Array<CreateGroupInput>;
-};
-
-export type MutationUpdateGroupArgs = {
-	input: SendPicksInput;
-};
-
-export type UpdateTodoInput = {
-	description?: Maybe<Scalars['String']>;
-	completed?: Maybe<Scalars['Boolean']>;
+export type SendPicksInput = {
+	groupId: Scalars['String'];
+	members: Array<CreateGroupInput>;
 };
 
 export type CreateGroupInput = {
@@ -74,23 +69,15 @@ export type CreateGroupInput = {
 	secret_pick?: Maybe<Scalars['String']>;
 };
 
-export type SendPicksInput = {
-	groupId: Scalars['String'];
-	members: Array<CreateGroupInput>;
+export type Query = {
+	Todo?: Maybe<TodoMvc>;
+	allGroups: Array<Group>;
+	allTodos: Array<TodoMvc>;
+	allUsers: Array<User>;
 };
 
-export type TodoMvc = {
+export type QueryTodoArgs = {
 	todoId: Scalars['ID'];
-	completed: Scalars['Boolean'];
-	description: Scalars['String'];
-};
-
-export type User = {
-	userId: Scalars['ID'];
-	first_name: Scalars['String'];
-	last_name: Scalars['String'];
-	email: Scalars['String'];
-	groups?: Maybe<Array<Maybe<Group>>>;
 };
 
 export type Group = {
@@ -107,6 +94,32 @@ export type GroupMember = {
 
 export type SendPicksResponse = {
 	message?: Maybe<Scalars['String']>;
+};
+
+export type UpdateTodoInput = {
+	description?: Maybe<Scalars['String']>;
+	completed?: Maybe<Scalars['Boolean']>;
+};
+
+export type TodoMvc = {
+	todoId: Scalars['ID'];
+	completed: Scalars['Boolean'];
+	description: Scalars['String'];
+};
+
+export type CreateUserInput = {
+	first_name: Scalars['String'];
+	last_name: Scalars['String'];
+	email: Scalars['String'];
+	password: Scalars['String'];
+};
+
+export type User = {
+	userId: Scalars['ID'];
+	first_name: Scalars['String'];
+	last_name: Scalars['String'];
+	email: Scalars['String'];
+	groups?: Maybe<Array<Maybe<Group>>>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -225,67 +238,61 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-	Query: ResolverTypeWrapper<{}>;
-	ID: ResolverTypeWrapper<Scalars['ID']>;
 	Mutation: ResolverTypeWrapper<{}>;
 	String: ResolverTypeWrapper<Scalars['String']>;
-	UpdateTodoInput: UpdateTodoInput;
-	Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-	CreateGroupInput: CreateGroupInput;
+	ID: ResolverTypeWrapper<Scalars['ID']>;
 	SendPicksInput: SendPicksInput;
-	TodoMVC: ResolverTypeWrapper<TodoMvc>;
-	User: ResolverTypeWrapper<User>;
+	CreateGroupInput: CreateGroupInput;
+	Query: ResolverTypeWrapper<{}>;
 	Group: ResolverTypeWrapper<Group>;
 	GroupMember: ResolverTypeWrapper<GroupMember>;
 	SendPicksResponse: ResolverTypeWrapper<SendPicksResponse>;
+	UpdateTodoInput: UpdateTodoInput;
+	Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+	TodoMVC: ResolverTypeWrapper<TodoMvc>;
+	CreateUserInput: CreateUserInput;
+	User: ResolverTypeWrapper<User>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-	Query: {};
-	ID: Scalars['ID'];
 	Mutation: {};
 	String: Scalars['String'];
-	UpdateTodoInput: UpdateTodoInput;
-	Boolean: Scalars['Boolean'];
-	CreateGroupInput: CreateGroupInput;
+	ID: Scalars['ID'];
 	SendPicksInput: SendPicksInput;
-	TodoMVC: TodoMvc;
-	User: User;
+	CreateGroupInput: CreateGroupInput;
+	Query: {};
 	Group: Group;
 	GroupMember: GroupMember;
 	SendPicksResponse: SendPicksResponse;
-};
-
-export type QueryResolvers<
-	ContextType = any,
-	ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
-> = {
-	allTodos?: Resolver<Array<ResolversTypes['TodoMVC']>, ParentType, ContextType>;
-	Todo?: Resolver<
-		Maybe<ResolversTypes['TodoMVC']>,
-		ParentType,
-		ContextType,
-		RequireFields<QueryTodoArgs, 'todoId'>
-	>;
-	allUsers?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+	UpdateTodoInput: UpdateTodoInput;
+	Boolean: Scalars['Boolean'];
+	TodoMVC: TodoMvc;
+	CreateUserInput: CreateUserInput;
+	User: User;
 };
 
 export type MutationResolvers<
 	ContextType = any,
 	ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = {
+	createGroup?: Resolver<
+		Maybe<ResolversTypes['Group']>,
+		ParentType,
+		ContextType,
+		RequireFields<MutationCreateGroupArgs, 'input'>
+	>;
 	createTodo?: Resolver<
 		ResolversTypes['TodoMVC'],
 		ParentType,
 		ContextType,
 		RequireFields<MutationCreateTodoArgs, 'description'>
 	>;
-	updateTodo?: Resolver<
-		Maybe<ResolversTypes['TodoMVC']>,
+	createUser?: Resolver<
+		Maybe<ResolversTypes['User']>,
 		ParentType,
 		ContextType,
-		RequireFields<MutationUpdateTodoArgs, 'todoId' | 'data'>
+		RequireFields<MutationCreateUserArgs, never>
 	>;
 	sendPicks?: Resolver<
 		Maybe<ResolversTypes['SendPicksResponse']>,
@@ -293,44 +300,33 @@ export type MutationResolvers<
 		ContextType,
 		RequireFields<MutationSendPicksArgs, 'input'>
 	>;
-	createGroup?: Resolver<
-		Maybe<ResolversTypes['Group']>,
-		ParentType,
-		ContextType,
-		RequireFields<MutationCreateGroupArgs, 'input'>
-	>;
 	updateGroup?: Resolver<
 		Maybe<ResolversTypes['Group']>,
 		ParentType,
 		ContextType,
 		RequireFields<MutationUpdateGroupArgs, 'input'>
 	>;
-};
-
-export type TodoMvcResolvers<
-	ContextType = any,
-	ParentType extends ResolversParentTypes['TodoMVC'] = ResolversParentTypes['TodoMVC']
-> = {
-	todoId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-	completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-	description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type UserResolvers<
-	ContextType = any,
-	ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
-> = {
-	userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-	first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-	last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-	email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-	groups?: Resolver<
-		Maybe<Array<Maybe<ResolversTypes['Group']>>>,
+	updateTodo?: Resolver<
+		Maybe<ResolversTypes['TodoMVC']>,
 		ParentType,
-		ContextType
+		ContextType,
+		RequireFields<MutationUpdateTodoArgs, 'todoId' | 'data'>
 	>;
-	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryResolvers<
+	ContextType = any,
+	ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
+> = {
+	Todo?: Resolver<
+		Maybe<ResolversTypes['TodoMVC']>,
+		ParentType,
+		ContextType,
+		RequireFields<QueryTodoArgs, 'todoId'>
+	>;
+	allGroups?: Resolver<Array<ResolversTypes['Group']>, ParentType, ContextType>;
+	allTodos?: Resolver<Array<ResolversTypes['TodoMVC']>, ParentType, ContextType>;
+	allUsers?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type GroupResolvers<
@@ -369,14 +365,40 @@ export type SendPicksResponseResolvers<
 	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type TodoMvcResolvers<
+	ContextType = any,
+	ParentType extends ResolversParentTypes['TodoMVC'] = ResolversParentTypes['TodoMVC']
+> = {
+	todoId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+	completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+	description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserResolvers<
+	ContextType = any,
+	ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
+> = {
+	userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+	first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+	last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+	email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+	groups?: Resolver<
+		Maybe<Array<Maybe<ResolversTypes['Group']>>>,
+		ParentType,
+		ContextType
+	>;
+	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
-	Query?: QueryResolvers<ContextType>;
 	Mutation?: MutationResolvers<ContextType>;
-	TodoMVC?: TodoMvcResolvers<ContextType>;
-	User?: UserResolvers<ContextType>;
+	Query?: QueryResolvers<ContextType>;
 	Group?: GroupResolvers<ContextType>;
 	GroupMember?: GroupMemberResolvers<ContextType>;
 	SendPicksResponse?: SendPicksResponseResolvers<ContextType>;
+	TodoMVC?: TodoMvcResolvers<ContextType>;
+	User?: UserResolvers<ContextType>;
 };
 
 /**

@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
 import sendGrid, { MailDataRequired } from '@sendgrid/mail';
-import { Resolvers, TodoMvc, GroupMember } from './types';
+import { Resolvers, TodoMvc, GroupMember, SendPicksResponse } from './types';
 import { connect, emailSender } from '../dao';
 import { Group, GroupDbObject, TodoMvcDbObject } from '../dao/types';
 import { ObjectID } from 'mongodb';
-import { group } from 'console';
 
 const dbPromise = connect();
 
@@ -61,7 +60,11 @@ const resolvers: Resolvers = {
 			);
 			return fromDbObject(result.value);
 		},
-		sendPicks: async (_: any, { input }, res: Response) => {
+		sendPicks: async (
+			_: any,
+			{ input },
+			res: Response
+		): Promise<SendPicksResponse> => {
 			let msg: MailDataRequired;
 			let fromAddress = process.env.MY_EMAIL;
 			let subject =

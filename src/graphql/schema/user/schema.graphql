@@ -1,0 +1,7 @@
+type User @entity {
+	userId: ID! @id
+	first_name: String! @column
+	last_name: String! @column
+	email: String! @column
+	groups: [Group] @column
+}

@@ -20,11 +20,16 @@ export let database: Db;
 export const connect = async (): Promise<Db> => {
 	if (!database) {
 		console.info(`Connecting to database ...`);
-		client = await MongoClient.connect(url, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		});
-		database = client.db('main');
+
+		try {
+			client = await MongoClient.connect(url, {
+				useNewUrlParser: true,
+				useUnifiedTopology: true
+			});
+			database = client.db('main');
+		} catch (e) {
+			console.info('Error connecting...', e);
+		}
 	}
 
 	return database;

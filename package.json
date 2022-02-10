@@ -22,14 +22,18 @@
 		"bcrypt": "^5.0.0",
 		"express": "^4.17.1",
 		"graphql": "^15.4.0",
+		"graphql-import": "^1.0.2",
 		"graphql-import-node": "^0.0.4",
+		"lodash": "^4.17.21",
 		"mongodb": "^3.6.3",
 		"next": "10.0.3",
 		"node-fetch": "^2.6.1",
 		"nodemailer": "^6.4.16",
 		"react": "17.0.1",
 		"react-dom": "17.0.1",
-		"tailwindcss": "^2.0.1"
+		"sass": "^1.49.7",
+		"tailwindcss": "^2.0.1",
+		"yarn": "^1.22.17"
 	},
 	"devDependencies": {
 		"@graphql-codegen/cli": "^1.19.3",
