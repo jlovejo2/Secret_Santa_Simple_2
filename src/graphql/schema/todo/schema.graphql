@@ -1,0 +1,5 @@
+type TodoMVC @entity {
+	todoId: ID! @id
+	completed: Boolean! @column
+	description: String! @column
+}

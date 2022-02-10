@@ -1,0 +1,17 @@
+type Mutation {
+	sendPicks(input: SendPicksInput!): SendPicksResponse
+	createGroup(input: [CreateGroupInput!]!): Group
+	updateGroup(input: SendPicksInput!): Group
+}
+
+input SendPicksInput {
+	groupId: String!
+	members: [CreateGroupInput!]!
+}
+
+input CreateGroupInput {
+	first_name: String!
+	last_name: String!
+	email: String!
+	secret_pick: String
+}
