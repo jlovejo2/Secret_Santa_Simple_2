@@ -3,5 +3,6 @@ type User @entity {
 	first_name: String! @column
 	last_name: String! @column
 	email: String! @column
+	password: String! @column
 	groups: [Group] @column
 }
