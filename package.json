@@ -17,6 +17,7 @@
 	"dependencies": {
 		"@apollo/client": "^3.2.9",
 		"@apollo/react-components": "^4.0.0",
+		"@graphql-tools/load-files": "^6.5.3",
 		"@sendgrid/mail": "^7.4.0",
 		"apollo-server-micro": "^2.19.0",
 		"bcrypt": "^5.0.0",
