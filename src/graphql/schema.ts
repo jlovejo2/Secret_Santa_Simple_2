@@ -5,10 +5,13 @@ import { mergeTypeDefs } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
 import resolvers from './resolvers';
 
-const loadedFiles = loadFilesSync(
+// used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
+// process.cwd() returns the value of directory where we run the node process
+// __dirname reutrns the value of the directory where the current running file resides
+const loadedTypesFiles = loadFilesSync(
 	join(process.cwd(), './src/graphql/schema/**/*.graphql')
 );
-const typeDefs = mergeTypeDefs(loadedFiles);
+const typeDefs = mergeTypeDefs(loadedTypesFiles);
 
 export const schema = makeExecutableSchema({
 	typeDefs: [DIRECTIVES, typeDefs],
