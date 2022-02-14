@@ -61,12 +61,30 @@ export const createFormFieldConfig = (
 
 // object representation of signup form
 export const signupForm = {
-	name: {
-		...createFormFieldConfig('Full Name', 'name', 'text', 'Enter name here...'),
+	first_name: {
+		...createFormFieldConfig(
+			'First Name',
+			'first_name',
+			'text',
+			'Enter first name here...'
+		),
 		validationRules: [
-			requiredRule('name'),
-			minLengthRule('name', 3),
-			maxLengthRule('name', 50)
+			requiredRule('first_name'),
+			minLengthRule('first_name', 3),
+			maxLengthRule('first_name', 50)
+		]
+	},
+	last_name: {
+		...createFormFieldConfig(
+			'Last Name',
+			'last_name',
+			'text',
+			'Enter last name here...'
+		),
+		validationRules: [
+			requiredRule('last_name'),
+			minLengthRule('last_name', 3),
+			maxLengthRule('last_name', 50)
 		]
 	},
 	email: {

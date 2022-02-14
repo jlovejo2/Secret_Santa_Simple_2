@@ -1,7 +1,23 @@
-import React, { Fragment } from 'react';
+import { gql } from '@apollo/client';
+import React, { FormEvent, Fragment } from 'react';
+import { signupForm } from '../../hooks/useForm/helper';
 import { Modal } from '../Modal';
 import SignupForm from './SignUpForm';
+import {
+	User,
+	CreateUserInput,
+	useCreateUserMutation
+} from '../../src/graphql/types';
+import { isEmpty } from '../../src/utils/sanitizers';
 
+gql`
+	mutation createUser($input: CreateUserInput!) {
+		createUser(input: $input) {
+			userId
+			first_name
+		}
+	}
+`;
 interface SignUpModalProps {
 	title: String;
 	show: Boolean;
@@ -10,6 +26,28 @@ interface SignUpModalProps {
 
 const SignUpModal = (props: SignUpModalProps) => {
 	const { title, onClose, show } = props;
+	const [createUser] = useCreateUserMutation();
+
+	const handleSignUpSubmit = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		let signUpInput: any = {};
+
+		const keysArr = Object.keys(signupForm);
+		if (!keysArr) throw Error('no keys in signUpForm');
+		for (let field of keysArr) {
+			if (field !== 'confirmPassword') signUpInput[field] = e.target[field].value;
+		}
+
+		const filteredInput: CreateUserInput = signUpInput;
+
+		if (!isEmpty(signUpInput)) {
+			console.log(filteredInput);
+			const { data } = await createUser({ variables: { input: filteredInput } });
+			console.log('create user: ', data);
+		} else {
+			throw Error('Error signing up User');
+		}
+	};
 
 	const modalHeaderElem = (
 		<Fragment>
@@ -19,7 +57,7 @@ const SignUpModal = (props: SignUpModalProps) => {
 
 	const modalBodyElem = (
 		<Fragment>
-			<SignupForm />
+			<SignupForm handleSignUpSubmit={handleSignUpSubmit} />
 		</Fragment>
 	);
 
