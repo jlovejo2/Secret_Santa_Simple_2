@@ -1,0 +1,35 @@
+import { ObjectID } from 'mongodb';
+import { connect } from '../../../../dao';
+import { UserDbObject } from '../../../../dao/types';
+import { Resolvers, User } from '../../../types';
+
+const getUserCollection = async () => {
+	const db = await connect();
+	return db.collection<UserDbObject>('User');
+};
+
+const userFromDbObject = (dbObject: UserDbObject): User => ({
+	userId: dbObject._id.toHexString(),
+	first_name: dbObject.first_name,
+	last_name: dbObject.last_name,
+	email: dbObject.email,
+	password: dbObject.password
+});
+
+const userQueryResolvers: Resolvers = {
+	Query: {
+		allUsers: async () => {
+			const collection = await getUserCollection();
+			return await collection.find().map(userFromDbObject).toArray();
+		},
+		getUser: async (_: any, { userId }) => {
+			const collection = await getUserCollection();
+			const dbObject = await collection.findOne({
+				_id: ObjectID.createFromHexString(userId)
+			});
+			return userFromDbObject(dbObject);
+		}
+	}
+};
+
+export default userQueryResolvers;
