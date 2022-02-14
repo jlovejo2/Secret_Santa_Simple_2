@@ -1,4 +1,4 @@
 type Query {
-	allTodos: [TodoMVC!]!
+	allTodos: [TodoMVC]
 	Todo(todoId: ID!): TodoMVC
 }
