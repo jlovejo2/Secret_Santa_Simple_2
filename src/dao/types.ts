@@ -63,13 +63,23 @@ export type CreateGroupInput = {
 
 export type Query = {
 	Todo?: Maybe<TodoMvc>;
-	allGroups: Array<Group>;
-	allTodos: Array<TodoMvc>;
-	allUsers: Array<User>;
+	allGroups?: Maybe<Array<Maybe<Group>>>;
+	allTodos?: Maybe<Array<Maybe<TodoMvc>>>;
+	allUsers?: Maybe<Array<Maybe<User>>>;
+	getGroup?: Maybe<Group>;
+	getUser?: Maybe<User>;
 };
 
 export type QueryTodoArgs = {
 	todoId: Scalars['ID'];
+};
+
+export type QueryGetGroupArgs = {
+	groupId: Scalars['ID'];
+};
+
+export type QueryGetUserArgs = {
+	userId: Scalars['ID'];
 };
 
 export type Group = {
@@ -111,6 +121,7 @@ export type User = {
 	first_name: Scalars['String'];
 	last_name: Scalars['String'];
 	email: Scalars['String'];
+	password: Scalars['String'];
 	groups?: Maybe<Array<Maybe<Group>>>;
 };
 
@@ -136,5 +147,6 @@ export type UserDbObject = {
 	first_name: string;
 	last_name: string;
 	email: string;
+	password: string;
 	groups?: Maybe<Array<Maybe<Group>>>;
 };

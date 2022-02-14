@@ -71,13 +71,23 @@ export type CreateGroupInput = {
 
 export type Query = {
 	Todo?: Maybe<TodoMvc>;
-	allGroups: Array<Group>;
-	allTodos: Array<TodoMvc>;
-	allUsers: Array<User>;
+	allGroups?: Maybe<Array<Maybe<Group>>>;
+	allTodos?: Maybe<Array<Maybe<TodoMvc>>>;
+	allUsers?: Maybe<Array<Maybe<User>>>;
+	getGroup?: Maybe<Group>;
+	getUser?: Maybe<User>;
 };
 
 export type QueryTodoArgs = {
 	todoId: Scalars['ID'];
+};
+
+export type QueryGetGroupArgs = {
+	groupId: Scalars['ID'];
+};
+
+export type QueryGetUserArgs = {
+	userId: Scalars['ID'];
 };
 
 export type Group = {
@@ -119,6 +129,7 @@ export type User = {
 	first_name: Scalars['String'];
 	last_name: Scalars['String'];
 	email: Scalars['String'];
+	password: Scalars['String'];
 	groups?: Maybe<Array<Maybe<Group>>>;
 };
 
@@ -324,9 +335,33 @@ export type QueryResolvers<
 		ContextType,
 		RequireFields<QueryTodoArgs, 'todoId'>
 	>;
-	allGroups?: Resolver<Array<ResolversTypes['Group']>, ParentType, ContextType>;
-	allTodos?: Resolver<Array<ResolversTypes['TodoMVC']>, ParentType, ContextType>;
-	allUsers?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+	allGroups?: Resolver<
+		Maybe<Array<Maybe<ResolversTypes['Group']>>>,
+		ParentType,
+		ContextType
+	>;
+	allTodos?: Resolver<
+		Maybe<Array<Maybe<ResolversTypes['TodoMVC']>>>,
+		ParentType,
+		ContextType
+	>;
+	allUsers?: Resolver<
+		Maybe<Array<Maybe<ResolversTypes['User']>>>,
+		ParentType,
+		ContextType
+	>;
+	getGroup?: Resolver<
+		Maybe<ResolversTypes['Group']>,
+		ParentType,
+		ContextType,
+		RequireFields<QueryGetGroupArgs, 'groupId'>
+	>;
+	getUser?: Resolver<
+		Maybe<ResolversTypes['User']>,
+		ParentType,
+		ContextType,
+		RequireFields<QueryGetUserArgs, 'userId'>
+	>;
 };
 
 export type GroupResolvers<
@@ -383,6 +418,7 @@ export type UserResolvers<
 	first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 	last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 	email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+	password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 	groups?: Resolver<
 		Maybe<Array<Maybe<ResolversTypes['Group']>>>,
 		ParentType,
@@ -427,6 +463,14 @@ export type SendPicksMutation = {
 	sendPicks?: Maybe<Pick<SendPicksResponse, 'message'>>;
 };
 
+export type CreateUserMutationVariables = Exact<{
+	input: CreateUserInput;
+}>;
+
+export type CreateUserMutation = {
+	createUser?: Maybe<Pick<User, 'userId' | 'first_name'>>;
+};
+
 export type TodoQueryVariables = Exact<{
 	todoId: Scalars['ID'];
 }>;
@@ -446,7 +490,9 @@ export type UpdateTodoMutation = {
 
 export type IndexQueryVariables = Exact<{ [key: string]: never }>;
 
-export type IndexQuery = { allTodos: Array<Pick<TodoMvc, 'todoId'>> };
+export type IndexQuery = {
+	allTodos?: Maybe<Array<Maybe<Pick<TodoMvc, 'todoId'>>>>;
+};
 
 export const CreateGroupDocument = gql`
 	mutation createGroup($input: [CreateGroupInput!]!) {
@@ -548,6 +594,55 @@ export type SendPicksMutationResult = ApolloReactCommon.MutationResult<SendPicks
 export type SendPicksMutationOptions = ApolloReactCommon.BaseMutationOptions<
 	SendPicksMutation,
 	SendPicksMutationVariables
+>;
+export const CreateUserDocument = gql`
+	mutation createUser($input: CreateUserInput!) {
+		createUser(input: $input) {
+			userId
+			first_name
+		}
+	}
+`;
+export type CreateUserMutationFn = ApolloReactCommon.MutationFunction<
+	CreateUserMutation,
+	CreateUserMutationVariables
+>;
+
+/**
+ * __useCreateUserMutation__
+ *
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateUserMutation(
+	baseOptions?: ApolloReactHooks.MutationHookOptions<
+		CreateUserMutation,
+		CreateUserMutationVariables
+	>
+) {
+	return ApolloReactHooks.useMutation<
+		CreateUserMutation,
+		CreateUserMutationVariables
+	>(CreateUserDocument, baseOptions);
+}
+export type CreateUserMutationHookResult = ReturnType<
+	typeof useCreateUserMutation
+>;
+export type CreateUserMutationResult = ApolloReactCommon.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
+	CreateUserMutation,
+	CreateUserMutationVariables
 >;
 export const TodoDocument = gql`
 	query Todo($todoId: ID!) {
