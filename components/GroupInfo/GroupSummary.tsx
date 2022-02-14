@@ -10,7 +10,7 @@ import {
 	SyntheticEvent
 } from 'react';
 import { TableHeader, TableRow } from '../Table';
-import { emailSender } from '../../src/dao/nodeMailer';
+// import { emailSender } from '../../dao/nodeMailer';
 import { CreateGroupInput } from '../../src/dao';
 
 interface Props {

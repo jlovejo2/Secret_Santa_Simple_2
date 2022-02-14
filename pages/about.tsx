@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, SignUp } from '../components';
+import { Layout } from '../components';
 
 const Index = () => {
 	return (
@@ -15,7 +15,6 @@ const Index = () => {
 						</strong>{' '}
 						and then send them out to all the group members.{' '}
 					</p>
-					<SignUp />
 				</div>
 			</Layout>
 		</>
