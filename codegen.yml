@@ -10,7 +10,7 @@ generates:
    - typescript-mongodb
   config:
    skipTypename: true
- ./src/graphql/types.ts:
+ ./src/graphql/types.tsx:
   documents: # Provide list of files that needs to be checked for queries
    - ./pages/**/*.ts*
    - ./components/**/*.ts*

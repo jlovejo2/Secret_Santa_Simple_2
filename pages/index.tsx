@@ -11,7 +11,7 @@ import { Hero } from '../components/UI';
 const Index = () => {
 	return (
 		<>
-			<Layout>
+			<Layout grid={true}>
 				<Hero
 					headline={'Welcome to Secret Santa App!'}
 					description={
