@@ -4,7 +4,7 @@ import Link from 'next/link';
 // import { useRouter } from 'next/router'
 // import type { Page } from '@bigcommerce/storefront-data-hooks/api/operations/get-all-pages'
 // import getSlug from '@lib/get-slug'
-import { Github } from '../../components/icons';
+import { GithubIcon } from '../../components/UI/Icons';
 // import { Logo, Container } from '@components/ui'
 import s from './Footer.module.css';
 
@@ -48,7 +48,7 @@ const Footer: FC<Props> = ({ className }) => {
 								href='https://github.com/jlovejo2/Secret_Santa_Simple_2'
 								className={s.link}
 							>
-								<Github />
+								<GithubIcon />
 							</a>
 						</div>
 					</div>

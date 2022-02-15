@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { RightArrow } from '../../icons';
+import { RightArrowIcon } from '../../UI/Icons';
 import s from './hero.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,7 +35,7 @@ const Hero: FC<Props> = ({ headline, description }) => {
 					<Link href='/blog'>
 						<a className='text-white pt-3 font-bold hover:underline flex flex-row cursor-pointer w-max-content'>
 							Read it here
-							<RightArrow width='20' heigh='20' className='ml-1' />
+							<RightArrowIcon width='20' heigh='20' className='ml-1' />
 						</a>
 					</Link>
 				</div>
