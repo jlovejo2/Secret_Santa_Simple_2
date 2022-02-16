@@ -1,6 +1,11 @@
 export { default as AlertBellIcon } from './AlertBell';
+export { default as CloseMenuIcon } from './CloseMenu';
 export { default as DashboardIcon } from './Dashboard';
 export { default as GithubIcon } from './Github';
+export { default as GiftboxIcon } from './Giftbox';
+export { default as GroupIcon } from './Groups';
+export { default as HamburgerMenuTwoBar } from './HamburgerMenuTwoBar';
+export { default as HandshakeIcon } from './Handshake';
 export { default as LogoutIcon } from './Logout';
 export { default as MagnifyingGlassIcon } from './MagnifyingGlass';
 export { default as MessagesIcon } from './Messages';
