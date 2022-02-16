@@ -1,18 +1,10 @@
-import {
-	CreateGroupInput,
-	GroupMember,
-	useIndexQuery
-} from '../src/graphql/types';
+import { useIndexQuery } from '../src/graphql/types';
 import { gql } from '@apollo/client';
-import { GroupCombined, Todo } from '../components';
-import {
-	useState,
-	ChangeEvent,
-	SyntheticEvent,
-	useEffect,
-	FormEvent
-} from 'react';
+import { Todo } from '../components';
+import { useState, ChangeEvent, useEffect } from 'react';
 import { Layout } from '../components/Layout';
+import { Sidebar } from '../components/Sidebar';
+import { DashboardMenuBar } from '../components/DashboardMenuBar';
 
 gql`
 	query Index {
@@ -23,6 +15,12 @@ gql`
 `;
 
 const Index = () => {
+	const [show, setShow] = useState(false);
+	const [profile, setProfile] = useState(false);
+	const [menu, setMenu] = useState(false);
+	const [menu1, setMenu1] = useState(false);
+	const [menu2, setMenu2] = useState(false);
+	const [menu3, setMenu3] = useState(false);
 	const { data, loading } = useIndexQuery();
 	const [newTodoDescription, setNewTodoDescription] = useState('');
 
@@ -61,8 +59,28 @@ const Index = () => {
 	return (
 		<>
 			<Layout>
-				<div className='col-start-2 col-span-4'>
+				{/* <div className='col-start-2 col-span-4'>
 					<GroupCombined />
+				</div> */}
+				<div className='w-full h-full bg-gray-200'>
+					<div className='flex flex-no-wrap'>
+						<Sidebar showSidebar={show} setSidebar={() => setShow(!show)} />
+						<div className='w-full'>
+							<DashboardMenuBar
+								showDashboardMenu={show}
+								setShowDashboardMenu={() => setShow(!show)}
+								showProfile={profile}
+								setShowProfile={() => setProfile(!profile)}
+							/>
+							{/* Remove class [ h-64 ] when adding a card block */}
+							<div className='container mx-auto py-10 h-64 md:w-4/5 w-11/12 px-6'>
+								{/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
+								<div className='w-full h-full rounded border-dashed border-2 border-gray-300'>
+									{/* Place your content here */}
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</Layout>
 		</>
