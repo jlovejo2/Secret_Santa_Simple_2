@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { SignUp } from '..';
 
-const Navbar = props => {
-	const { handleSignUPCLick } = props;
+interface NavbarProps {
+	handleSignUpClick: () => void;
+	handleSignInClick: () => void;
+}
+
+const Navbar = (props: NavbarProps) => {
+	const { handleSignUpClick, handleSignInClick } = props;
 
 	return (
 		<div className='relative bg-red-500'>
 			<div className='max-w-7xl mx-auto px-4 sm:px-6'>
-				<div className='flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10'>
+				<div className='flex justify-between items-center py-6 md:justify-start md:space-x-10'>
 					<nav className='hidden md:flex space-x-10'>
 						<a
 							href='#'
@@ -24,13 +28,13 @@ const Navbar = props => {
 					</nav>
 					<div className='hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
 						<a
-							href='#'
+							onClick={handleSignInClick}
 							className='whitespace-nowrap text-base font-medium text-white hover:text-gray-900'
 						>
 							Sign in
 						</a>
 						<a
-							onClick={handleSignUPCLick}
+							onClick={handleSignUpClick}
 							className='ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-indigo-700'
 						>
 							Sign up

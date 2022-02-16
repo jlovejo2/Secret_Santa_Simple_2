@@ -3,6 +3,7 @@ import { Navbar } from '../Navbar';
 import { Footer } from '../Footer';
 import { SignUpModal } from '../SignUp';
 import { Sidebar } from '../Sidebar';
+import { SignInModal } from '../SignIn';
 
 interface LayoutProps {
 	children?: React.ReactNode;
@@ -12,22 +13,30 @@ interface LayoutProps {
 
 const Layout = (props: LayoutProps) => {
 	const { children, grid = false, SidebarPresent = false } = props;
-	const [showModal, setShowModal] = useState(false);
+	const [showSignUpModal, setShowSignUpModal] = useState(false);
+	const [showSignInModal, setShowSignInModal] = useState(false);
 	const [showSidebar, setShowSidebar] = useState(false);
 
-	const handleSignUPCLick = () => {
-		console.log(showModal);
-		setShowModal(true);
+	const handleSignUpClick = () => {
+		setShowSignUpModal(true);
 	};
 
-	const SideBarElem = SidebarPresent ? (
-		<Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-	) : null;
+	const handleSignInClick = () => {
+		console.log('Log In Modal', showSignInModal);
+		setShowSignInModal(true);
+	};
+
+	// const SideBarElem = SidebarPresent ? (
+	// 	<Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+	// ) : null;
 
 	return (
 		<>
 			<div>
-				<Navbar handleSignUPCLick={handleSignUPCLick} />
+				<Navbar
+					handleSignUpClick={handleSignUpClick}
+					handleSignInClick={handleSignInClick}
+				/>
 			</div>
 			<div
 				className={`flex ${grid ? 'grid grid-cols-6 gap-2' : ''} justify-center`}
@@ -35,9 +44,14 @@ const Layout = (props: LayoutProps) => {
 				{children}
 			</div>
 			<SignUpModal
-				onClose={() => setShowModal(false)}
-				show={showModal}
+				onClose={() => setShowSignUpModal(false)}
+				show={showSignUpModal}
 				title={'Sign Up'}
+			/>
+			<SignInModal
+				onClose={() => setShowSignInModal(false)}
+				show={showSignInModal}
+				title={'Log In'}
 			/>
 			<div>
 				<Footer className={'bg-green-500'} />
