@@ -1,19 +1,11 @@
 import { gql } from '@apollo/client';
-import { GroupCombined, Todo } from '../components';
-import { useState, ChangeEvent, useEffect } from 'react';
+import { GroupCombined } from '../components';
+import { useState } from 'react';
 import { Layout } from '../components/Layout';
 import { Sidebar } from '../components/Sidebar';
 import { DashboardMenuBar } from '../components/DashboardMenuBar';
 
-gql`
-	query Index {
-		allTodos {
-			todoId
-		}
-	}
-`;
-
-const Index = () => {
+const SecretSantaGroups = () => {
 	const [show, setShow] = useState(false);
 	const [profile, setProfile] = useState(false);
 
@@ -33,7 +25,7 @@ const Index = () => {
 							{/* Remove class [ h-64 ] when adding a card block */}
 							<div className='container mx-auto py-10 h-64 md:w-4/5 w-11/12 px-6'>
 								{/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
-								<div className='w-full h-full rounded border-dashed border-2 border-gray-300'>
+								<div className='w-full h-full rounded'>
 									<GroupCombined />
 								</div>
 							</div>
@@ -45,4 +37,4 @@ const Index = () => {
 	);
 };
 
-export default Index;
+export default SecretSantaGroups;
