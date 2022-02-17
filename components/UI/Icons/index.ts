@@ -9,5 +9,6 @@ export { default as HandshakeIcon } from './Handshake';
 export { default as LogoutIcon } from './Logout';
 export { default as MagnifyingGlassIcon } from './MagnifyingGlass';
 export { default as MessagesIcon } from './Messages';
+export { default as PlusIcon } from './Plus';
 export { default as ProfileIcon } from './Profile';
 export { default as RightArrowIcon } from './RightArrow';
