@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 interface NavbarProps {
 	handleSignUpClick: () => void;
@@ -13,18 +14,16 @@ const Navbar = (props: NavbarProps) => {
 			<div className='max-w-7xl mx-auto px-4 sm:px-6'>
 				<div className='flex justify-between items-center py-6 md:justify-start md:space-x-10'>
 					<nav className='hidden md:flex space-x-10'>
-						<a
-							href='#'
-							className='text-base font-medium text-white hover:text-gray-900'
-						>
-							Secret Santa
-						</a>
-						<a
-							href='/about'
-							className='text-base font-medium text-white hover:text-gray-900'
-						>
-							About
-						</a>
+						<Link href='/'>
+							<a className='text-base font-medium text-white hover:text-gray-900'>
+								Secret Santa
+							</a>
+						</Link>
+						<Link href='/about'>
+							<a className='text-base font-medium text-white hover:text-gray-900'>
+								About
+							</a>
+						</Link>
 					</nav>
 					<div className='hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
 						<a

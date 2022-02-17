@@ -1,4 +1,6 @@
 import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import {
 	AlertBellIcon,
 	CloseMenuIcon,
@@ -17,6 +19,7 @@ interface SidebarProps {
 
 const Sidebar = (props: SidebarProps) => {
 	const { showSidebar, setSidebar } = props;
+	const router = useRouter();
 
 	return (
 		<>
@@ -26,28 +29,52 @@ const Sidebar = (props: SidebarProps) => {
             	</div> */}
 				<ul aria-orientation='vertical' className=' py-6'>
 					<li className='pl-6 cursor-pointer text-white text-sm leading-3 tracking-normal pb-4 pt-5 text-indigo-700 focus:text-indigo-700 focus:outline-none'>
-						<div className='flex items-center'>
-							<DashboardIcon />
-							<span className='ml-2'>Dashboard</span>
-						</div>
+						<Link href='/dashboard'>
+							<a
+								className={`${
+									router.pathname == '/dashboard' ? 'active text-red-500' : ''
+								} flex items-center`}
+							>
+								<DashboardIcon />
+								<span className='ml-2'>Dashboard</span>
+							</a>
+						</Link>
 					</li>
 					<li className='pl-6 cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-4 mb-4 py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none'>
-						<div className='flex items-center'>
-							<HandshakeIcon />
-							<span className='ml-2'>Friends</span>
-						</div>
+						<Link href='/friends'>
+							<a
+								className={`${
+									router.pathname == '/friends' ? 'active text-red-500' : ''
+								} flex items-center`}
+							>
+								<HandshakeIcon />
+								<span className='ml-2'>Friends</span>
+							</a>
+						</Link>
 					</li>
 					<li className='pl-6 cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mb-4 py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none'>
-						<a href='/secret-santa-groups' className='flex items-center'>
-							<GroupIcon />
-							<span className='ml-2'>Secret Santa Groups</span>
-						</a>
+						<Link href='/secret-santa-groups'>
+							<a
+								className={`${
+									router.pathname == '/secret-santa-groups' ? 'active text-red-500' : ''
+								} flex items-center`}
+							>
+								<GroupIcon />
+								<span className='ml-2'>Secret Santa Groups</span>
+							</a>
+						</Link>
 					</li>
 					<li className='pl-6 cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none'>
-						<div className='flex items-center'>
-							<GiftboxIcon />
-							<span className='ml-2'>Wishlist</span>
-						</div>
+						<Link href='/wishlist'>
+							<a
+								className={`${
+									router.pathname == '/wishlist' ? 'active text-red-500' : ''
+								} flex items-center`}
+							>
+								<GiftboxIcon />
+								<span className='ml-2'>Wishlist</span>
+							</a>
+						</Link>
 					</li>
 				</ul>
 			</div>
