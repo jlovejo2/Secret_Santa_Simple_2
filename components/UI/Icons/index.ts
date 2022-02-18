@@ -1,6 +1,7 @@
 export { default as AlertBellIcon } from './AlertBell';
 export { default as CloseMenuIcon } from './CloseMenu';
 export { default as DashboardIcon } from './Dashboard';
+export { default as EditIcon } from './Edit';
 export { default as GithubIcon } from './Github';
 export { default as GiftboxIcon } from './Giftbox';
 export { default as GroupIcon } from './Groups';
@@ -12,3 +13,4 @@ export { default as MessagesIcon } from './Messages';
 export { default as PlusIcon } from './Plus';
 export { default as ProfileIcon } from './Profile';
 export { default as RightArrowIcon } from './RightArrow';
+export { default as TrashcanIcon } from './Trashcan';
