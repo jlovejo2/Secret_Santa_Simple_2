@@ -1,10 +1,7 @@
 import { gql } from '@apollo/client';
-import {
-	useTodoQuery,
-	useUpdateTodoMutation,
-	useCreateTodoMutation
-} from '../../src/graphql/types';
+import { useTodoQuery, useUpdateTodoMutation } from '../../src/graphql/types';
 import { useState, ChangeEvent, useEffect } from 'react';
+import { EditIcon, TrashcanIcon } from '../UI/Icons';
 
 interface Props {
 	todoId: string;
@@ -23,18 +20,12 @@ gql`
 			completed
 		}
 	}
-
-	mutation CreateTodo($description: String!) {
-		createTodo(description: $description) {
-			todoId
-			description
-			completed
-		}
-	}
 `;
 
 const Todo = (props: Props) => {
 	const { todoId } = props;
+	const [selectedTodoId, setSelectedTodoId] = useState('');
+	const [selectedTodoValue, setSelectedTodoValue] = useState('');
 	const { loading, data } = useTodoQuery({
 		variables: {
 			todoId
@@ -46,7 +37,23 @@ const Todo = (props: Props) => {
 
 	useEffect(() => {
 		setLocalCompleted(data?.Todo?.completed || false);
+		if (data) setSelectedTodoValue(data.Todo.description);
 	}, [data?.Todo?.completed]);
+
+	const handleSelectedTodos = todoToEdit => {
+		if (selectedTodoId === todoToEdit) {
+			setSelectedTodoId('');
+		} else setSelectedTodoId(todoToEdit);
+
+		if (selectedTodoValue !== data.Todo?.description)
+			updateTodo({
+				variables: { todoId, data: { description: selectedTodoValue } }
+			});
+	};
+
+	const handleEditTodo = (e: ChangeEvent) => {
+		setSelectedTodoValue((e.target as HTMLInputElement).value);
+	};
 
 	const onToggleCompleted = (e: ChangeEvent) => {
 		const completed = (e.target as HTMLInputElement).checked;
@@ -63,7 +70,6 @@ const Todo = (props: Props) => {
 
 	if (!loading && data) {
 		const { description } = data.Todo;
-
 		content = (
 			<>
 				<td>
@@ -73,11 +79,25 @@ const Todo = (props: Props) => {
 						onChange={onToggleCompleted}
 					></input>
 				</td>
-				<td>{description}</td>
+				<td className='pl-2'>
+					{selectedTodoId.includes(todoId) ? (
+						<input onChange={handleEditTodo} value={selectedTodoValue}></input>
+					) : (
+						selectedTodoValue
+					)}
+				</td>
+				<td className='pl-2'>
+					<a onClick={() => handleSelectedTodos(todoId)}>
+						<EditIcon />
+					</a>
+				</td>
+				<td className='pl-2'>
+					<TrashcanIcon />
+				</td>
 			</>
 		);
 	}
-	return <tr>{content}</tr>;
+	return <tr className='mt-4'>{content}</tr>;
 };
 
 export default Todo;
