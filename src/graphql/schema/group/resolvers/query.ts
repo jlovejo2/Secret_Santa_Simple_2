@@ -1,6 +1,6 @@
 import { ObjectID } from 'mongodb';
 import { connect } from '../../../../dao';
-import { GroupDbObject } from '../../../../dao/types';
+import { GroupDbObject, UserDbObject } from '../../../../dao/types';
 import { Resolvers, Group } from '../../../types';
 
 const getGroupCollection = async () => {
@@ -28,6 +28,14 @@ const GroupQueryResolvers: Resolvers = {
 			});
 			return groupFromDbObject(dbObject);
 		}
+		// getGroupsByUser: async (_: any, { userId }) => {
+		// 	const db = await connect();
+		// 	const collection = db.collection<UserDbObject>('User');
+		// 	const dbObject = await collection.find({
+		// 		_id: ObjectID.createFromHexString(userId)
+		// 	});
+
+		// }
 	}
 };
 

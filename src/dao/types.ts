@@ -67,6 +67,7 @@ export type Query = {
 	allTodos?: Maybe<Array<Maybe<TodoMvc>>>;
 	allUsers?: Maybe<Array<Maybe<User>>>;
 	getGroup?: Maybe<Group>;
+	getGroupsByUser?: Maybe<Array<Maybe<Group>>>;
 	getUser?: Maybe<User>;
 };
 
@@ -76,6 +77,10 @@ export type QueryTodoArgs = {
 
 export type QueryGetGroupArgs = {
 	groupId: Scalars['ID'];
+};
+
+export type QueryGetGroupsByUserArgs = {
+	userId: Scalars['ID'];
 };
 
 export type QueryGetUserArgs = {

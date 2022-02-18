@@ -33,11 +33,9 @@ gql`
 const Friends = () => {
 	const [show, setShow] = useState(false);
 	const [profile, setProfile] = useState(false);
-	const [edit, setEdit] = useState(false);
 	const { data, loading } = useIndexQuery();
 	const [createTodo] = useCreateTodoMutation();
 	const router = useRouter();
-	const [newTodoDescription, setNewTodoDescription] = useState('');
 
 	const [todoIds, setTodoIds] = useState<string[]>();
 
@@ -49,10 +47,6 @@ const Friends = () => {
 		fillTodoIds(data?.allTodos?.map(t => t.todoId));
 	}, [data?.allTodos]);
 
-	const updateTodoDescription = (e: ChangeEvent) => {
-		setNewTodoDescription((e.target as HTMLInputElement).value.toString());
-	};
-
 	const handleCreateTodo = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log(e.target[0].value);
@@ -63,10 +57,6 @@ const Friends = () => {
 
 		if (data) router.reload();
 	};
-
-	// const changeCurrentGroupMember = (e: ChangeEvent) => {};
-
-	const onClickAddTodo = () => {};
 
 	const todoElements = todoIds?.map(id => <Todo todoId={id} key={id} />);
 
