@@ -75,7 +75,7 @@ export type Query = {
 	allTodos?: Maybe<Array<Maybe<TodoMvc>>>;
 	allUsers?: Maybe<Array<Maybe<User>>>;
 	getGroup?: Maybe<Group>;
-	getGroupsByUser?: Maybe<Array<Maybe<Group>>>;
+	getGroupsByUser?: Maybe<User>;
 	getUser?: Maybe<User>;
 };
 
@@ -96,7 +96,7 @@ export type QueryGetUserArgs = {
 };
 
 export type Group = {
-	groupId: Scalars['ID'];
+	groupId?: Maybe<Scalars['ID']>;
 	members: Array<GroupMember>;
 };
 
@@ -362,7 +362,7 @@ export type QueryResolvers<
 		RequireFields<QueryGetGroupArgs, 'groupId'>
 	>;
 	getGroupsByUser?: Resolver<
-		Maybe<Array<Maybe<ResolversTypes['Group']>>>,
+		Maybe<ResolversTypes['User']>,
 		ParentType,
 		ContextType,
 		RequireFields<QueryGetGroupsByUserArgs, 'userId'>
@@ -379,7 +379,7 @@ export type GroupResolvers<
 	ContextType = any,
 	ParentType extends ResolversParentTypes['Group'] = ResolversParentTypes['Group']
 > = {
-	groupId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+	groupId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
 	members?: Resolver<
 		Array<ResolversTypes['GroupMember']>,
 		ParentType,

@@ -67,7 +67,7 @@ export type Query = {
 	allTodos?: Maybe<Array<Maybe<TodoMvc>>>;
 	allUsers?: Maybe<Array<Maybe<User>>>;
 	getGroup?: Maybe<Group>;
-	getGroupsByUser?: Maybe<Array<Maybe<Group>>>;
+	getGroupsByUser?: Maybe<User>;
 	getUser?: Maybe<User>;
 };
 
@@ -88,7 +88,7 @@ export type QueryGetUserArgs = {
 };
 
 export type Group = {
-	groupId: Scalars['ID'];
+	groupId?: Maybe<Scalars['ID']>;
 	members: Array<GroupMember>;
 };
 
@@ -137,7 +137,7 @@ export type AdditionalEntityFields = {
 
 import { ObjectID } from 'mongodb';
 export type GroupDbObject = {
-	_id: ObjectID;
+	_id?: Maybe<ObjectID>;
 	members: Array<GroupMember>;
 };
 

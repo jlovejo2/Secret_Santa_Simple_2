@@ -1,5 +1,5 @@
 type Group @entity {
-	groupId: ID! @id
+	groupId: ID @id
 	members: [GroupMember!]! @column
 }
 
