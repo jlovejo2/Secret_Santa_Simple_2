@@ -107,7 +107,7 @@ const Friends = () => {
 								</div>
 								<div className='w-full h-full rounded border-dashed border-2 border-gray-300'>
 									<button className='w-44 ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-indigo-700'>
-										<PlusIcon />
+										<PlusIcon width={30} height={30} />
 										<span className='pl-2'>Create a List</span>
 									</button>
 									<p className='text-lg text-bold'>Current Lists</p>
