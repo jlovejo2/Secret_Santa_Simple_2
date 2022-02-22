@@ -10,7 +10,7 @@ import s from './Footer.module.css';
 
 interface Props {
 	className?: string;
-	children?: any;
+	children?: React.ReactNode;
 }
 
 const Footer: FC<Props> = ({ className }) => {
