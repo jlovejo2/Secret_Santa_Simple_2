@@ -6,6 +6,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
+import { tradeTokenForUser } from '../../src/auth/auth-helpers';
 // import resolvers from './resolvers';
 
 // used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
@@ -27,10 +28,31 @@ import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
 // 	resolvers,
 // });
 
+const HEADER_NAME = 'authorization';
+
 const apolloServer = new ApolloServer({
 	schema,
 	introspection: true,
-	playground: true
+	playground: true,
+	context: async ({ req }) => {
+		let authToken = null;
+		let currentUser = null;
+
+		try {
+			authToken = req.headers[HEADER_NAME];
+
+			if (authToken) {
+				currentUser = await tradeTokenForUser(authToken);
+			}
+		} catch (err) {
+			console.error(`Couldn't authenticate using auth token: ${authToken}`);
+		}
+
+		return {
+			authToken,
+			currentUser
+		};
+	}
 });
 
 export const config = {
