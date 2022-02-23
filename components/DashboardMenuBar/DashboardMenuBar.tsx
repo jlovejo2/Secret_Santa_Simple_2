@@ -25,7 +25,7 @@ const DashboardMenuBar = (props: DashboardMenuBarProps) => {
 	} = props;
 
 	return (
-		<nav className='h-16 flex items-center lg:items-stretch justify-end lg:justify-between bg-white shadow relative z-10'>
+		<nav className='h-16 flex items-center lg:items-stretch justify-end lg:justify-between bg-white shadow relative z-1'>
 			<div className='hidden lg:flex w-full pr-6'>
 				<div className='w-1/2 h-full hidden lg:flex items-center pl-6 pr-24'>
 					<div className='relative w-full'>

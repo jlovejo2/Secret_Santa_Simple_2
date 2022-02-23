@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
+import { CloseMenuIcon } from '../UI/Icons';
 import s from './modal.module.scss';
 
 const Modal = ({
@@ -31,9 +32,9 @@ const Modal = ({
 				<div className={`${s.modalHeader}`}>
 					{modalHeader}
 					{closeModalInHeader ? (
-						<a href='#' onClick={handleModalClose}>
-							x
-						</a>
+						<span onClick={handleModalClose}>
+							<CloseMenuIcon />
+						</span>
 					) : null}
 				</div>
 				<div className={`${s.modalBody}`}>{modalBody}</div>
