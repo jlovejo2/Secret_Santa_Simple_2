@@ -1,4 +1,5 @@
 import { ObjectID } from 'mongodb';
+import { authenticated } from '../../../../auth/auth-guard';
 import { connect } from '../../../../dao';
 import { UserDbObject } from '../../../../dao/types';
 import { Resolvers, User } from '../../../types';
@@ -22,13 +23,17 @@ const userQueryResolvers: Resolvers = {
 			const collection = await getUserCollection();
 			return await collection.find().map(userFromDbObject).toArray();
 		},
-		getUser: async (_: any, { userId }) => {
+		getUser: authenticated(async (_: any, args, context) => {
+			console.log('Entered getUser: ', context.currentUser, args);
+			const userId = context.currentUser;
+
 			const collection = await getUserCollection();
 			const dbObject = await collection.findOne({
 				_id: ObjectID.createFromHexString(userId)
 			});
+
 			return userFromDbObject(dbObject);
-		}
+		})
 	}
 };
 
