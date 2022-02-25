@@ -1,15 +1,22 @@
-import { useIndexQuery } from '../src/graphql/types';
+import { useGetUserQuery } from '../src/graphql/types';
 import { gql } from '@apollo/client';
 import { Todo } from '../components';
 import { useState, ChangeEvent, useEffect } from 'react';
 import { Layout } from '../components/Layout';
 import { Sidebar } from '../components/Sidebar';
 import { DashboardMenuBar } from '../components/DashboardMenuBar';
+import { useRouter } from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
 
 gql`
-	query Index {
-		allTodos {
-			todoId
+	query getUser {
+		getUser {
+			first_name
+			last_name
+			email
+			groups {
+				groupId
+			}
 		}
 	}
 `;
@@ -17,7 +24,8 @@ gql`
 const Index = () => {
 	const [show, setShow] = useState(false);
 	const [profile, setProfile] = useState(false);
-	const { data, loading } = useIndexQuery();
+	const { query } = useRouter();
+	const { data, loading, error } = useGetUserQuery({});
 
 	return (
 		<>
@@ -39,7 +47,9 @@ const Index = () => {
 							<div className='container mx-auto py-10 h-64 md:w-4/5 w-11/12 px-6'>
 								{/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
 								<div className='w-full h-full rounded border-dashed border-2 border-gray-300'>
-									{/* Place your content here */}
+									{!loading
+										? 'Welcome to the Secret Santa App Dashboard'
+										: 'still loading'}
 								</div>
 							</div>
 						</div>
