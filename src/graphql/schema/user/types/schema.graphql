@@ -6,3 +6,8 @@ type User @entity {
 	password: String! @column
 	groups: [Group] @column
 }
+
+type loggedInUser {
+	userId: String
+	token: String
+}
