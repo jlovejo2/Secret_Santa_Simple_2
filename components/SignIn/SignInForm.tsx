@@ -11,7 +11,7 @@ type SignInFormProps = {
 	handleSignInSubmit: (e: FormEvent<HTMLFormElement>) => void;
 };
 
-const signinForm = {
+export const signinForm = {
 	email: {
 		...createFormFieldConfig('Email', 'email', 'email', 'Enter email here...'),
 		validationRules: [

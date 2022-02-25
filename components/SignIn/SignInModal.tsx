@@ -1,20 +1,21 @@
 import { gql } from '@apollo/client';
 import React, { FormEvent, Fragment } from 'react';
-import { signupForm } from '../../hooks/useForm/helper';
 import { Modal } from '../Modal';
-import SignInForm from './SignInForm';
+import SignInForm, { signinForm } from './SignInForm';
 import {
 	User,
-	CreateUserInput,
-	useCreateUserMutation
+	LoginUserInput,
+	useLoginUserMutation
 } from '../../src/graphql/types';
 import { isEmpty } from '../../src/utils/sanitizers';
+import { Router } from 'express';
+import { useRouter } from 'next/router';
 
 gql`
-	mutation createUser($input: CreateUserInput!) {
-		createUser(input: $input) {
+	mutation loginUser($input: loginUserInput!) {
+		loginUser(input: $input) {
+			token
 			userId
-			first_name
 		}
 	}
 `;
@@ -26,24 +27,37 @@ interface SignInModalProps {
 
 const SignInModal = (props: SignInModalProps) => {
 	const { title, onClose, show } = props;
-	// const [createUser] = useCreateUserMutation();
+	const router = useRouter();
+	const [loginUser] = useLoginUserMutation();
 
 	const handleSignInSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		let signUpInput: any = {};
+		let signInInput: any = {};
 
-		const keysArr = Object.keys(signupForm);
+		const keysArr = Object.keys(signinForm);
 		if (!keysArr) throw Error('no keys in signUpForm');
 		for (let field of keysArr) {
-			if (field !== 'confirmPassword') signUpInput[field] = e.target[field].value;
+			if (field !== 'confirmPassword') signInInput[field] = e.target[field].value;
 		}
 
-		const filteredInput: CreateUserInput = signUpInput;
+		const filteredInput: LoginUserInput = signInInput;
 
-		if (!isEmpty(signUpInput)) {
-			console.log(filteredInput);
-			// const { data } = await createUser({ variables: { input: filteredInput } });
-			// console.log('create user: ', data);
+		console.log('log in user: ', filteredInput);
+
+		if (!isEmpty(signInInput)) {
+			const { data } = await loginUser({ variables: { input: filteredInput } });
+			console.log('logged in User ', data);
+			if (data) {
+				onClose();
+				localStorage.setItem('auth-token', data.loginUser.token as string);
+				router.push({
+					pathname: '/dashboard',
+					query: { uid: data.loginUser.userId }
+				});
+			} else
+				throw new Error(
+					'An error occurred logging in user.  Please ensure your password and email are correct'
+				);
 		} else {
 			throw Error('Error signing in User');
 		}

@@ -9,6 +9,7 @@ import {
 	useCreateUserMutation
 } from '../../src/graphql/types';
 import { isEmpty } from '../../src/utils/sanitizers';
+import { useRouter } from 'next/router';
 
 gql`
 	mutation createUser($input: CreateUserInput!) {
@@ -26,6 +27,7 @@ interface SignUpModalProps {
 
 const SignUpModal = (props: SignUpModalProps) => {
 	const { title, onClose, show } = props;
+	const router = useRouter();
 	const [createUser] = useCreateUserMutation();
 
 	const handleSignUpSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -44,6 +46,8 @@ const SignUpModal = (props: SignUpModalProps) => {
 			console.log(filteredInput);
 			const { data } = await createUser({ variables: { input: filteredInput } });
 			console.log('create user: ', data);
+
+			if (data) router.push('/dashboard');
 		} else {
 			throw Error('Error signing up User');
 		}
