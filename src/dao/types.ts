@@ -19,6 +19,7 @@ export type Mutation = {
 	createGroup?: Maybe<Group>;
 	createTodo: TodoMvc;
 	createUser?: Maybe<User>;
+	loginUser?: Maybe<LoggedInUser>;
 	sendPicks?: Maybe<SendPicksResponse>;
 	updateGroup?: Maybe<Group>;
 	updateTodo?: Maybe<TodoMvc>;
@@ -34,6 +35,10 @@ export type MutationCreateTodoArgs = {
 
 export type MutationCreateUserArgs = {
 	input?: Maybe<CreateUserInput>;
+};
+
+export type MutationLoginUserArgs = {
+	input?: Maybe<LoginUserInput>;
 };
 
 export type MutationSendPicksArgs = {
@@ -83,10 +88,6 @@ export type QueryGetGroupsByUserArgs = {
 	userId: Scalars['ID'];
 };
 
-export type QueryGetUserArgs = {
-	userId: Scalars['ID'];
-};
-
 export type Group = {
 	groupId?: Maybe<Scalars['ID']>;
 	members: Array<GroupMember>;
@@ -121,6 +122,11 @@ export type CreateUserInput = {
 	password: Scalars['String'];
 };
 
+export type LoginUserInput = {
+	email: Scalars['String'];
+	password: Scalars['String'];
+};
+
 export type User = {
 	userId: Scalars['ID'];
 	first_name: Scalars['String'];
@@ -128,6 +134,11 @@ export type User = {
 	email: Scalars['String'];
 	password: Scalars['String'];
 	groups?: Maybe<Array<Maybe<Group>>>;
+};
+
+export type LoggedInUser = {
+	userId?: Maybe<Scalars['String']>;
+	token?: Maybe<Scalars['String']>;
 };
 
 export type AdditionalEntityFields = {

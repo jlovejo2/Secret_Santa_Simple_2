@@ -27,6 +27,7 @@ export type Mutation = {
 	createGroup?: Maybe<Group>;
 	createTodo: TodoMvc;
 	createUser?: Maybe<User>;
+	loginUser?: Maybe<LoggedInUser>;
 	sendPicks?: Maybe<SendPicksResponse>;
 	updateGroup?: Maybe<Group>;
 	updateTodo?: Maybe<TodoMvc>;
@@ -42,6 +43,10 @@ export type MutationCreateTodoArgs = {
 
 export type MutationCreateUserArgs = {
 	input?: Maybe<CreateUserInput>;
+};
+
+export type MutationLoginUserArgs = {
+	input?: Maybe<LoginUserInput>;
 };
 
 export type MutationSendPicksArgs = {
@@ -91,10 +96,6 @@ export type QueryGetGroupsByUserArgs = {
 	userId: Scalars['ID'];
 };
 
-export type QueryGetUserArgs = {
-	userId: Scalars['ID'];
-};
-
 export type Group = {
 	groupId?: Maybe<Scalars['ID']>;
 	members: Array<GroupMember>;
@@ -129,6 +130,11 @@ export type CreateUserInput = {
 	password: Scalars['String'];
 };
 
+export type LoginUserInput = {
+	email: Scalars['String'];
+	password: Scalars['String'];
+};
+
 export type User = {
 	userId: Scalars['ID'];
 	first_name: Scalars['String'];
@@ -136,6 +142,11 @@ export type User = {
 	email: Scalars['String'];
 	password: Scalars['String'];
 	groups?: Maybe<Array<Maybe<Group>>>;
+};
+
+export type LoggedInUser = {
+	userId?: Maybe<Scalars['String']>;
+	token?: Maybe<Scalars['String']>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -267,7 +278,9 @@ export type ResolversTypes = {
 	Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 	TodoMVC: ResolverTypeWrapper<TodoMvc>;
 	CreateUserInput: CreateUserInput;
+	loginUserInput: LoginUserInput;
 	User: ResolverTypeWrapper<User>;
+	loggedInUser: ResolverTypeWrapper<LoggedInUser>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -285,7 +298,9 @@ export type ResolversParentTypes = {
 	Boolean: Scalars['Boolean'];
 	TodoMVC: TodoMvc;
 	CreateUserInput: CreateUserInput;
+	loginUserInput: LoginUserInput;
 	User: User;
+	loggedInUser: LoggedInUser;
 };
 
 export type MutationResolvers<
@@ -309,6 +324,12 @@ export type MutationResolvers<
 		ParentType,
 		ContextType,
 		RequireFields<MutationCreateUserArgs, never>
+	>;
+	loginUser?: Resolver<
+		Maybe<ResolversTypes['loggedInUser']>,
+		ParentType,
+		ContextType,
+		RequireFields<MutationLoginUserArgs, never>
 	>;
 	sendPicks?: Resolver<
 		Maybe<ResolversTypes['SendPicksResponse']>,
@@ -367,12 +388,7 @@ export type QueryResolvers<
 		ContextType,
 		RequireFields<QueryGetGroupsByUserArgs, 'userId'>
 	>;
-	getUser?: Resolver<
-		Maybe<ResolversTypes['User']>,
-		ParentType,
-		ContextType,
-		RequireFields<QueryGetUserArgs, 'userId'>
-	>;
+	getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type GroupResolvers<
@@ -438,6 +454,15 @@ export type UserResolvers<
 	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type LoggedInUserResolvers<
+	ContextType = any,
+	ParentType extends ResolversParentTypes['loggedInUser'] = ResolversParentTypes['loggedInUser']
+> = {
+	userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+	token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
 	Mutation?: MutationResolvers<ContextType>;
 	Query?: QueryResolvers<ContextType>;
@@ -446,6 +471,7 @@ export type Resolvers<ContextType = any> = {
 	SendPicksResponse?: SendPicksResponseResolvers<ContextType>;
 	TodoMVC?: TodoMvcResolvers<ContextType>;
 	User?: UserResolvers<ContextType>;
+	loggedInUser?: LoggedInUserResolvers<ContextType>;
 };
 
 /**
@@ -474,6 +500,26 @@ export type SendPicksMutation = {
 	sendPicks?: Maybe<Pick<SendPicksResponse, 'message'>>;
 };
 
+export type GetGroupsByUserQueryVariables = Exact<{
+	userId: Scalars['ID'];
+}>;
+
+export type GetGroupsByUserQuery = {
+	getGroupsByUser?: Maybe<
+		Pick<User, 'first_name' | 'last_name' | 'email'> & {
+			groups?: Maybe<Array<Maybe<Pick<Group, 'groupId'>>>>;
+		}
+	>;
+};
+
+export type LoginUserMutationVariables = Exact<{
+	input: LoginUserInput;
+}>;
+
+export type LoginUserMutation = {
+	loginUser?: Maybe<Pick<LoggedInUser, 'token' | 'userId'>>;
+};
+
 export type CreateUserMutationVariables = Exact<{
 	input: CreateUserInput;
 }>;
@@ -497,6 +543,16 @@ export type UpdateTodoMutationVariables = Exact<{
 
 export type UpdateTodoMutation = {
 	updateTodo?: Maybe<Pick<TodoMvc, 'description' | 'completed'>>;
+};
+
+export type GetUserQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserQuery = {
+	getUser?: Maybe<
+		Pick<User, 'first_name' | 'last_name' | 'email'> & {
+			groups?: Maybe<Array<Maybe<Pick<Group, 'groupId'>>>>;
+		}
+	>;
 };
 
 export type IndexQueryVariables = Exact<{ [key: string]: never }>;
@@ -613,6 +669,116 @@ export type SendPicksMutationResult = ApolloReactCommon.MutationResult<SendPicks
 export type SendPicksMutationOptions = ApolloReactCommon.BaseMutationOptions<
 	SendPicksMutation,
 	SendPicksMutationVariables
+>;
+export const GetGroupsByUserDocument = gql`
+	query getGroupsByUser($userId: ID!) {
+		getGroupsByUser(userId: $userId) {
+			first_name
+			last_name
+			email
+			groups {
+				groupId
+			}
+		}
+	}
+`;
+
+/**
+ * __useGetGroupsByUserQuery__
+ *
+ * To run a query within a React component, call `useGetGroupsByUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGroupsByUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGroupsByUserQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetGroupsByUserQuery(
+	baseOptions: ApolloReactHooks.QueryHookOptions<
+		GetGroupsByUserQuery,
+		GetGroupsByUserQueryVariables
+	>
+) {
+	return ApolloReactHooks.useQuery<
+		GetGroupsByUserQuery,
+		GetGroupsByUserQueryVariables
+	>(GetGroupsByUserDocument, baseOptions);
+}
+export function useGetGroupsByUserLazyQuery(
+	baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+		GetGroupsByUserQuery,
+		GetGroupsByUserQueryVariables
+	>
+) {
+	return ApolloReactHooks.useLazyQuery<
+		GetGroupsByUserQuery,
+		GetGroupsByUserQueryVariables
+	>(GetGroupsByUserDocument, baseOptions);
+}
+export type GetGroupsByUserQueryHookResult = ReturnType<
+	typeof useGetGroupsByUserQuery
+>;
+export type GetGroupsByUserLazyQueryHookResult = ReturnType<
+	typeof useGetGroupsByUserLazyQuery
+>;
+export type GetGroupsByUserQueryResult = ApolloReactCommon.QueryResult<
+	GetGroupsByUserQuery,
+	GetGroupsByUserQueryVariables
+>;
+export const LoginUserDocument = gql`
+	mutation loginUser($input: loginUserInput!) {
+		loginUser(input: $input) {
+			token
+			userId
+		}
+	}
+`;
+export type LoginUserMutationFn = ApolloReactCommon.MutationFunction<
+	LoginUserMutation,
+	LoginUserMutationVariables
+>;
+
+/**
+ * __useLoginUserMutation__
+ *
+ * To run a mutation, you first call `useLoginUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginUserMutation, { data, loading, error }] = useLoginUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLoginUserMutation(
+	baseOptions?: ApolloReactHooks.MutationHookOptions<
+		LoginUserMutation,
+		LoginUserMutationVariables
+	>
+) {
+	return ApolloReactHooks.useMutation<
+		LoginUserMutation,
+		LoginUserMutationVariables
+	>(LoginUserDocument, baseOptions);
+}
+export type LoginUserMutationHookResult = ReturnType<
+	typeof useLoginUserMutation
+>;
+export type LoginUserMutationResult = ApolloReactCommon.MutationResult<LoginUserMutation>;
+export type LoginUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
+	LoginUserMutation,
+	LoginUserMutationVariables
 >;
 export const CreateUserDocument = gql`
 	mutation createUser($input: CreateUserInput!) {
@@ -762,6 +928,62 @@ export type UpdateTodoMutationResult = ApolloReactCommon.MutationResult<UpdateTo
 export type UpdateTodoMutationOptions = ApolloReactCommon.BaseMutationOptions<
 	UpdateTodoMutation,
 	UpdateTodoMutationVariables
+>;
+export const GetUserDocument = gql`
+	query getUser {
+		getUser {
+			first_name
+			last_name
+			email
+			groups {
+				groupId
+			}
+		}
+	}
+`;
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserQuery(
+	baseOptions?: ApolloReactHooks.QueryHookOptions<
+		GetUserQuery,
+		GetUserQueryVariables
+	>
+) {
+	return ApolloReactHooks.useQuery<GetUserQuery, GetUserQueryVariables>(
+		GetUserDocument,
+		baseOptions
+	);
+}
+export function useGetUserLazyQuery(
+	baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+		GetUserQuery,
+		GetUserQueryVariables
+	>
+) {
+	return ApolloReactHooks.useLazyQuery<GetUserQuery, GetUserQueryVariables>(
+		GetUserDocument,
+		baseOptions
+	);
+}
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
+export type GetUserQueryResult = ApolloReactCommon.QueryResult<
+	GetUserQuery,
+	GetUserQueryVariables
 >;
 export const IndexDocument = gql`
 	query Index {
