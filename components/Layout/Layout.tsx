@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 import { Navbar } from '../Navbar';
 import { Footer } from '../Footer';
 import { SignUpModal } from '../SignUp';
-import { Sidebar } from '../Sidebar';
 import { SignInModal } from '../SignIn';
 
 interface LayoutProps {
 	children?: React.ReactNode;
 	grid?: boolean;
+	openSignIn?: boolean;
 	SidebarPresent?: boolean;
 }
 
 const Layout = (props: LayoutProps) => {
-	const { children, grid = false, SidebarPresent = false } = props;
+	const { children, grid = false, SidebarPresent = false, openSignIn } = props;
 	const [showSignUpModal, setShowSignUpModal] = useState(false);
-	const [showSignInModal, setShowSignInModal] = useState(false);
+	const [showSignInModal, setShowSignInModal] = useState(
+		openSignIn ? openSignIn : false
+	);
 	const [showSidebar, setShowSidebar] = useState(false);
 
 	const handleSignUpClick = () => {

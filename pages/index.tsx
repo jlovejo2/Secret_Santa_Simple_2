@@ -8,10 +8,16 @@ import {
 import { Layout } from '../components/Layout';
 import { Hero } from '../components/UI';
 
-const Index = () => {
+interface indexPageProps {
+	openSignIn?: boolean;
+}
+
+const Index = (props: indexPageProps) => {
+	const { openSignIn } = props;
+
 	return (
 		<>
-			<Layout grid={true}>
+			<Layout grid={true} openSignIn>
 				<Hero
 					headline={'Welcome to Secret Santa App!'}
 					description={
