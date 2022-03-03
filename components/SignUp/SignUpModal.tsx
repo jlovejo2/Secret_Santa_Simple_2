@@ -1,14 +1,10 @@
 import { gql } from '@apollo/client';
 import React, { FormEvent, Fragment } from 'react';
-import { signupForm } from '../../hooks/useForm/helper';
+import { signupForm } from '@hooks/useForm/helper';
 import { Modal } from '../Modal';
 import SignupForm from './SignUpForm';
-import {
-	User,
-	CreateUserInput,
-	useCreateUserMutation
-} from '../../src/graphql/types';
-import { isEmpty } from '../../src/utils/sanitizers';
+import { User, CreateUserInput, useCreateUserMutation } from '@graphql/types';
+import { isEmpty } from '@src/utils/sanitizers';
 import { useRouter } from 'next/router';
 
 gql`

@@ -1,11 +1,11 @@
 import React, { FormEvent, SyntheticEvent } from 'react';
-import { useForm } from '../../hooks/useForm';
+import { useForm } from '@hooks/useForm';
 import {
 	createFormFieldConfig,
 	maxLengthRule,
 	minLengthRule,
 	requiredRule
-} from '../../hooks/useForm/helper';
+} from '@hooks/useForm/helper';
 
 type SignInFormProps = {
 	handleSignInSubmit: (e: FormEvent<HTMLFormElement>) => void;

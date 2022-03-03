@@ -1,6 +1,6 @@
 import React, { FormEvent, SyntheticEvent } from 'react';
-import { useForm } from '../../hooks/useForm';
-import { signupForm } from '../../hooks/useForm/helper';
+import { useForm } from '@hooks/useForm';
+import { signupForm } from '@hooks/useForm/helper';
 
 type SignUpFormProps = {
 	handleSignUpSubmit: (e: FormEvent<HTMLFormElement>) => void;
