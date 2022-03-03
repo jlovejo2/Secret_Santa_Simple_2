@@ -1,8 +1,8 @@
 import { ObjectID } from 'mongodb';
-import { authenticated } from '../../../../auth/auth-guard';
-import { connect } from '../../../../dao';
-import { TodoMvcDbObject } from '../../../../dao/types';
-import { Resolvers, TodoMvc } from '../../../types';
+import { authenticated } from '@auth/auth-guard';
+import { connect } from '@dao/index';
+import { TodoMvcDbObject } from '@dao/types';
+import { Resolvers, TodoMvc } from '@graphql/types';
 
 const getTodoCollection = async () => {
 	const db = await connect();

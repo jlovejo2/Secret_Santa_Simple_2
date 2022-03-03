@@ -1,8 +1,8 @@
 import { ObjectID } from 'mongodb';
-import { authenticated } from '../../../../auth/auth-guard';
-import { connect } from '../../../../dao';
-import { UserDbObject } from '../../../../dao/types';
-import { Resolvers, User } from '../../../types';
+import { authenticated } from '@auth/auth-guard';
+import { connect } from '@dao/index';
+import { UserDbObject } from '@dao/types';
+import { Resolvers, User } from '@graphql/types';
 
 const getUserCollection = async () => {
 	const db = await connect();

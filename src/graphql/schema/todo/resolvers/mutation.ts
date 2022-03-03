@@ -1,7 +1,7 @@
 import { ObjectID } from 'mongodb';
-import { connect } from '../../../../dao';
-import { TodoMvcDbObject } from '../../../../dao/types';
-import { Resolvers, TodoMvc } from '../../../types';
+import { connect } from '@dao/index';
+import { TodoMvcDbObject } from '@dao/types';
+import { Resolvers, TodoMvc } from '@graphql/types';
 
 const getTodoCollection = async () => {
 	const db = await connect();
