@@ -1,12 +1,12 @@
 import { ApolloServer } from 'apollo-server-micro';
 import 'graphql-import-node';
-import { schema } from '../../src/graphql/schema';
+import { schema } from '@graphql/schema';
 import { join } from 'path';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
-import { tradeTokenForUser } from '../../src/auth/auth-helpers';
+import { tradeTokenForUser } from '@auth/auth-helpers';
 // import resolvers from './resolvers';
 
 // used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
@@ -43,6 +43,7 @@ const apolloServer = new ApolloServer({
 
 			if (authToken) {
 				currentUser = await tradeTokenForUser(authToken);
+				console.log('current user: ', currentUser);
 			}
 		} catch (err) {
 			console.error(`Couldn't authenticate using auth token: ${authToken}`);
