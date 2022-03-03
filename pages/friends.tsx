@@ -1,6 +1,6 @@
-import { useIndexQuery, useCreateTodoMutation } from '../src/graphql/types';
+import { useIndexQuery, useCreateTodoMutation } from '@graphql/types';
 import { gql } from '@apollo/client';
-import { Todo } from '../components';
+import { Todo } from '@components/index';
 import {
 	useState,
 	ChangeEvent,
@@ -8,10 +8,8 @@ import {
 	SyntheticEvent,
 	FormEvent
 } from 'react';
-import { Layout } from '../components/Layout';
-import { Sidebar } from '../components/Sidebar';
-import { DashboardMenuBar } from '../components/DashboardMenuBar';
-import { PlusIcon } from '../components/UI/Icons';
+import { Layout, Sidebar, DashboardMenuBar } from '@components/index';
+import { PlusIcon } from '@components/UI/Icons';
 import { useRouter } from 'next/router';
 
 gql`
@@ -33,7 +31,7 @@ gql`
 const Friends = () => {
 	const [show, setShow] = useState(false);
 	const [profile, setProfile] = useState(false);
-	const { data, loading } = useIndexQuery();
+	const { data, loading, error } = useIndexQuery();
 	const [createTodo] = useCreateTodoMutation();
 	const router = useRouter();
 
@@ -45,7 +43,9 @@ const Friends = () => {
 
 	useEffect(() => {
 		fillTodoIds(data?.allTodos?.map(t => t.todoId));
-	}, [data?.allTodos]);
+
+		if (error) router.push('/');
+	}, [data?.allTodos, error, loading]);
 
 	const handleCreateTodo = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
