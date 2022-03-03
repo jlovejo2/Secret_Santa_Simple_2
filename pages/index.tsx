@@ -5,8 +5,8 @@ import {
 	useEffect,
 	FormEvent
 } from 'react';
-import { Layout } from '../components/Layout';
-import { Hero } from '../components/UI';
+import { Layout } from '@components/index';
+import { Hero } from '@components/UI';
 
 interface indexPageProps {
 	openSignIn?: boolean;
