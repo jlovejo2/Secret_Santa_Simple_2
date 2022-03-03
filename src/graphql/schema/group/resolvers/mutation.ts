@@ -1,8 +1,15 @@
 import { ObjectID } from 'mongodb';
-import { connect } from '../../../../dao';
-import { GroupDbObject, SendPicksResponse } from '../../../../dao/types';
+import { connect } from '@dao/index';
+import { GroupDbObject, SendPicksResponse } from '@dao/types';
+import { NonUser, User } from '@graphql/types';
 import sendGrid, { MailDataRequired } from '@sendgrid/mail';
-import { Resolvers, Group } from '../../../types';
+import {
+	Resolvers,
+	Group,
+	CreateGroupMutationResult,
+	GroupMemberInput,
+	GroupMember
+} from '@graphql/types';
 
 const getGroupCollection = async () => {
 	const db = await connect();
@@ -11,6 +18,7 @@ const getGroupCollection = async () => {
 
 const groupFromDbObject = (dbObject: GroupDbObject): Group => ({
 	groupId: dbObject._id.toHexString(),
+	title: dbObject.title,
 	members: dbObject.members
 });
 
@@ -37,7 +45,7 @@ const GroupMutationResolvers: Resolvers = {
 					subject: subject,
 					text: `
             Hi ${member.first_name} ${member.last_name},
-            you have the honor, nay the pleasure of having ${member.secret_pick} for secret santa
+            you have the honor, nay the pleasure of having   _______secret_pick_here________ for secret santa
 
             sincerely,
             The Internet
@@ -61,8 +69,24 @@ const GroupMutationResolvers: Resolvers = {
 		createGroup: async (_: any, { input }) => {
 			const db = await connect();
 
-			const data: Omit<GroupDbObject, '_id'> = {
-				members: input
+			console.log('create group mutation: ', input);
+
+			//map through members in input and assemble array to place in data
+			const memberData: GroupMember[] = input.members.map(
+				(member: GroupMemberInput) => {
+					if (member.userId) {
+						const existingUser: User = { userId: member.userId };
+						return existingUser;
+					} else {
+						const nonUser: NonUser = { ...member, is_user: false };
+						return nonUser;
+					}
+				}
+			);
+
+			const data: GroupDbObject = {
+				title: input.title,
+				members: memberData
 			};
 
 			const createdGroup = await db
@@ -76,6 +100,7 @@ const GroupMutationResolvers: Resolvers = {
 
 			return {
 				groupId: createdGroup.insertedId.toHexString(),
+				title: data.title,
 				members: data.members
 			};
 		},
@@ -96,6 +121,7 @@ const GroupMutationResolvers: Resolvers = {
 
 			const fromGroupDbObject = (dbObject: GroupDbObject): Group => ({
 				groupId: dbObject._id.toHexString(),
+				title: dbObject.title,
 				members: dbObject.members
 			});
 

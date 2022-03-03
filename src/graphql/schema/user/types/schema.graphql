@@ -1,10 +1,17 @@
 type User @entity {
 	userId: ID! @id
-	first_name: String! @column
-	last_name: String! @column
-	email: String! @column
-	password: String! @column
-	groups: [Group] @column
+	first_name: String @column
+	last_name: String @column
+	email: String @column
+	password: String @column
+	groups: [Group!] @column
+	user_secret_picks: [SecretPick!] @column
+}
+
+type SecretPick @entity {
+	group: Group @column
+	group_member_info: GroupMember @column
+	secret_pick: String @column
 }
 
 type loggedInUser {
