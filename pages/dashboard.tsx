@@ -7,6 +7,7 @@ import { Sidebar } from '../components/Sidebar';
 import { DashboardMenuBar } from '../components/DashboardMenuBar';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
+import requireAuth from '@auth/requirePageAuth';
 
 gql`
 	query getUser {
@@ -24,8 +25,12 @@ gql`
 const Index = () => {
 	const [show, setShow] = useState(false);
 	const [profile, setProfile] = useState(false);
-	const { query } = useRouter();
+	const router = useRouter();
 	const { data, loading, error } = useGetUserQuery({});
+
+	useEffect(() => {
+		if (error) router.push('/');
+	}, [error]);
 
 	return (
 		<>
@@ -59,5 +64,7 @@ const Index = () => {
 		</>
 	);
 };
+
+// requireAuth(Index)
 
 export default Index;
