@@ -26,7 +26,7 @@ export type Mutation = {
 };
 
 export type MutationCreateGroupArgs = {
-	input: Array<CreateGroupInput>;
+	input: CreateGroupInput;
 };
 
 export type MutationCreateTodoArgs = {
@@ -56,14 +56,19 @@ export type MutationUpdateTodoArgs = {
 
 export type SendPicksInput = {
 	groupId: Scalars['String'];
-	members: Array<CreateGroupInput>;
+	members: Array<Maybe<GroupMemberInput>>;
 };
 
 export type CreateGroupInput = {
-	first_name: Scalars['String'];
-	last_name: Scalars['String'];
-	email: Scalars['String'];
-	secret_pick?: Maybe<Scalars['String']>;
+	title: Scalars['String'];
+	members?: Maybe<Array<Maybe<GroupMemberInput>>>;
+};
+
+export type GroupMemberInput = {
+	userId?: Maybe<Scalars['String']>;
+	first_name?: Maybe<Scalars['String']>;
+	last_name?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -90,14 +95,17 @@ export type QueryGetGroupsByUserArgs = {
 
 export type Group = {
 	groupId?: Maybe<Scalars['ID']>;
-	members: Array<GroupMember>;
+	title: Scalars['String'];
+	members?: Maybe<Array<GroupMember>>;
 };
 
-export type GroupMember = {
-	first_name: Scalars['String'];
-	last_name: Scalars['String'];
-	email: Scalars['String'];
-	secret_pick?: Maybe<Scalars['String']>;
+export type GroupMember = User | NonUser;
+
+export type NonUser = {
+	first_name?: Maybe<Scalars['String']>;
+	last_name?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
+	is_user?: Maybe<Scalars['Boolean']>;
 };
 
 export type SendPicksResponse = {
@@ -129,11 +137,18 @@ export type LoginUserInput = {
 
 export type User = {
 	userId: Scalars['ID'];
-	first_name: Scalars['String'];
-	last_name: Scalars['String'];
-	email: Scalars['String'];
-	password: Scalars['String'];
-	groups?: Maybe<Array<Maybe<Group>>>;
+	first_name?: Maybe<Scalars['String']>;
+	last_name?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
+	password?: Maybe<Scalars['String']>;
+	groups?: Maybe<Array<Group>>;
+	user_secret_picks?: Maybe<Array<SecretPick>>;
+};
+
+export type SecretPick = {
+	group?: Maybe<Group>;
+	group_member_info?: Maybe<GroupMember>;
+	secret_pick?: Maybe<Scalars['String']>;
 };
 
 export type LoggedInUser = {
@@ -149,7 +164,8 @@ export type AdditionalEntityFields = {
 import { ObjectID } from 'mongodb';
 export type GroupDbObject = {
 	_id?: Maybe<ObjectID>;
-	members: Array<GroupMember>;
+	title: string;
+	members?: Maybe<Array<GroupMember>>;
 };
 
 export type TodoMvcDbObject = {
@@ -160,9 +176,16 @@ export type TodoMvcDbObject = {
 
 export type UserDbObject = {
 	_id: ObjectID;
-	first_name: string;
-	last_name: string;
-	email: string;
-	password: string;
-	groups?: Maybe<Array<Maybe<Group>>>;
+	first_name?: Maybe<string>;
+	last_name?: Maybe<string>;
+	email?: Maybe<string>;
+	password?: Maybe<string>;
+	groups?: Maybe<Array<Group>>;
+	user_secret_picks?: Maybe<Array<SecretPick>>;
+};
+
+export type SecretPickDbObject = {
+	group?: Maybe<Group>;
+	group_member_info?: Maybe<GroupMember>;
+	secret_pick?: Maybe<string>;
 };

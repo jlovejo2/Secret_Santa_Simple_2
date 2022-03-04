@@ -1,7 +1,7 @@
-import { AggregationCursor, ObjectID } from 'mongodb';
-import { connect } from '../../../../dao';
-import { GroupDbObject, UserDbObject } from '../../../../dao/types';
-import { Resolvers, Group, User } from '../../../types';
+import { ObjectID } from 'mongodb';
+import { connect } from '@dao/index';
+import { GroupDbObject, UserDbObject } from '@dao/types';
+import { Resolvers, Group, User } from '@graphql/types';
 
 const getGroupCollection = async () => {
 	const db = await connect();
@@ -10,6 +10,7 @@ const getGroupCollection = async () => {
 
 const groupFromDbObject = (dbObject: GroupDbObject): Group => ({
 	groupId: dbObject._id.toHexString(),
+	title: dbObject.title,
 	members: dbObject.members
 });
 
@@ -40,34 +41,44 @@ const GroupQueryResolvers: Resolvers = {
 			const collection = db.collection<UserDbObject>('User');
 			const dbObject = await collection
 				.aggregate([
-					{ $match: { _id: ObjectID.createFromHexString(userId) } },
 					{
 						$lookup: {
 							from: 'Group',
-							let: { groupId: '$id' },
+							let: { groupId: '$groupID' },
 							pipeline: [
-								{ $match: { $expr: { $and: [{ $eq: ['$id', '$$groupId'] }] } } },
-								{
-									$lookup: {
-										from: 'User',
-										let: { userId: '$memberId' },
-										pipeline: [
-											{ $match: { $expr: { $and: [{ $eq: ['$memberId', '$$userId'] }] } } }
-										],
-										as: 'members'
-									}
-								},
-								{ $project: { _id: 0, groupId: '$_id', members: 1 } }
+								{ $match: { $expr: { $and: [{ $eq: ['$groupID', '$$groupId'] }] } } },
+								// {
+								// 	$lookup: {
+								// 		from: 'User',
+								// 		let: { userId: '$memberId' },
+								// 		pipeline: [
+								// 			{ $match: { $expr: { $and: [{ $eq: ['$memberId', '$$userId'] }] } } }
+								// 		],
+								// 		as: 'members'
+								// 	}
+								// },
+								{ $project: { _id: 0, groupId: '$_id', title: 1, members: 1 } }
 							],
 							as: 'groups'
 						}
 					},
-					{ $project: { _id: 1, first_name: 1, last_name: 1, email: 1, groups: 1 } }
+					{ $match: { _id: ObjectID.createFromHexString(userId) } },
+					{
+						$project: {
+							_id: 1,
+							first_name: 1,
+							last_name: 1,
+							email: 1,
+							groups: {
+								$cond: { if: { $eq: ['$groups', []] }, then: null, else: '$groups' }
+							}
+						}
+					}
 				])
 				.next();
 
 			// dbObject.
-			console.log('user', dbObject);
+			console.log('user', dbObject.groups[0].members);
 
 			// if(dbObject) return true
 			// else return false
