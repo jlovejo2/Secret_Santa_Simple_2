@@ -1,4 +1,4 @@
-import { GroupMember } from '../../src/graphql/types';
+import { GroupMember } from '@graphql/types';
 import { ChangeEvent, Fragment, FormEvent } from 'react';
 
 interface Props {

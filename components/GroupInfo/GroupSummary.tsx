@@ -1,25 +1,18 @@
 import { gql } from '@apollo/client';
-import { GroupMember } from '../../src/graphql/types';
-import {
-	useState,
-	ChangeEvent,
-	useEffect,
-	Fragment,
-	SetStateAction,
-	Dispatch,
-	SyntheticEvent
-} from 'react';
+import { GroupMember } from '@graphql/types';
+import { Fragment } from 'react';
 import { TableHeader, TableRow } from '../Table';
 // import { emailSender } from '../../dao/nodeMailer';
-import { CreateGroupInput } from '../../src/dao';
 
 interface Props {
-	groupDetails: GroupMember[] | CreateGroupInput[];
-	handleDeleteGroupMember: (e: SyntheticEvent) => void;
+	groupDetails: GroupMember[];
+	handleDeleteGroupMember: (index: number) => void;
 }
 
 const GroupSummary = (props: Props) => {
 	const { groupDetails, handleDeleteGroupMember } = props;
+
+	console.log(groupDetails);
 
 	return (
 		<Fragment>

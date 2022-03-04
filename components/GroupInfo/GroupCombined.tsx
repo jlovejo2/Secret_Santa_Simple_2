@@ -1,46 +1,33 @@
 import { gql } from '@apollo/client';
+import { FormEvent, Fragment, useEffect, useState } from 'react';
+import { GroupDbObject } from '@dao/index';
 import {
-	ChangeEvent,
-	FormEvent,
-	Fragment,
-	isValidElement,
-	SyntheticEvent,
-	useState
-} from 'react';
-import { Group, GroupDbObject } from '../../src/dao';
-import {
-	CreateGroupMutation,
-	GroupMember,
+	Group,
 	SendPicksInput,
-	useCreateGroupMutation,
-	useSendPicksMutation
-} from '../../src/graphql/types';
-import { chooseSecretSanta } from '../../src/utils/custom-functions';
-import GroupForm from './GroupForm';
+	useSendPicksMutation,
+	User,
+	NonUser,
+	useUpdateGroupMutation
+} from '@graphql/types';
 import GroupSummary from './GroupSummary';
-import { useForm } from '../../hooks';
+import { useForm } from '@hooks/index';
 import {
 	createFormFieldConfig,
 	requiredRule,
 	maxLengthRule,
 	minLengthRule
-} from '../../hooks/useForm/helper';
+} from '@hooks/useForm/helper';
 
 gql`
-	mutation createGroup($input: [CreateGroupInput!]!) {
-		createGroup(input: $input) {
-			groupId
-			members {
-				first_name
-				last_name
-				email
-			}
-		}
-	}
-
 	mutation sendPicks($input: SendPicksInput!) {
 		sendPicks(input: $input) {
 			message
+		}
+	}
+
+	mutation updateGroup($input: SendPicksInput!) {
+		updateGroup(input: $input) {
+			groupId
 		}
 	}
 `;
@@ -82,15 +69,44 @@ const groupFormObj = {
 	}
 };
 
-const GroupCombined = () => {
-	const [groupDetails, setGroupDetails] = useState<GroupMember[]>();
+interface GroupCombinedProps {
+	groupId: string;
+	groupTitle: string;
+	existingMembers: (
+		| ({
+				__typename: 'User';
+		  } & Pick<User, 'userId' | 'first_name' | 'last_name' | 'email'>)
+		| ({
+				__typename: 'NonUser';
+		  } & Pick<NonUser, 'first_name' | 'last_name' | 'email'>)
+	)[];
+}
+
+const GroupCombined = (props: GroupCombinedProps) => {
+	const { groupId, groupTitle, existingMembers } = props;
+	const [groupDetails, setGroupDetails] = useState<
+		(
+			| ({ __typename: 'User' } & Pick<
+					User,
+					'userId' | 'first_name' | 'last_name' | 'email'
+			  >)
+			| ({ __typename: 'NonUser' } & Pick<
+					NonUser,
+					'first_name' | 'last_name' | 'email'
+			  >)
+		)[]
+	>(existingMembers ? existingMembers : []);
 	const [savedGroup, setSavedGroup] = useState<Group | SendPicksInput>();
 	const [groupForm, setGroupFrom] = useState(groupFormObj);
 
 	const { renderFormInputs, isFormValid, setForm } = useForm(groupForm);
 
-	const [createGroup] = useCreateGroupMutation();
+	const [updateGroup] = useUpdateGroupMutation();
 	const [sendPicks, error] = useSendPicksMutation();
+
+	useEffect(() => {
+		console.log(groupId, existingMembers);
+	}, [groupId, existingMembers]);
 
 	if (error) console.log('send picks error', error);
 
@@ -104,7 +120,7 @@ const GroupCombined = () => {
 			newGroupMember[field] = e.currentTarget[field].value;
 		}
 
-		const filledGroupMember: GroupMember = newGroupMember;
+		const filledGroupMember = newGroupMember;
 
 		console.log('group member info: ', newGroupMember, filledGroupMember);
 
@@ -115,52 +131,57 @@ const GroupCombined = () => {
 		}
 	};
 
-	const handleDeleteGroupMember = (e: SyntheticEvent) => {
-		const { value } = e.currentTarget as HTMLButtonElement;
-
-		console.log('value: ', value);
-
+	const handleDeleteGroupMember = memberIndex => {
 		const newGroupDetails = groupDetails.filter((groupMember, index) => {
-			return index.toString() !== value;
+			return index !== memberIndex;
 		});
+
+		console.log('delete group member', newGroupDetails);
 
 		setGroupDetails(newGroupDetails);
 	};
 
 	const handleSave = async () => {
-		const { data } = await createGroup({
+		console.log(groupDetails);
+
+		const { data } = await updateGroup({
 			variables: {
-				input: groupDetails
+				input: {
+					groupId: groupId,
+					members: groupDetails
+				}
 			}
 		});
-
-		const groupObj = {
-			groupId: data.createGroup.groupId,
-			members: data.createGroup.members.filter(member => {
-				delete member['__typename'];
-				return member;
-			})
-		};
-		setSavedGroup(groupObj);
 	};
 
-	const handleSecretSantaPicking = () => {
-		const newSecretSanta: GroupMember[] = chooseSecretSanta(savedGroup.members);
-		setGroupDetails(newSecretSanta);
-		setSavedGroup({ groupId: savedGroup.groupId, members: newSecretSanta });
-	};
+	// 	const groupObj = {
+	// 		groupId: data.createGroup.groupId,
+	// 		members: data.createGroup.members.filter(member => {
+	// 			delete member['__typename'];
+	// 			return member;
+	// 		})
+	// 	};
+	// 	setSavedGroup(groupObj);
+	// };
+
+	// const handleSecretSantaPicking = () => {
+	// 	const newSecretSanta: GroupMember[] = chooseSecretSanta(savedGroup.members);
+	// 	setGroupDetails(newSecretSanta);
+	// 	setSavedGroup({ groupId: savedGroup.groupId, members: newSecretSanta });
+	// };
 
 	const handleSendPicks = async () => {
-		const { data } = await sendPicks({
-			variables: {
-				input: savedGroup
-			}
-		});
+		// const { data } = await sendPicks({
+		// 	variables: {
+		// 		input: savedGroup
+		// 	}
+		// });
 	};
 
 	return (
 		<Fragment>
 			<div className='col-start-3 col-span-2 justify-center'>
+				<h1 className='text-center font-bold uppercase'>{groupTitle}</h1>
 				<form className='m-2' onSubmit={handleNewGroupMember}>
 					{renderFormInputs()}
 					<div>
@@ -197,7 +218,7 @@ const GroupCombined = () => {
 						</button>
 						<button
 							type='button'
-							onClick={handleSecretSantaPicking}
+							// onClick={handleSecretSantaPicking}
 							className={`btn-primary ${
 								savedGroup ? '' : 'disabled:opacity-50 disabled:bg-green-700'
 							} mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded`}
