@@ -14,7 +14,7 @@ const TableRow = (props: TableRowProps) => {
 			<Fragment>
 				{groupDetails.map((groupMemberInfo, index) => {
 					return (
-						<tr className='bg-blue-200' key={index}>
+						<tr className='bg-blue-200 h-16 items-center' key={index}>
 							{Object.keys(groupDetails[0]).map((groupKey, keyIndex) => {
 								return (
 									<td key={keyIndex}>
@@ -27,20 +27,22 @@ const TableRow = (props: TableRowProps) => {
 									</td>
 								);
 							})}
-							<a
-								className='btn-primary mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-red-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded'
-								// name='groupMemberIndex'
-							>
-								Edit
-							</a>
-							<a
-								className='btn-primary mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-red-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded'
-								// name='groupMemberIndex'
-								// value={index}
-								onClick={() => handleDeleteGroupMember(index)}
-							>
-								delete
-							</a>
+							<td>
+								<a
+									className='btn-primary transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-red-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded'
+									// name='groupMemberIndex'
+								>
+									Edit
+								</a>
+								<a
+									className='btn-primary transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-red-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded'
+									// name='groupMemberIndex'
+									// value={index}
+									onClick={() => handleDeleteGroupMember(index)}
+								>
+									delete
+								</a>
+							</td>
 						</tr>
 					);
 				})}
