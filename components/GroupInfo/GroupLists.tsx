@@ -27,10 +27,12 @@ const GroupList = (props: GroupListProps) => {
 				<div className='px-6 py-4'>
 					<h2></h2>
 					<div className='font-bold text-xl mb-2'></div>
-					<ul className='accordion'>
+					<ul className='accordion text-center'>
 						{members.length > 0 ? (
 							members.map((member, index) => {
-								<li key={index}>{member}</li>;
+								return (
+									<li key={index}>{`${member.first_name} ${member.last_name}`}</li>
+								);
 							})
 						) : (
 							<li>"No members added"</li>
