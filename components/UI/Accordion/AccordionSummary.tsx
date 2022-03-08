@@ -18,14 +18,16 @@ const AccordionSummary = (props: AccordionSummaryProps) => {
 	} = props;
 
 	return (
-		<div className='grid grid-cols-3 justify-between px-2 py-4'>
+		<div className='grid grid-cols-2 justify-between px-2 py-4'>
 			<div className='flex justify-center font-bold'>{title}</div>
-			<span className='flex justify-end' onClick={handleAddGroupMember}>
-				{addGroupMemberIcon}
-			</span>
-			<span className='flex justify-end' onClick={handleExpand}>
-				{expandIcon}
-			</span>
+			<div className='flex justify-end'>
+				<span className='pl-2' onClick={handleAddGroupMember}>
+					{addGroupMemberIcon}
+				</span>
+				<span className='pl-2' onClick={handleExpand}>
+					{expandIcon}
+				</span>
+			</div>
 		</div>
 	);
 };
