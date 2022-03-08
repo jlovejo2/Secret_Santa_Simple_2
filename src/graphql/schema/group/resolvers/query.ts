@@ -24,6 +24,12 @@ const userFromDbObject = (dbObject: UserDbObject): User => ({
 });
 
 const GroupQueryResolvers: Resolvers = {
+	GroupMember: {
+		__resolveType: (GroupMember: any) => {
+			if (GroupMember.userId) return 'User';
+			else return 'NonUser';
+		}
+	},
 	Query: {
 		allGroups: async () => {
 			const collection = await getGroupCollection();
