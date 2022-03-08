@@ -106,6 +106,7 @@ const GroupCombined = (props: GroupCombinedProps) => {
 
 	useEffect(() => {
 		console.log(groupId, existingMembers);
+		setGroupDetails(existingMembers);
 	}, [groupId, existingMembers]);
 
 	if (error) console.log('send picks error', error);
