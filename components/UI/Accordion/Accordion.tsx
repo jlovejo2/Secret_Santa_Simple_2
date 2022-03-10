@@ -6,19 +6,12 @@ import { default as AccordionSummary } from './AccordionSummary';
 interface AccordionProps {
 	children: React.ReactNode;
 	expandIcon: any;
-	addGroupMemberIcon: any;
+	additionalIcons: any;
 	title: string;
-	handleAddGroupMember: () => void;
 }
 
 const Accordion = (props: AccordionProps) => {
-	const {
-		children,
-		title,
-		expandIcon,
-		addGroupMemberIcon,
-		handleAddGroupMember
-	} = props;
+	const { children, title, expandIcon, additionalIcons } = props;
 	const [expandDetails, setExpandDetails] = useState(false);
 
 	const handleAccordionExpand = () => {
@@ -32,10 +25,9 @@ const Accordion = (props: AccordionProps) => {
 					expandIcon={
 						expandDetails ? <MinusIcon width={15} height={15} /> : expandIcon
 					}
-					addGroupMemberIcon={addGroupMemberIcon}
+					additionalIcons={additionalIcons}
 					title={title}
 					handleExpand={() => handleAccordionExpand()}
-					handleAddGroupMember={handleAddGroupMember}
 				/>
 				<AccordionDetails expandDetails={expandDetails}>
 					{children}

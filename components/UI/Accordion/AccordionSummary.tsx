@@ -1,29 +1,35 @@
 import { PlusIcon } from '../Icons';
 
+interface additionIconType {
+	icon: JSX.Element;
+	onClick: () => void;
+}
+
 interface AccordionSummaryProps {
 	title: string;
 	expandIcon: any;
-	addGroupMemberIcon: any;
+	additionalIcons: additionIconType[];
 	handleExpand: () => void;
-	handleAddGroupMember: () => void;
 }
 
 const AccordionSummary = (props: AccordionSummaryProps) => {
-	const {
-		title,
-		expandIcon,
-		addGroupMemberIcon,
-		handleExpand,
-		handleAddGroupMember
-	} = props;
+	const { title, expandIcon, additionalIcons, handleExpand } = props;
 
 	return (
-		<div className='grid grid-cols-2 justify-between px-2 py-4'>
+		<div
+			className={`grid grid-cols-${additionalIcons.length} justify-between px-2 py-4`}
+		>
 			<div className='flex justify-center font-bold'>{title}</div>
 			<div className='flex justify-end'>
-				<span className='pl-2' onClick={handleAddGroupMember}>
-					{addGroupMemberIcon}
-				</span>
+				{additionalIcons.length > 0
+					? additionalIcons.map((icon: additionIconType) => {
+							return (
+								<span className='pl-2' onClick={icon.onClick}>
+									{icon.icon}
+								</span>
+							);
+					  })
+					: null}
 				<span className='pl-2' onClick={handleExpand}>
 					{expandIcon}
 				</span>
