@@ -94,6 +94,8 @@ const SignInModal = (props: SignInModalProps) => {
 			modalHeader={modalHeaderElem}
 			modalBody={modalBodyElem}
 			modalFooter={modalFooterElem}
+			maxHeight={'55%'}
+			maxWidth={'20%'}
 		/>
 	);
 };

@@ -94,6 +94,8 @@ const SignUpModal = (props: SignUpModalProps) => {
 			modalHeader={modalHeaderElem}
 			modalBody={modalBodyElem}
 			modalFooter={modalFooterElem}
+			maxHeight={'85%'}
+			maxWidth={'30%'}
 		/>
 	);
 };
