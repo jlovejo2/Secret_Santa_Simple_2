@@ -126,6 +126,22 @@ const GroupMutationResolvers: Resolvers = {
 			});
 
 			return fromGroupDbObject(updatedGroup.value);
+		},
+		deleteGroup: async (_: any, { groupId }) => {
+			console.log('_ value: ', _);
+			const db = await connect();
+
+			try {
+				const deletedGroup = await db.collection<GroupDbObject>('Group').deleteOne({
+					_id: ObjectID.createFromHexString(groupId)
+				});
+
+				console.log('deleted group: ', deletedGroup);
+
+				return deletedGroup.deletedCount === 1 ? true : false;
+			} catch (err) {
+				throw new Error(`Error deleting group: ${err.message}`);
+			}
 		}
 	}
 };
