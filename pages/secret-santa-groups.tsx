@@ -8,10 +8,11 @@ import {
 import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import { Accordion } from '@components/UI/Accordion';
-import { PlusIcon, GroupIcon } from '@components/UI/Icons';
+import { PlusIcon, GroupIcon, TrashcanIcon } from '@components/UI/Icons';
 import {
 	useCreateGroupMutation,
-	useGetGroupsByUserQuery
+	useGetGroupsByUserQuery,
+	useDeleteGroupMutation
 } from '@graphql/types';
 import GroupList from '@components/GroupInfo/GroupLists';
 
@@ -62,31 +63,35 @@ gql`
 			}
 		}
 	}
+
+	mutation deleteGroup($groupId: String!) {
+		deleteGroup(groupId: $groupId)
+	}
 `;
 
 const SecretSantaGroups = props => {
 	const { userId = '6218c584bec3237df0258add' } = props;
 	const [show, setShow] = useState(false);
 	const [selectedGroup, setSelectedGroup] = useState(0);
+	const [getGroupsData, setGetGroupsData] = useState<any[]>();
 	const [profile, setProfile] = useState(false);
 	const router = useRouter();
 	const { loading, data, error } = useGetGroupsByUserQuery({
 		variables: { userId }
 	});
 	const [createGroup] = useCreateGroupMutation();
+	const [deleteGroup] = useDeleteGroupMutation();
 
 	useEffect(() => {
 		if (error) router.push('/');
 
-		if (data) console.log(data);
-
-		console.log(selectedGroup);
-	}, [error, data, selectedGroup]);
+		setGetGroupsData(data?.getGroupsByUser?.groups);
+	}, [error, data]);
 
 	const handleCreateGroup = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const { data } = await createGroup({
+		const { data: createGroupData } = await createGroup({
 			variables: {
 				input: {
 					title: `${e.target[0].value.toString()}`,
@@ -95,7 +100,27 @@ const SecretSantaGroups = props => {
 			}
 		});
 
-		if (data) router.reload();
+		if (createGroupData) router.reload();
+	};
+
+	const handleDeleteGroup = async (index: number) => {
+		const groupToBeDeleted = data?.getGroupsByUser.groups[index].groupId;
+
+		const { data: deleteGroupResult } = await deleteGroup({
+			variables: {
+				groupId: groupToBeDeleted
+			}
+		});
+
+		if (deleteGroupResult) {
+			if (selectedGroup === index) setSelectedGroup(0);
+
+			const filteredGroupsData = getGroupsData.filter((group, groupIndex) => {
+				return group.groupId !== groupToBeDeleted;
+			});
+
+			setGetGroupsData([...filteredGroupsData]);
+		}
 	};
 
 	return (
@@ -133,15 +158,24 @@ const SecretSantaGroups = props => {
 										</div>
 										{loading ? (
 											<div>Loading Group data ...</div>
-										) : data?.getGroupsByUser?.groups ? (
-											data.getGroupsByUser.groups.map((groupData, index) => {
+										) : getGroupsData ? (
+											getGroupsData.map((groupData, index) => {
+												const additionalAccordionIcons = [
+													{
+														icon: <GroupIcon width={15} height={15} />,
+														onClick: () => setSelectedGroup(index)
+													},
+													{
+														icon: <TrashcanIcon width={15} height={15} />,
+														onClick: () => handleDeleteGroup(index)
+													}
+												];
 												return (
 													<Accordion
 														key={index}
-														handleAddGroupMember={() => setSelectedGroup(index)}
 														expandIcon={<PlusIcon width={15} height={15} />}
-														addGroupMemberIcon={<GroupIcon width={15} height={15} />}
 														title={groupData.title}
+														additionalIcons={additionalAccordionIcons}
 													>
 														<GroupList
 															members={groupData.members}
@@ -155,21 +189,21 @@ const SecretSantaGroups = props => {
 										)}
 									</div>
 									<div>
-										{typeof selectedGroup === 'number' ? (
+										{typeof selectedGroup === 'number' && getGroupsData ? (
 											<GroupCombined
 												groupId={
 													typeof selectedGroup === 'number'
-														? data?.getGroupsByUser.groups[selectedGroup].groupId
+														? getGroupsData[selectedGroup].groupId
 														: ''
 												}
 												groupTitle={
 													typeof selectedGroup === 'number'
-														? data?.getGroupsByUser.groups[selectedGroup].title
+														? getGroupsData[selectedGroup].title
 														: ''
 												}
 												existingMembers={
 													typeof selectedGroup === 'number'
-														? data?.getGroupsByUser.groups[selectedGroup].members
+														? getGroupsData[selectedGroup].members
 														: []
 												}
 											/>

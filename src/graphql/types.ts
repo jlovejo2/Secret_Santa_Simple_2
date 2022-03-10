@@ -687,6 +687,12 @@ export type CreateGroupMutation = {
 	>;
 };
 
+export type DeleteGroupMutationVariables = Exact<{
+	groupId: Scalars['String'];
+}>;
+
+export type DeleteGroupMutation = Pick<Mutation, 'deleteGroup'>;
+
 export const SendPicksDocument = gql`
 	mutation sendPicks($input: SendPicksInput!) {
 		sendPicks(input: $input) {
@@ -1276,4 +1282,50 @@ export type CreateGroupMutationResult = ApolloReactCommon.MutationResult<CreateG
 export type CreateGroupMutationOptions = ApolloReactCommon.BaseMutationOptions<
 	CreateGroupMutation,
 	CreateGroupMutationVariables
+>;
+export const DeleteGroupDocument = gql`
+	mutation deleteGroup($groupId: String!) {
+		deleteGroup(groupId: $groupId)
+	}
+`;
+export type DeleteGroupMutationFn = ApolloReactCommon.MutationFunction<
+	DeleteGroupMutation,
+	DeleteGroupMutationVariables
+>;
+
+/**
+ * __useDeleteGroupMutation__
+ *
+ * To run a mutation, you first call `useDeleteGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteGroupMutation, { data, loading, error }] = useDeleteGroupMutation({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function useDeleteGroupMutation(
+	baseOptions?: ApolloReactHooks.MutationHookOptions<
+		DeleteGroupMutation,
+		DeleteGroupMutationVariables
+	>
+) {
+	return ApolloReactHooks.useMutation<
+		DeleteGroupMutation,
+		DeleteGroupMutationVariables
+	>(DeleteGroupDocument, baseOptions);
+}
+export type DeleteGroupMutationHookResult = ReturnType<
+	typeof useDeleteGroupMutation
+>;
+export type DeleteGroupMutationResult = ApolloReactCommon.MutationResult<DeleteGroupMutation>;
+export type DeleteGroupMutationOptions = ApolloReactCommon.BaseMutationOptions<
+	DeleteGroupMutation,
+	DeleteGroupMutationVariables
 >;
