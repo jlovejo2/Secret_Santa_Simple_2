@@ -11,8 +11,8 @@
 }
 
 .modalContainer {
-	width: 500px;
-	height: 600px;
+	max-width: var(--modal-container-max-width);
+	max-height: var(--modal-container-max-height);
 	border-radius: 15px;
 	padding: 15px;
 	z-index: 2;
