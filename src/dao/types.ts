@@ -19,6 +19,7 @@ export type Mutation = {
 	createGroup?: Maybe<Group>;
 	createTodo: TodoMvc;
 	createUser?: Maybe<User>;
+	deleteGroup?: Maybe<Scalars['Boolean']>;
 	loginUser?: Maybe<LoggedInUser>;
 	sendPicks?: Maybe<SendPicksResponse>;
 	updateGroup?: Maybe<Group>;
@@ -35,6 +36,10 @@ export type MutationCreateTodoArgs = {
 
 export type MutationCreateUserArgs = {
 	input?: Maybe<CreateUserInput>;
+};
+
+export type MutationDeleteGroupArgs = {
+	groupId: Scalars['String'];
 };
 
 export type MutationLoginUserArgs = {

@@ -28,6 +28,7 @@ export type Mutation = {
 	createGroup?: Maybe<Group>;
 	createTodo: TodoMvc;
 	createUser?: Maybe<User>;
+	deleteGroup?: Maybe<Scalars['Boolean']>;
 	loginUser?: Maybe<LoggedInUser>;
 	sendPicks?: Maybe<SendPicksResponse>;
 	updateGroup?: Maybe<Group>;
@@ -44,6 +45,10 @@ export type MutationCreateTodoArgs = {
 
 export type MutationCreateUserArgs = {
 	input?: Maybe<CreateUserInput>;
+};
+
+export type MutationDeleteGroupArgs = {
+	groupId: Scalars['String'];
 };
 
 export type MutationLoginUserArgs = {
@@ -283,6 +288,7 @@ export type DirectiveResolverFn<
 export type ResolversTypes = {
 	Mutation: ResolverTypeWrapper<{}>;
 	String: ResolverTypeWrapper<Scalars['String']>;
+	Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 	ID: ResolverTypeWrapper<Scalars['ID']>;
 	SendPicksInput: SendPicksInput;
 	CreateGroupInput: CreateGroupInput;
@@ -295,7 +301,6 @@ export type ResolversTypes = {
 	>;
 	GroupMember: ResolversTypes['User'] | ResolversTypes['NonUser'];
 	NonUser: ResolverTypeWrapper<NonUser>;
-	Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 	SendPicksResponse: ResolverTypeWrapper<SendPicksResponse>;
 	UpdateTodoInput: UpdateTodoInput;
 	TodoMVC: ResolverTypeWrapper<TodoMvc>;
@@ -314,6 +319,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
 	Mutation: {};
 	String: Scalars['String'];
+	Boolean: Scalars['Boolean'];
 	ID: Scalars['ID'];
 	SendPicksInput: SendPicksInput;
 	CreateGroupInput: CreateGroupInput;
@@ -324,7 +330,6 @@ export type ResolversParentTypes = {
 	};
 	GroupMember: ResolversParentTypes['User'] | ResolversParentTypes['NonUser'];
 	NonUser: NonUser;
-	Boolean: Scalars['Boolean'];
 	SendPicksResponse: SendPicksResponse;
 	UpdateTodoInput: UpdateTodoInput;
 	TodoMVC: TodoMvc;
@@ -358,6 +363,12 @@ export type MutationResolvers<
 		ParentType,
 		ContextType,
 		RequireFields<MutationCreateUserArgs, never>
+	>;
+	deleteGroup?: Resolver<
+		Maybe<ResolversTypes['Boolean']>,
+		ParentType,
+		ContextType,
+		RequireFields<MutationDeleteGroupArgs, 'groupId'>
 	>;
 	loginUser?: Resolver<
 		Maybe<ResolversTypes['loggedInUser']>,
