@@ -137,7 +137,7 @@ const SecretSantaGroups = props => {
 								setShowProfile={() => setProfile(!profile)}
 							/>
 							{/* Remove class [ h-64 ] when adding a card block */}
-							<div className='container max-h-full mx-auto md:w-4/5 w-11/12 px-6'>
+							<div className='container max-h-full mx-auto w-11/12 px-6'>
 								{/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
 								<div className='w-full grid grid-cols-4 gap-2 rounded'>
 									<div className='grid-cols-span-1'>
@@ -163,10 +163,14 @@ const SecretSantaGroups = props => {
 												const additionalAccordionIcons = [
 													{
 														icon: <GroupIcon width={15} height={15} />,
+														tooltipContent: 'Select This Group',
+														tooltipDirection: 'top',
 														onClick: () => setSelectedGroup(index)
 													},
 													{
 														icon: <TrashcanIcon width={15} height={15} />,
+														tooltipContent: 'Delete this Group',
+														tooltipDirection: 'top',
 														onClick: () => handleDeleteGroup(index)
 													}
 												];
