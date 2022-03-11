@@ -1,39 +1,46 @@
-.container {
-	min-height: 100vh;
-	padding: 0 0.5rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+* {
+	box-sizing: border-box;
 }
 
-.main {
-	padding: 5rem 0;
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.footer {
+.accordion {
+	background-color: #eee;
+	color: #444;
+	cursor: pointer;
+	padding: 18px;
 	width: 100%;
-	height: 100px;
+	text-align: left;
+	border: none;
+	outline: none;
+	transition: 0.4s;
+}
+
+.accordion-panel {
+	padding: 0 18px;
+	background-color: white;
+	display: none;
+	overflow: hidden;
+}
+
+/* .footer {
+	width: 100%;
 	border-top: 1px solid #eaeaea;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+
+	@apply h-full;
 }
 
 .footer img {
-	margin-left: 0.5rem;
+
 }
 
 .footer a {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+	color: black;
+
+	&:hover > svg {
+		@apply scale-110;
+	}
+
+	@apply flex flex-initial items-center font-bold md:mr-24;
+} */
 
 .title a {
 	color: #0070f3;
@@ -71,15 +78,6 @@
 		Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-.grid {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-wrap: wrap;
-	max-width: 800px;
-	margin-top: 3rem;
-}
-
 .card {
 	margin: 1rem;
 	flex-basis: 45%;
@@ -112,18 +110,4 @@
 
 .logo {
 	height: 1em;
-}
-
-.accordion-panel {
-	padding: 0 18px;
-	background-color: white;
-	display: none;
-	overflow: hidden;
-}
-
-@media (max-width: 600px) {
-	.grid {
-		width: 100%;
-		flex-direction: column;
-	}
 }

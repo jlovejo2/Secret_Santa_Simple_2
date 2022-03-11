@@ -1,6 +1,0 @@
-.root {
-	@apply py-1;
-	@screen md {
-		@apply grid-cols-2;
-	}
-}
