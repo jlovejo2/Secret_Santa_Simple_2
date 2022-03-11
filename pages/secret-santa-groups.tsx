@@ -127,9 +127,9 @@ const SecretSantaGroups = props => {
 		<>
 			<Layout>
 				<div className='w-full h-full bg-gray-200'>
-					<div className='flex flex-no-wrap'>
+					<div className='flex flex-no-wrap h-full'>
 						<Sidebar showSidebar={show} setSidebar={() => setShow(!show)} />
-						<div className='w-full'>
+						<div className='w-full h-full'>
 							<DashboardMenuBar
 								showDashboardMenu={show}
 								setShowDashboardMenu={() => setShow(!show)}
@@ -137,10 +137,10 @@ const SecretSantaGroups = props => {
 								setShowProfile={() => setProfile(!profile)}
 							/>
 							{/* Remove class [ h-64 ] when adding a card block */}
-							<div className='container mx-auto py-10 h-64 md:w-4/5 w-11/12 px-6'>
+							<div className='container max-h-full mx-auto md:w-4/5 w-11/12 px-6'>
 								{/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
-								<div className='w-full h-full grid grid-cols-2 gap-2 rounded'>
-									<div>
+								<div className='w-full grid grid-cols-4 gap-2 rounded'>
+									<div className='grid-cols-span-1'>
 										<div className='flex justify-center'>
 											<form onSubmit={handleCreateGroup}>
 												<input
@@ -188,7 +188,8 @@ const SecretSantaGroups = props => {
 											<div>No Groups for User</div>
 										)}
 									</div>
-									<div>
+									<div className='col-span-3 h-full justify-center border-solid border-2 border-gray-500 p-4 mx-4'>
+										<h1>Selected Group</h1>
 										{typeof selectedGroup === 'number' && getGroupsData ? (
 											<GroupCombined
 												groupId={

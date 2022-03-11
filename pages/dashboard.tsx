@@ -39,7 +39,7 @@ const Index = () => {
 					<GroupCombined />
 				</div> */}
 				<div className='w-full h-full bg-gray-200'>
-					<div className='flex flex-no-wrap'>
+					<div className='flex h-full flex-no-wrap'>
 						<Sidebar showSidebar={show} setSidebar={() => setShow(!show)} />
 						<div className='w-full'>
 							<DashboardMenuBar
@@ -49,9 +49,9 @@ const Index = () => {
 								setShowProfile={() => setProfile(!profile)}
 							/>
 							{/* Remove class [ h-64 ] when adding a card block */}
-							<div className='container mx-auto py-10 h-64 md:w-4/5 w-11/12 px-6'>
+							<div className='container max-h-full mx-auto py-10 h-64 md:w-4/5 w-11/12 px-6'>
 								{/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
-								<div className='w-full h-full rounded border-dashed border-2 border-gray-300'>
+								<div className='w-full rounded border-dashed border-2 border-gray-300'>
 									{!loading
 										? 'Welcome to the Secret Santa App Dashboard'
 										: 'still loading'}
