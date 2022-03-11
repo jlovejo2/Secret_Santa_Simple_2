@@ -1,36 +1,38 @@
-import nodemailer from 'nodemailer';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import nodemailer, { Transporter } from 'nodemailer';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
-//This code was grabbed from the nodemail documentation with some slight modifications
-export async function emailSender(toAddress, fromAddress, subject, body) {
-    // Generate test SMTP service account from ethereal.email
-   
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.MY_EMAIL, // generated ethereal user
-            pass: process.env.MY_EMAIL_PASSWORD // generated ethereal password
-        }
-    });
+// req: NextApiRequest, res: NextApiResponse
 
-    const mailOptions = {
-        from: fromAddress, // sender address
-        to: toAddress,  // 'baz@example.com,' list of receivers
-        subject: subject, // Subject line
-        text: body, // plain text body
-    };
+const SendMailNodeMailer = async (req: any, res: any) => {
+	try {
+		// create reusable transporter object using the default SMTP transport
+		let transporter: Transporter = nodemailer.createTransport({
+			host: 'smtp.gmail.com',
+			port: 465, //port 465 is for SMTP communication
+			auth: {
+				user: process.env.MY_EMAIL, // generated ethereal user
+				pass: process.env.MY_EMAIL_PASSWORD // generated ethereal password
+			}
+		});
 
-    // send mail with defined transport object
-    await transporter.sendMail(mailOptions, function (error, info) {
+		const mailOptions = {
+			from: process.env.MY_EMAIL, // sender address
+			to: `${req.body.email}`, // 'baz@example.com,' list of receivers
+			subject: `${req.body.subject}`, // Subject line
+			text: `${req.body.message}` // plain text body
+		};
 
-        if (error) {
-            
-            console.log(error);
-        } else {
-
-            console.log("Message sent: " + info.response);
-        }
-    });
+		// send mail with defined transport object
+		let result: SMTPTransport.SentMessageInfo = await transporter.sendMail(
+			mailOptions
+		);
+		// res.status(200)s
+		return result;
+	} catch (err) {
+		// res.status(400)
+		console.error(err);
+	}
 };
 
-module.exports = emailSender
+export default SendMailNodeMailer;
