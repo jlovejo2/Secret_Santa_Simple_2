@@ -27,6 +27,7 @@ const Accordion = (props: AccordionProps) => {
 					}
 					additionalIcons={additionalIcons}
 					title={title}
+					expandDetails={expandDetails}
 					handleExpand={() => handleAccordionExpand()}
 				/>
 				<AccordionDetails expandDetails={expandDetails}>

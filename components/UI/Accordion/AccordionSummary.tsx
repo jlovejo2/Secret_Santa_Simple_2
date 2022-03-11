@@ -1,19 +1,29 @@
 import { PlusIcon } from '../Icons';
+import { Tooltip } from '../Tooltip';
 
 interface additionIconType {
 	icon: JSX.Element;
+	tooltipContent: String;
+	tooltipDirection: String;
 	onClick: () => void;
 }
 
 interface AccordionSummaryProps {
 	title: string;
 	expandIcon: any;
+	expandDetails: boolean;
 	additionalIcons: additionIconType[];
 	handleExpand: () => void;
 }
 
 const AccordionSummary = (props: AccordionSummaryProps) => {
-	const { title, expandIcon, additionalIcons, handleExpand } = props;
+	const {
+		title,
+		expandIcon,
+		expandDetails,
+		additionalIcons,
+		handleExpand
+	} = props;
 
 	return (
 		<div
@@ -24,15 +34,21 @@ const AccordionSummary = (props: AccordionSummaryProps) => {
 				{additionalIcons.length > 0
 					? additionalIcons.map((icon: additionIconType) => {
 							return (
-								<span className='pl-2' onClick={icon.onClick}>
-									{icon.icon}
-								</span>
+								<Tooltip
+									content={icon.tooltipContent}
+									direction={icon.tooltipDirection}
+								>
+									<div onClick={icon.onClick}>{icon.icon}</div>
+								</Tooltip>
 							);
 					  })
 					: null}
-				<span className='pl-2' onClick={handleExpand}>
-					{expandIcon}
-				</span>
+				<Tooltip
+					content={`Click to ${expandDetails ? 'Minimize' : 'Expand'}`}
+					direction={'top'}
+				>
+					<div onClick={handleExpand}>{expandIcon}</div>
+				</Tooltip>
 			</div>
 		</div>
 	);
