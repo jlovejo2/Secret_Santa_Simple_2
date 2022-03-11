@@ -38,11 +38,11 @@ const SignInModal = (props: SignInModalProps) => {
 
 		const filteredInput: LoginUserInput = signInInput;
 
-		console.log('log in user: ', filteredInput);
-
 		if (!isEmpty(signInInput)) {
-			const { data } = await loginUser({ variables: { input: filteredInput } });
-			console.log('logged in User ', data);
+			const { data, errors } = await loginUser({
+				variables: { input: filteredInput }
+			});
+			console.log('logged in User ', data, errors);
 			if (data) {
 				onClose();
 				localStorage.setItem('auth-token', data.loginUser.token as string);
@@ -55,7 +55,7 @@ const SignInModal = (props: SignInModalProps) => {
 					'An error occurred logging in user.  Please ensure your password and email are correct'
 				);
 		} else {
-			throw Error('Error signing in User');
+			throw new Error('Error signing in User');
 		}
 	};
 
