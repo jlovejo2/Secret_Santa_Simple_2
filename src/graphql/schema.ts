@@ -4,9 +4,9 @@ import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
 // import resolvers from './resolvers';
-import { GroupMutations, GroupQueries } from './schema/group/resolvers';
-import { UserMutations, UserQueries } from './schema/user/resolvers';
-import { TodoMutations, TodoQueries } from './schema/todo/resolvers';
+import { GroupMutations, GroupQueries } from '@graphql/schema/group/resolvers';
+import { UserMutations, UserQueries } from '@graphql/schema/user/resolvers';
+import { TodoMutations, TodoQueries } from '@graphql/schema/todo/resolvers';
 
 // used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
 // process.cwd() returns the value of directory where we run the node process
