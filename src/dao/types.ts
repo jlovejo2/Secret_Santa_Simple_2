@@ -21,7 +21,8 @@ export type Mutation = {
 	createUser?: Maybe<User>;
 	deleteGroup?: Maybe<Scalars['Boolean']>;
 	loginUser?: Maybe<LoggedInUser>;
-	sendPicks?: Maybe<SendPicksResponse>;
+	sendPicksNodeMailer?: Maybe<SendPicksResponse>;
+	sendPicksSendGrid?: Maybe<SendPicksResponse>;
 	updateGroup?: Maybe<Group>;
 	updateTodo?: Maybe<TodoMvc>;
 };
@@ -46,12 +47,16 @@ export type MutationLoginUserArgs = {
 	input?: Maybe<LoginUserInput>;
 };
 
-export type MutationSendPicksArgs = {
+export type MutationSendPicksNodeMailerArgs = {
+	input: SendPicksInput;
+};
+
+export type MutationSendPicksSendGridArgs = {
 	input: SendPicksInput;
 };
 
 export type MutationUpdateGroupArgs = {
-	input: SendPicksInput;
+	input: UpdateGroupInput;
 };
 
 export type MutationUpdateTodoArgs = {
@@ -61,10 +66,17 @@ export type MutationUpdateTodoArgs = {
 
 export type SendPicksInput = {
 	groupId: Scalars['String'];
-	members: Array<Maybe<GroupMemberInput>>;
+	title: Scalars['String'];
+	members: Array<Maybe<SendPicksGroupMemberInput>>;
 };
 
 export type CreateGroupInput = {
+	title: Scalars['String'];
+	members?: Maybe<Array<Maybe<GroupMemberInput>>>;
+};
+
+export type UpdateGroupInput = {
+	groupId: Scalars['String'];
 	title: Scalars['String'];
 	members?: Maybe<Array<Maybe<GroupMemberInput>>>;
 };
@@ -74,6 +86,14 @@ export type GroupMemberInput = {
 	first_name?: Maybe<Scalars['String']>;
 	last_name?: Maybe<Scalars['String']>;
 	email?: Maybe<Scalars['String']>;
+};
+
+export type SendPicksGroupMemberInput = {
+	userId?: Maybe<Scalars['String']>;
+	first_name?: Maybe<Scalars['String']>;
+	last_name?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
+	secret_pick?: Maybe<Scalars['String']>;
 };
 
 export type Query = {

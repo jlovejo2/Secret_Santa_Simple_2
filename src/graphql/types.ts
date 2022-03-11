@@ -30,7 +30,8 @@ export type Mutation = {
 	createUser?: Maybe<User>;
 	deleteGroup?: Maybe<Scalars['Boolean']>;
 	loginUser?: Maybe<LoggedInUser>;
-	sendPicks?: Maybe<SendPicksResponse>;
+	sendPicksNodeMailer?: Maybe<SendPicksResponse>;
+	sendPicksSendGrid?: Maybe<SendPicksResponse>;
 	updateGroup?: Maybe<Group>;
 	updateTodo?: Maybe<TodoMvc>;
 };
@@ -55,12 +56,16 @@ export type MutationLoginUserArgs = {
 	input?: Maybe<LoginUserInput>;
 };
 
-export type MutationSendPicksArgs = {
+export type MutationSendPicksNodeMailerArgs = {
+	input: SendPicksInput;
+};
+
+export type MutationSendPicksSendGridArgs = {
 	input: SendPicksInput;
 };
 
 export type MutationUpdateGroupArgs = {
-	input: SendPicksInput;
+	input: UpdateGroupInput;
 };
 
 export type MutationUpdateTodoArgs = {
@@ -70,10 +75,17 @@ export type MutationUpdateTodoArgs = {
 
 export type SendPicksInput = {
 	groupId: Scalars['String'];
-	members: Array<Maybe<GroupMemberInput>>;
+	title: Scalars['String'];
+	members: Array<Maybe<SendPicksGroupMemberInput>>;
 };
 
 export type CreateGroupInput = {
+	title: Scalars['String'];
+	members?: Maybe<Array<Maybe<GroupMemberInput>>>;
+};
+
+export type UpdateGroupInput = {
+	groupId: Scalars['String'];
 	title: Scalars['String'];
 	members?: Maybe<Array<Maybe<GroupMemberInput>>>;
 };
@@ -83,6 +95,14 @@ export type GroupMemberInput = {
 	first_name?: Maybe<Scalars['String']>;
 	last_name?: Maybe<Scalars['String']>;
 	email?: Maybe<Scalars['String']>;
+};
+
+export type SendPicksGroupMemberInput = {
+	userId?: Maybe<Scalars['String']>;
+	first_name?: Maybe<Scalars['String']>;
+	last_name?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
+	secret_pick?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -292,7 +312,9 @@ export type ResolversTypes = {
 	ID: ResolverTypeWrapper<Scalars['ID']>;
 	SendPicksInput: SendPicksInput;
 	CreateGroupInput: CreateGroupInput;
+	UpdateGroupInput: UpdateGroupInput;
 	GroupMemberInput: GroupMemberInput;
+	SendPicksGroupMemberInput: SendPicksGroupMemberInput;
 	Query: ResolverTypeWrapper<{}>;
 	Group: ResolverTypeWrapper<
 		Omit<Group, 'members'> & {
@@ -323,7 +345,9 @@ export type ResolversParentTypes = {
 	ID: Scalars['ID'];
 	SendPicksInput: SendPicksInput;
 	CreateGroupInput: CreateGroupInput;
+	UpdateGroupInput: UpdateGroupInput;
 	GroupMemberInput: GroupMemberInput;
+	SendPicksGroupMemberInput: SendPicksGroupMemberInput;
 	Query: {};
 	Group: Omit<Group, 'members'> & {
 		members?: Maybe<Array<ResolversParentTypes['GroupMember']>>;
@@ -376,11 +400,17 @@ export type MutationResolvers<
 		ContextType,
 		RequireFields<MutationLoginUserArgs, never>
 	>;
-	sendPicks?: Resolver<
+	sendPicksNodeMailer?: Resolver<
 		Maybe<ResolversTypes['SendPicksResponse']>,
 		ParentType,
 		ContextType,
-		RequireFields<MutationSendPicksArgs, 'input'>
+		RequireFields<MutationSendPicksNodeMailerArgs, 'input'>
+	>;
+	sendPicksSendGrid?: Resolver<
+		Maybe<ResolversTypes['SendPicksResponse']>,
+		ParentType,
+		ContextType,
+		RequireFields<MutationSendPicksSendGridArgs, 'input'>
 	>;
 	updateGroup?: Resolver<
 		Maybe<ResolversTypes['Group']>,
@@ -562,20 +592,35 @@ export type Resolvers<ContextType = any> = {
  */
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
 
-export type SendPicksMutationVariables = Exact<{
+export type SendPicksNodeMailerMutationVariables = Exact<{
 	input: SendPicksInput;
 }>;
 
-export type SendPicksMutation = {
-	sendPicks?: Maybe<Pick<SendPicksResponse, 'message'>>;
+export type SendPicksNodeMailerMutation = {
+	sendPicksNodeMailer?: Maybe<Pick<SendPicksResponse, 'message'>>;
 };
 
 export type UpdateGroupMutationVariables = Exact<{
-	input: SendPicksInput;
+	input: UpdateGroupInput;
 }>;
 
 export type UpdateGroupMutation = {
-	updateGroup?: Maybe<Pick<Group, 'groupId'>>;
+	updateGroup?: Maybe<
+		Pick<Group, 'groupId' | 'title'> & {
+			members?: Maybe<
+				Array<
+					| ({ __typename: 'User' } & Pick<
+							User,
+							'userId' | 'first_name' | 'last_name' | 'email'
+					  >)
+					| ({ __typename: 'NonUser' } & Pick<
+							NonUser,
+							'first_name' | 'last_name' | 'email'
+					  >)
+				>
+			>;
+		}
+	>;
 };
 
 export type LoginUserMutationVariables = Exact<{
@@ -693,58 +738,73 @@ export type DeleteGroupMutationVariables = Exact<{
 
 export type DeleteGroupMutation = Pick<Mutation, 'deleteGroup'>;
 
-export const SendPicksDocument = gql`
-	mutation sendPicks($input: SendPicksInput!) {
-		sendPicks(input: $input) {
+export const SendPicksNodeMailerDocument = gql`
+	mutation sendPicksNodeMailer($input: SendPicksInput!) {
+		sendPicksNodeMailer(input: $input) {
 			message
 		}
 	}
 `;
-export type SendPicksMutationFn = ApolloReactCommon.MutationFunction<
-	SendPicksMutation,
-	SendPicksMutationVariables
+export type SendPicksNodeMailerMutationFn = ApolloReactCommon.MutationFunction<
+	SendPicksNodeMailerMutation,
+	SendPicksNodeMailerMutationVariables
 >;
 
 /**
- * __useSendPicksMutation__
+ * __useSendPicksNodeMailerMutation__
  *
- * To run a mutation, you first call `useSendPicksMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSendPicksMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useSendPicksNodeMailerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendPicksNodeMailerMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [sendPicksMutation, { data, loading, error }] = useSendPicksMutation({
+ * const [sendPicksNodeMailerMutation, { data, loading, error }] = useSendPicksNodeMailerMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useSendPicksMutation(
+export function useSendPicksNodeMailerMutation(
 	baseOptions?: ApolloReactHooks.MutationHookOptions<
-		SendPicksMutation,
-		SendPicksMutationVariables
+		SendPicksNodeMailerMutation,
+		SendPicksNodeMailerMutationVariables
 	>
 ) {
 	return ApolloReactHooks.useMutation<
-		SendPicksMutation,
-		SendPicksMutationVariables
-	>(SendPicksDocument, baseOptions);
+		SendPicksNodeMailerMutation,
+		SendPicksNodeMailerMutationVariables
+	>(SendPicksNodeMailerDocument, baseOptions);
 }
-export type SendPicksMutationHookResult = ReturnType<
-	typeof useSendPicksMutation
+export type SendPicksNodeMailerMutationHookResult = ReturnType<
+	typeof useSendPicksNodeMailerMutation
 >;
-export type SendPicksMutationResult = ApolloReactCommon.MutationResult<SendPicksMutation>;
-export type SendPicksMutationOptions = ApolloReactCommon.BaseMutationOptions<
-	SendPicksMutation,
-	SendPicksMutationVariables
+export type SendPicksNodeMailerMutationResult = ApolloReactCommon.MutationResult<SendPicksNodeMailerMutation>;
+export type SendPicksNodeMailerMutationOptions = ApolloReactCommon.BaseMutationOptions<
+	SendPicksNodeMailerMutation,
+	SendPicksNodeMailerMutationVariables
 >;
 export const UpdateGroupDocument = gql`
-	mutation updateGroup($input: SendPicksInput!) {
+	mutation updateGroup($input: UpdateGroupInput!) {
 		updateGroup(input: $input) {
 			groupId
+			title
+			members {
+				__typename
+				... on User {
+					userId
+					first_name
+					last_name
+					email
+				}
+				... on NonUser {
+					first_name
+					last_name
+					email
+				}
+			}
 		}
 	}
 `;
