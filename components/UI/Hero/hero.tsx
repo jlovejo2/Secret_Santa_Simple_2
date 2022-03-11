@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { RightArrowIcon } from '../../UI/Icons';
-import s from './hero.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -24,7 +23,7 @@ const Hero: FC<Props> = ({ headline, description }) => {
 				loading='eager'
 				quality={100}
 			/>
-			<div className={`${s.root} absolute top-10 left-5`}>
+			<div className={`.hero absolute top-10 left-5`}>
 				<div className='flex flex-wrap content-center'>
 					<h2 className='text-4xl leading-10 font-extrabold text-white sm:text-5xl sm:leading-none sm:tracking-tight lg:text-6xl'>
 						{headline}
