@@ -12,8 +12,6 @@ interface Props {
 const GroupSummary = (props: Props) => {
 	const { groupDetails, handleDeleteGroupMember } = props;
 
-	console.log(groupDetails);
-
 	return (
 		<Fragment>
 			{groupDetails ? (

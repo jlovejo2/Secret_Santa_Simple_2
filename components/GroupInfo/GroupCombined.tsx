@@ -1,13 +1,10 @@
 import { gql } from '@apollo/client';
 import { FormEvent, Fragment, useEffect, useState } from 'react';
-import { GroupDbObject } from '@dao/index';
 import {
-	Group,
-	SendPicksInput,
-	useSendPicksMutation,
 	User,
 	NonUser,
-	useUpdateGroupMutation
+	useUpdateGroupMutation,
+	useSendPicksNodeMailerMutation
 } from '@graphql/types';
 import GroupSummary from './GroupSummary';
 import { useForm } from '@hooks/index';
@@ -17,17 +14,34 @@ import {
 	maxLengthRule,
 	minLengthRule
 } from '@hooks/useForm/helper';
+import { chooseSecretSanta } from '@src/utils/custom-functions';
+import { GroupMember } from '@graphql/types';
 
 gql`
-	mutation sendPicks($input: SendPicksInput!) {
-		sendPicks(input: $input) {
+	mutation sendPicksNodeMailer($input: SendPicksInput!) {
+		sendPicksNodeMailer(input: $input) {
 			message
 		}
 	}
 
-	mutation updateGroup($input: SendPicksInput!) {
+	mutation updateGroup($input: UpdateGroupInput!) {
 		updateGroup(input: $input) {
 			groupId
+			title
+			members {
+				__typename
+				... on User {
+					userId
+					first_name
+					last_name
+					email
+				}
+				... on NonUser {
+					first_name
+					last_name
+					email
+				}
+			}
 		}
 	}
 `;
@@ -84,32 +98,23 @@ interface GroupCombinedProps {
 
 const GroupCombined = (props: GroupCombinedProps) => {
 	const { groupId, groupTitle, existingMembers } = props;
-	const [groupDetails, setGroupDetails] = useState<
-		(
-			| ({ __typename: 'User' } & Pick<
-					User,
-					'userId' | 'first_name' | 'last_name' | 'email'
-			  >)
-			| ({ __typename: 'NonUser' } & Pick<
-					NonUser,
-					'first_name' | 'last_name' | 'email'
-			  >)
-		)[]
-	>(existingMembers ? existingMembers : []);
-	const [savedGroup, setSavedGroup] = useState<Group | SendPicksInput>();
+	const [groupDetails, setGroupDetails] = useState<any[]>(
+		existingMembers ? existingMembers : []
+	);
+	const [savedGroup, setSavedGroup] = useState<any>();
 	const [groupForm, setGroupFrom] = useState(groupFormObj);
 
 	const { renderFormInputs, isFormValid, setForm } = useForm(groupForm);
 
 	const [updateGroup] = useUpdateGroupMutation();
-	const [sendPicks, error] = useSendPicksMutation();
+	const [sendPicksNodeMailer, error] = useSendPicksNodeMailerMutation();
 
 	useEffect(() => {
 		console.log(groupId, existingMembers);
 		setGroupDetails(existingMembers);
 	}, [groupId, existingMembers]);
 
-	if (error) console.log('send picks error', error);
+	// if (error) console.log('send picks error', error);
 
 	const handleNewGroupMember = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -143,16 +148,27 @@ const GroupCombined = (props: GroupCombinedProps) => {
 	};
 
 	const handleSave = async () => {
-		console.log(groupDetails);
+		const filterGroup = groupDetails.map(member => {
+			return {
+				first_name: member.first_name,
+				last_name: member.last_name,
+				email: member.email
+			};
+		});
 
-		const { data } = await updateGroup({
+		const { data, errors } = await updateGroup({
 			variables: {
 				input: {
 					groupId: groupId,
-					members: groupDetails
+					title: groupTitle,
+					members: filterGroup
 				}
 			}
 		});
+
+		setSavedGroup(data.updateGroup);
+
+		console.log(savedGroup, groupTitle);
 	};
 
 	// 	const groupObj = {
@@ -165,18 +181,37 @@ const GroupCombined = (props: GroupCombinedProps) => {
 	// 	setSavedGroup(groupObj);
 	// };
 
-	// const handleSecretSantaPicking = () => {
-	// 	const newSecretSanta: GroupMember[] = chooseSecretSanta(savedGroup.members);
-	// 	setGroupDetails(newSecretSanta);
-	// 	setSavedGroup({ groupId: savedGroup.groupId, members: newSecretSanta });
-	// };
+	const handleSecretSantaPicking = () => {
+		const newSecretSanta: GroupMember[] = chooseSecretSanta(savedGroup.members);
+		setGroupDetails(newSecretSanta);
+		setSavedGroup({
+			groupId: savedGroup.groupId,
+			title: savedGroup.title,
+			members: newSecretSanta
+		});
+	};
 
 	const handleSendPicks = async () => {
-		// const { data } = await sendPicks({
-		// 	variables: {
-		// 		input: savedGroup
-		// 	}
-		// });
+		console.log('send picks: ', savedGroup);
+
+		const savedGroupMembers = savedGroup.members.map(groupMember => {
+			return {
+				first_name: groupMember.first_name,
+				last_name: groupMember.last_name,
+				email: groupMember.email,
+				secret_pick: groupMember.secret_pick
+			};
+		});
+
+		const { data } = await sendPicksNodeMailer({
+			variables: {
+				input: {
+					groupId: savedGroup.groupId,
+					title: savedGroup.title,
+					members: savedGroupMembers
+				}
+			}
+		});
 	};
 
 	return (
@@ -219,7 +254,7 @@ const GroupCombined = (props: GroupCombinedProps) => {
 						</button>
 						<button
 							type='button'
-							// onClick={handleSecretSantaPicking}
+							onClick={handleSecretSantaPicking}
 							className={`btn-primary ${
 								savedGroup ? '' : 'disabled:opacity-50 disabled:bg-green-700'
 							} mt-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-green-700 hover:bg-red-900 text-white font-normal py-2 px-4 mr-1 rounded`}
