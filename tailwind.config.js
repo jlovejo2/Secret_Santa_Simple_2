@@ -40,16 +40,6 @@ module.exports = {
 			backgroundImage: theme => ({
 				'hero-pattern': "url('/images/secret_santa_gift_box.jpg')"
 			}),
-			transitionDuration: {
-				0: '0ms',
-				300: '300ms',
-				500: '500ms',
-				700: '700ms',
-				1000: '1000ms',
-				2000: '2000ms',
-				3000: '3000ms',
-				10000: '10000ms'
-			},
 			colors: {
 				'accent-1': '#FAFAFA',
 				'accent-2': '#EAEAEA',
@@ -75,6 +65,22 @@ module.exports = {
 				fiveOBlack: '#505050',
 				offWhite: '#F0F1F2',
 				everythingIsBlue: '#007acc'
+			},
+			transitionDuration: {
+				0: '0ms',
+				300: '300ms',
+				500: '500ms',
+				700: '700ms',
+				1000: '1000ms',
+				2000: '2000ms',
+				3000: '3000ms',
+				10000: '10000ms'
+			},
+			spacing: {
+				'1/2': '50%',
+				'2/3': '66.66667%',
+				128: '32rem',
+				256: '64rem'
 			}
 		}
 	},
