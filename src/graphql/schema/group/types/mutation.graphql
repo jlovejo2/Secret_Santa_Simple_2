@@ -1,16 +1,24 @@
 type Mutation {
-	sendPicks(input: SendPicksInput!): SendPicksResponse
+	sendPicksSendGrid(input: SendPicksInput!): SendPicksResponse
+	sendPicksNodeMailer(input: SendPicksInput!): SendPicksResponse
 	createGroup(input: CreateGroupInput!): Group
-	updateGroup(input: SendPicksInput!): Group
+	updateGroup(input: UpdateGroupInput!): Group
 	deleteGroup(groupId: String!): Boolean
 }
 
 input SendPicksInput {
 	groupId: String!
-	members: [GroupMemberInput]!
+	title: String!
+	members: [SendPicksGroupMemberInput]!
 }
 
 input CreateGroupInput {
+	title: String!
+	members: [GroupMemberInput]
+}
+
+input UpdateGroupInput {
+	groupId: String!
 	title: String!
 	members: [GroupMemberInput]
 }
@@ -20,4 +28,12 @@ input GroupMemberInput {
 	first_name: String
 	last_name: String
 	email: String
+}
+
+input SendPicksGroupMemberInput {
+	userId: String
+	first_name: String
+	last_name: String
+	email: String
+	secret_pick: String
 }

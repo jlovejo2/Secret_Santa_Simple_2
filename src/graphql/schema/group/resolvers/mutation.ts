@@ -10,6 +10,7 @@ import {
 	GroupMemberInput,
 	GroupMember
 } from '@graphql/types';
+import SendMailNodeMailer from 'pages/api/sendMail';
 
 const getGroupCollection = async () => {
 	const db = await connect();
@@ -24,7 +25,7 @@ const groupFromDbObject = (dbObject: GroupDbObject): Group => ({
 
 const GroupMutationResolvers: Resolvers = {
 	Mutation: {
-		sendPicks: async (
+		sendPicksSendGrid: async (
 			_: any,
 			{ input },
 			res: Response
@@ -65,6 +66,37 @@ const GroupMutationResolvers: Resolvers = {
 			return {
 				message: 'Sent successfully'
 			};
+		},
+		sendPicksNodeMailer: async (
+			_: any,
+			{ input },
+			res: Response
+		): Promise<SendPicksResponse> => {
+			console.log('send picks nodemailer: ', input);
+
+			const req = {
+				body: {
+					email: '',
+					subject: '',
+					message: ''
+				},
+				sentEmails: []
+			};
+
+			for (let member of input.members) {
+				req.body.email = member.email;
+				req.body.subject = `This secret pick is for ${member.first_name} ${member.last_name}`;
+				req.body.message = `Your secret pick is ${member.secret_pick}`;
+
+				try {
+					const response = SendMailNodeMailer(req, res);
+					req.sentEmails.push(response);
+				} catch (err) {
+					throw new Error('Error when sending message to');
+				}
+			}
+
+			return { message: 'Sent successfully' };
 		},
 		createGroup: async (_: any, { input }) => {
 			const db = await connect();
