@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-micro';
 import 'graphql-import-node';
-import { schema } from '@graphql/schema';
+import { schema } from '@graphql/index';
 import { join } from 'path';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { loadFilesSync } from '@graphql-tools/load-files';
