@@ -9,6 +9,7 @@ const RightArrow = ({ ...props }) => {
 			{...props}
 		>
 			<path
+				fill='currentColor'
 				d='M5 12H19'
 				stroke='white'
 				strokeWidth='1.5'
