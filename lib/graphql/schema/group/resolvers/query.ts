@@ -1,7 +1,7 @@
 import { ObjectID } from 'mongodb';
-import { connect } from '@dao/index';
-import { GroupDbObject, UserDbObject } from '@dao/types';
-import { Resolvers, Group, User } from '@graphql/types';
+import { connect } from '@lib/dao/index';
+import { GroupDbObject, UserDbObject } from '@lib/dao/types';
+import { Resolvers, Group, User } from '@lib/graphql/types';
 
 const getGroupCollection = async () => {
 	const db = await connect();

@@ -2,10 +2,10 @@ import {
 	hashPassword,
 	tradeUserForToken,
 	validatePassword
-} from '@auth/auth-helpers';
-import { connect } from '@dao/index';
-import { UserDbObject } from '@dao/types';
-import { Resolvers, User } from '@graphql/types';
+} from '@lib/auth/auth-helpers';
+import { connect } from '@lib/dao/index';
+import { UserDbObject } from '@lib/dao/types';
+import { Resolvers, User } from '@lib/graphql/types';
 
 const getUserCollection = async () => {
 	const db = await connect();

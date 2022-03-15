@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { useTodoQuery, useUpdateTodoMutation } from '../../src/graphql/types';
+import { useTodoQuery, useUpdateTodoMutation } from '@lib/graphql/types';
 import { useState, ChangeEvent, useEffect } from 'react';
 import { EditIcon, TrashcanIcon } from '../UI/Icons';
 

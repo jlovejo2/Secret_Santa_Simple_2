@@ -13,7 +13,7 @@ import {
 	useCreateGroupMutation,
 	useGetGroupsByUserQuery,
 	useDeleteGroupMutation
-} from '@graphql/types';
+} from '@lib/graphql/types';
 import GroupList from '@components/GroupInfo/GroupLists';
 
 gql`

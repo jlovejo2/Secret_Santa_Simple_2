@@ -1,13 +1,7 @@
-import { useIndexQuery, useCreateTodoMutation } from '@graphql/types';
+import { useIndexQuery, useCreateTodoMutation } from '@lib/graphql/types';
 import { gql } from '@apollo/client';
 import { Todo } from '@components/index';
-import {
-	useState,
-	ChangeEvent,
-	useEffect,
-	SyntheticEvent,
-	FormEvent
-} from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { Layout, Sidebar, DashboardMenuBar } from '@components/index';
 import { PlusIcon } from '@components/UI/Icons';
 import { useRouter } from 'next/router';

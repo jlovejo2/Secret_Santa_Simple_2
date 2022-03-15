@@ -1,13 +1,13 @@
-import { useGetUserQuery } from '../src/graphql/types';
+import { useGetUserQuery } from '@lib/graphql/types';
 import { gql } from '@apollo/client';
 import { Todo } from '../components';
 import { useState, ChangeEvent, useEffect } from 'react';
-import { Layout } from '../components/Layout';
-import { Sidebar } from '../components/Sidebar';
-import { DashboardMenuBar } from '../components/DashboardMenuBar';
+import { Layout } from '@components/Layout';
+import { Sidebar } from '@components/Sidebar';
+import { DashboardMenuBar } from '@components/DashboardMenuBar';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import requireAuth from '@auth/requirePageAuth';
+import requireAuth from '@lib/auth/requirePageAuth';
 
 gql`
 	query getUser {

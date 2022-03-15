@@ -1,7 +1,7 @@
 import { ObjectID } from 'mongodb';
-import { connect } from '@dao/index';
-import { GroupDbObject, SendPicksResponse } from '@dao/types';
-import { NonUser, User } from '@graphql/types';
+import { connect } from '@lib/dao/index';
+import { GroupDbObject, SendPicksResponse } from '@lib/dao/types';
+import { NonUser, User } from '@lib/graphql/types';
 import sendGrid, { MailDataRequired } from '@sendgrid/mail';
 import {
 	Resolvers,
@@ -9,7 +9,7 @@ import {
 	CreateGroupMutationResult,
 	GroupMemberInput,
 	GroupMember
-} from '@graphql/types';
+} from '@lib/graphql/types';
 import SendMailNodeMailer from 'pages/api/sendMail';
 
 const getGroupCollection = async () => {

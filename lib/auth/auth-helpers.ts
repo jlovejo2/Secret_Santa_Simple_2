@@ -29,6 +29,8 @@ export async function tradeUserForToken(user: User) {
 		throw new Error('Error when creating token for user, token was not verified');
 }
 
+async function checkTokenExpired(token) {}
+
 async function generateToken(user) {
 	return jwt.sign({ userId: user.userId }, process.env.JWT_TOKEN_SECRET, {
 		expiresIn: '120m'

@@ -10,7 +10,7 @@ module.exports = {
 		// config.resolve.extensions.push('.ts')
 		config.resolve.alias['@components'] = path.join(__dirname, './components');
 		config.resolve.alias['@hooks'] = path.join(__dirname, './hooks');
-		config.resolve.alias['@src'] = path.join(__dirname, './src');
+		config.resolve.alias['@lib'] = path.join(__dirname, './lib');
 		config.resolve.alias['@graphql'] = path.join(__dirname, './src/graphql');
 		config.resolve.alias['@dao'] = path.join(__dirname, './src/dao');
 		config.resolve.alias['@auth'] = path.join(__dirname, './src/auth');

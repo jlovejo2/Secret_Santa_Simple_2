@@ -5,10 +5,10 @@
 		"paths": {
 			"@components/*": ["./components/*"],
 			"@hooks/*": ["./hooks/*"],
-			"@src/*": ["./src/*"],
-			"@graphql/*": ["./src/graphql/*"],
-			"@dao/*": ["./src/dao/*"],
-			"@auth/*": ["./src/auth/*"]
+			"@lib/*": ["./lib/*"],
+			"@graphql/*": ["./lib/graphql/*"],
+			"@dao/*": ["./lib/dao/*"],
+			"@auth/*": ["./lib/auth/*"]
 		},
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
@@ -24,6 +24,6 @@
 		"jsx": "preserve",
 		"incremental": true
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/graphql/schema.tsx"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/graphql/schema.tsx"],
 	"exclude": ["node_modules", ".next"]
 }

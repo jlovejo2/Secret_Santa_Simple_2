@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 import React, { FormEvent, Fragment } from 'react';
 import { Modal } from '../Modal';
 import SignInForm, { signinForm } from './SignInForm';
-import { User, LoginUserInput, useLoginUserMutation } from '@graphql/types';
-import { isEmpty } from '@src/utils/sanitizers';
+import { User, LoginUserInput, useLoginUserMutation } from '@lib/graphql/types';
+import { isEmpty } from '@lib/utils/sanitizers';
 import { Router } from 'express';
 import { useRouter } from 'next/router';
 
