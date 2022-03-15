@@ -141,21 +141,26 @@ const SecretSantaGroups = props => {
 								{/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
 								<div className='w-full grid grid-cols-4 gap-2 rounded'>
 									<div className='grid-cols-span-1'>
-										<div className='flex justify-center'>
-											<form onSubmit={handleCreateGroup}>
+										<form
+											className='flex flex-row mt-2 py-2 justify-between'
+											onSubmit={handleCreateGroup}
+										>
+											<div className='w-3/5'>
 												<input
-													className='w-48 pl-2 ml-2 border border-black'
+													className='w-56 pl-2 border border-black'
 													placeholder='Enter group title ...'
 												></input>
+											</div>
+											<div className='w-2/5 flex justify-end'>
 												<button
 													type='submit'
-													className='ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-indigo-700'
+													className='whitespace-nowrap inline-flex items-center justify-center px-1 py-1 border border-transparent rounded-md shadow-sm text-base font-small text-white bg-green-600 hover:bg-indigo-700'
 												>
 													<PlusIcon width={15} height={15} />
 													<p className='pl-2'>Create Group</p>
 												</button>
-											</form>
-										</div>
+											</div>
+										</form>
 										{loading ? (
 											<div>Loading Group data ...</div>
 										) : getGroupsData ? (
