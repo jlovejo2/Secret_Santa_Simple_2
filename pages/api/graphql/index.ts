@@ -9,23 +9,18 @@ import 'graphql-import-node';
 // import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
 import { tradeTokenForUser } from '@lib/auth/auth-helpers';
 import { join, resolve } from 'path';
-import { makeExecutableSchema } from '@graphql-tools/schema';
+
 import { loadFilesSync } from '@graphql-tools/load-files';
 import {
 	loadSchemaSync,
 	loadSchema,
 	loadTypedefsSync
 } from '@graphql-tools/load';
-import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
+// import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
+import { createSchema } from '@lib/graphql/schema/schema';
 // import resolvers from './resolvers';
-import {
-	GroupMutations,
-	GroupQueries
-} from '@lib/graphql/schema/group/resolvers';
-import { UserMutations, UserQueries } from '@lib/graphql/schema/user/resolvers';
-import { TodoMutations, TodoQueries } from '@lib/graphql/schema/todo/resolvers';
 
 console.log(
 	'This is the server root',
@@ -41,31 +36,31 @@ console.log(
 // 	join(__dirname, 'graphql/schema/**/*.graphql')
 // );
 
-const loadedTypesFiles = await loadTypedefsSync(
-	join(__dirname, './graphql/schema/**/*.graphql'),
-	{
-		loaders: [new GraphQLFileLoader()]
-	}
-);
+// const loadedTypesFiles = loadTypedefsSync(
+// 	join(__dirname, './graphql/schema/**/*.graphql'),
+// 	{
+// 		loaders: [new GraphQLFileLoader()]
+// 	}
+// );
 
-console.log('these are the loaded types files', loadedTypesFiles);
+// console.log('these are the loaded types files', loadedTypesFiles);
 
-const typeDefs = mergeTypeDefs(loadedTypesFiles.map(source => source.document));
-const resolvers = mergeResolvers([
-	GroupMutations,
-	GroupQueries,
-	UserMutations,
-	UserQueries,
-	TodoMutations,
-	TodoQueries
-]);
+// const typeDefs = mergeTypeDefs(loadedTypesFiles.map(source => source.document));
+// const resolvers = mergeResolvers([
+// 	GroupMutations,
+// 	GroupQueries,
+// 	UserMutations,
+// 	UserQueries,
+// 	TodoMutations,
+// 	TodoQueries
+// ]);
 
-console.log('these are the merged resolvers: ', resolvers);
+// console.log('these are the merged resolvers: ', resolvers);
 
-const schema = makeExecutableSchema({
-	typeDefs: [DIRECTIVES, typeDefs],
-	resolvers
-});
+// const schema = makeExecutableSchema({
+// 	typeDefs: [DIRECTIVES, typeDefs],
+// 	resolvers
+// });
 
 // import resolvers from './resolvers';
 
@@ -87,6 +82,8 @@ const schema = makeExecutableSchema({
 // 	typeDefs: [DIRECTIVES, typeDefs],
 // 	resolvers,
 // });
+
+const schema = createSchema();
 
 const HEADER_NAME = 'authorization';
 
