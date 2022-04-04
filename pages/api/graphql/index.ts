@@ -20,7 +20,7 @@ import {
 import { UserMutations, UserQueries } from '@lib/graphql/schema/user/resolvers';
 import { TodoMutations, TodoQueries } from '@lib/graphql/schema/todo/resolvers';
 
-console.log('This is the server root', `${process.cwd()}`);
+console.log('This is the server root', `${process.cwd()}`, `${__dirname}`);
 
 // used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
 // process.cwd() returns the value of directory where we run the node process
