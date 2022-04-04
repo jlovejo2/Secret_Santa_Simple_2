@@ -45,6 +45,8 @@ const resolvers = mergeResolvers([
 	TodoQueries
 ]);
 
+console.log('these are the merged resolvers: ', resolvers);
+
 const schema = makeExecutableSchema({
 	typeDefs: [DIRECTIVES, typeDefs],
 	resolvers
