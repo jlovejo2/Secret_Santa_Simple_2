@@ -29,6 +29,8 @@ console.log(
 // __dirname reutrns the value of the directory where the current running file resides
 const loadedTypesFiles = loadFilesSync(join(__dirname, `schema/**/*.graphql`));
 
+console.log('these are the loaded types files', loadedTypesFiles);
+
 // const loadedResolverFiles = loadFilesSync(
 // 	join(process.cwd(), './src/graphql/**/resolvers/*.ts')
 // );
