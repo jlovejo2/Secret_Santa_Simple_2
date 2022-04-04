@@ -20,6 +20,7 @@ import {
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
 import { createSchema } from '@lib/graphql/schema/schema';
+import { printSchema } from 'graphql';
 // import resolvers from './resolvers';
 
 console.log(
@@ -84,6 +85,8 @@ console.log(
 // });
 
 const schema = createSchema();
+
+console.log(printSchema(schema));
 
 const HEADER_NAME = 'authorization';
 
