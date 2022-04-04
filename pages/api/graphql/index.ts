@@ -1,4 +1,5 @@
 import { ApolloServer } from 'apollo-server-micro';
+import { fstat, readFileSync } from 'fs';
 import 'graphql-import-node';
 // import { schema } from '@graphql/index';
 // import { join } from 'path';
@@ -10,6 +11,8 @@ import { tradeTokenForUser } from '@lib/auth/auth-helpers';
 import { join } from 'path';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { loadFilesSync } from '@graphql-tools/load-files';
+import { loadSchemaSync, loadSchema } from '@graphql-tools/load';
+import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
 // import resolvers from './resolvers';
@@ -27,13 +30,15 @@ console.log(
 // used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
 // process.cwd() returns the value of directory where we run the node process
 // __dirname reutrns the value of the directory where the current running file resides
-const loadedTypesFiles = loadFilesSync(join(__dirname, `schema/**/*.graphql`));
+const loadedTypesFiles = loadFilesSync(`${__dirname}/schema/**/*.graphql`);
+
+// const loadedTypesFiles = await loadSchema(`${__dirname}/schema/**/*.graphql`, {
+// 	loaders: [
+// 		new GraphQLFileLoader()
+// 	]
+// })
 
 console.log('these are the loaded types files', loadedTypesFiles);
-
-// const loadedResolverFiles = loadFilesSync(
-// 	join(process.cwd(), './src/graphql/**/resolvers/*.ts')
-// );
 
 const typeDefs = mergeTypeDefs(loadedTypesFiles);
 const resolvers = mergeResolvers([
