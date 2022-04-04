@@ -13,21 +13,21 @@ import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
 // import resolvers from './resolvers';
-import {
-	GroupMutations,
-	GroupQueries
-} from '@lib/graphql/schema/group/resolvers';
-import { UserMutations, UserQueries } from '@lib/graphql/schema/user/resolvers';
-import { TodoMutations, TodoQueries } from '@lib/graphql/schema/todo/resolvers';
+import { GroupMutations, GroupQueries } from './schema/group/resolvers';
+import { UserMutations, UserQueries } from './schema/user/resolvers';
+import { TodoMutations, TodoQueries } from './schema/todo/resolvers';
 
-console.log('This is the server root', `${process.cwd()}`, `${__dirname}`);
+console.log(
+	'This is the server root',
+	`${process.cwd()}`,
+	`${__dirname}`,
+	join(__dirname, `schema/**/*.graphql`)
+);
 
 // used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
 // process.cwd() returns the value of directory where we run the node process
 // __dirname reutrns the value of the directory where the current running file resides
-const loadedTypesFiles = loadFilesSync(
-	join(__dirname, `lib/graphql/schema/**/*.graphql`)
-);
+const loadedTypesFiles = loadFilesSync(join(__dirname, `schema/**/*.graphql`));
 
 // const loadedResolverFiles = loadFilesSync(
 // 	join(process.cwd(), './src/graphql/**/resolvers/*.ts')

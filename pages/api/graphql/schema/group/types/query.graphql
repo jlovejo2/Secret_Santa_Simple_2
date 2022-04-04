@@ -1,0 +1,5 @@
+type Query {
+	allGroups: [Group]
+	getGroup(groupId: ID!): Group
+	getGroupsByUser(userId: ID!): User
+}
