@@ -26,7 +26,7 @@ console.log('This is the server root', `${process.cwd()}`);
 // process.cwd() returns the value of directory where we run the node process
 // __dirname reutrns the value of the directory where the current running file resides
 const loadedTypesFiles = loadFilesSync(
-	join(process.cwd(), '@lib/graphql/schema/**/*.graphql')
+	join(process.cwd(), `${process.cwd()}/lib/graphql/schema/**/*.graphql`)
 );
 
 // const loadedResolverFiles = loadFilesSync(
