@@ -11,7 +11,11 @@ import { tradeTokenForUser } from '@lib/auth/auth-helpers';
 import { join, resolve } from 'path';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { loadFilesSync } from '@graphql-tools/load-files';
-import { loadSchemaSync, loadSchema } from '@graphql-tools/load';
+import {
+	loadSchemaSync,
+	loadSchema,
+	loadTypedefsSync
+} from '@graphql-tools/load';
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
@@ -30,19 +34,20 @@ console.log(
 // used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
 // process.cwd() returns the value of directory where we run the node process
 // __dirname reutrns the value of the directory where the current running file resides
-const loadedTypesFiles = loadFilesSync(
-	join(__dirname, 'graphql/schema/**/*.graphql')
-);
+// const loadedTypesFiles = loadFilesSync(
+// 	join(__dirname, 'graphql/schema/**/*.graphql')
+// );
 
-// const loadedTypesFiles = await loadSchema(`${__dirname}/schema/**/*.graphql`, {
-// 	loaders: [
-// 		new GraphQLFileLoader()
-// 	]
-// })
+const loadedTypesFiles = loadTypedefsSync(
+	`${__dirname}/graphql/schema/**/*.graphql`,
+	{
+		loaders: [new GraphQLFileLoader()]
+	}
+);
 
 console.log('these are the loaded types files', loadedTypesFiles);
 
-const typeDefs = mergeTypeDefs(loadedTypesFiles);
+const typeDefs = mergeTypeDefs(loadedTypesFiles.map(source => source.document));
 const resolvers = mergeResolvers([
 	GroupMutations,
 	GroupQueries,
