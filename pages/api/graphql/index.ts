@@ -25,7 +25,9 @@ console.log('This is the server root', `${process.cwd()}`);
 // used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
 // process.cwd() returns the value of directory where we run the node process
 // __dirname reutrns the value of the directory where the current running file resides
-const loadedTypesFiles = loadFilesSync(`${process.cwd()}/**/*.graphql`);
+const loadedTypesFiles = loadFilesSync(
+	join(__dirname, `lib/graphql/schema/**/*.graphql`)
+);
 
 // const loadedResolverFiles = loadFilesSync(
 // 	join(process.cwd(), './src/graphql/**/resolvers/*.ts')
