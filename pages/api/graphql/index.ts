@@ -42,7 +42,7 @@ console.log(
 // );
 
 const loadedTypesFiles = loadTypedefsSync(
-	join(__dirname, '@lib/graphql/schema/**/*.graphql'),
+	join(process.cwd(), './lib/graphql/schema/**/*.graphql'),
 	{
 		loaders: [new GraphQLFileLoader()]
 	}
