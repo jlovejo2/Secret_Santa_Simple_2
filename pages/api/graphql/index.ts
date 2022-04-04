@@ -20,9 +20,12 @@ import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
 // import resolvers from './resolvers';
-import { GroupMutations, GroupQueries } from './schema/group/resolvers';
-import { UserMutations, UserQueries } from './schema/user/resolvers';
-import { TodoMutations, TodoQueries } from './schema/todo/resolvers';
+import {
+	GroupMutations,
+	GroupQueries
+} from '@lib/graphql/schema/group/resolvers';
+import { UserMutations, UserQueries } from '@lib/graphql/schema/user/resolvers';
+import { TodoMutations, TodoQueries } from '@lib/graphql/schema/todo/resolvers';
 
 console.log(
 	'This is the server root',
@@ -39,7 +42,7 @@ console.log(
 // );
 
 const loadedTypesFiles = loadTypedefsSync(
-	`${__dirname}/graphql/schema/**/*.graphql`,
+	join(__dirname, '@lib/graphql/schema/**/*.graphql'),
 	{
 		loaders: [new GraphQLFileLoader()]
 	}
