@@ -30,10 +30,9 @@ console.log(
 // used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
 // process.cwd() returns the value of directory where we run the node process
 // __dirname reutrns the value of the directory where the current running file resides
-const loadedTypesFiles = loadFilesSync(join(__dirname, 'graphql/schema'), {
-	extensions: ['graphql'],
-	recursive: true
-});
+const loadedTypesFiles = loadFilesSync(
+	join(__dirname, 'graphql/schema/**/*.graphql')
+);
 
 // const loadedTypesFiles = await loadSchema(`${__dirname}/schema/**/*.graphql`, {
 // 	loaders: [
