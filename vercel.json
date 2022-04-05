@@ -1,7 +1,0 @@
-{
-	"functions": {
-		"api/graphql": {
-			"includefiles": "./src/graphql/**/*.graphql"
-		}
-	}
-}
