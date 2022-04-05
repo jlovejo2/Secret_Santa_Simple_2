@@ -36,7 +36,7 @@ export const connect = async (): Promise<Db> => {
 		}
 	}
 
-	console.log('connected to database');
+	console.log('connected to database', database);
 
 	return database;
 };
