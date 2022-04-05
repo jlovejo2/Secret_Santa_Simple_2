@@ -34,8 +34,8 @@ export const connect = async (): Promise<Db> => {
 	console.log('database url: ', url);
 
 	try {
-		let client = new MongoClient(url, opts);
-		console.log('created mongo client ...', database);
+		client = new MongoClient(url, opts);
+		console.log('created mongo client ...', client, database);
 		await client.connect();
 
 		let db = client.db('main');
