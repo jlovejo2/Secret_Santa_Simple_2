@@ -16,8 +16,8 @@ if (!DB_USER) {
 	url = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_CLUSTER}.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 }
 
-export let client: MongoClient = null;
-export let database: Db = null;
+export let client: MongoClient;
+export let database: Db;
 
 export const connect = async (): Promise<Db> => {
 	if (database) {
@@ -35,14 +35,13 @@ export const connect = async (): Promise<Db> => {
 
 	try {
 		client = new MongoClient(url, opts);
-		console.log('created mongo client ...', client, database);
+		console.log('created mongo client ...');
 		await client.connect();
+		console.log('successfully connected to database ...');
 
 		let db = client.db('main');
+		console.log('found main collection ....');
 		database = db;
-
-		console.log('connected to database', database);
-
 		return database;
 	} catch (e) {
 		console.info('Error connecting...', e);
