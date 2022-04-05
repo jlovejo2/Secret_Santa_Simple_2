@@ -16,27 +16,34 @@ if (!DB_USER) {
 	url = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_CLUSTER}.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
 }
 
-export let client: MongoClient;
-export let database: Db;
+export let client: MongoClient = null;
+export let database: Db = null;
 
 export const connect = async (): Promise<Db> => {
-	if (!database) {
-		console.info(`Connecting to database ...`);
-
-		console.log('database url: ', url);
-
-		try {
-			client = await MongoClient.connect(url, {
-				useNewUrlParser: true,
-				useUnifiedTopology: true
-			});
-			database = client.db('main');
-		} catch (e) {
-			console.info('Error connecting...', e);
-		}
+	if (database) {
+		return database;
 	}
 
-	console.log('connected to database', database);
+	const opts = {
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+	};
 
-	return database;
+	console.info(`Connecting to database ...`);
+
+	console.log('database url: ', url);
+
+	try {
+		let client = new MongoClient(url, opts);
+		await client.connect();
+
+		let db = client.db('main');
+		database = db;
+
+		console.log('connected to database', database);
+
+		return database;
+	} catch (e) {
+		console.info('Error connecting...', e);
+	}
 };
