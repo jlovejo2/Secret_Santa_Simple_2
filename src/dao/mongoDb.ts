@@ -20,27 +20,19 @@ export let client: MongoClient;
 export let database: Db;
 
 export const connect = async (): Promise<Db> => {
-	// if (database) {
-	// 	return database;
-	// }
+	if (database) {
+		return database;
+	}
 
 	const opts = {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	};
 
-	console.info(`Connecting to database ...`);
-
-	console.log('database url: ', url);
-
 	try {
 		client = new MongoClient(url);
-		console.log('created mongo client ...');
 		await client.connect();
-		console.log('successfully connected to database ...');
-
 		let db = client.db('main');
-		console.log('found main collection ....', db);
 		database = db;
 		return database;
 	} catch (e) {
