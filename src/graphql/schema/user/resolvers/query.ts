@@ -6,6 +6,7 @@ import { Resolvers, User } from '@src/graphql/types';
 
 const getUserCollection = async () => {
 	const db = await connect();
+	console.log('get user collection: ', db);
 	return db.collection<UserDbObject>('User');
 };
 

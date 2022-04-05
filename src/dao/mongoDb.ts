@@ -20,9 +20,9 @@ export let client: MongoClient;
 export let database: Db;
 
 export const connect = async (): Promise<Db> => {
-	if (database) {
-		return database;
-	}
+	// if (database) {
+	// 	return database;
+	// }
 
 	const opts = {
 		useNewUrlParser: true,
@@ -40,7 +40,7 @@ export const connect = async (): Promise<Db> => {
 		console.log('successfully connected to database ...');
 
 		let db = client.db('main');
-		console.log('found main collection ....');
+		console.log('found main collection ....', db);
 		database = db;
 		return database;
 	} catch (e) {
