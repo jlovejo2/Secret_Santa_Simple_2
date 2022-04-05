@@ -20,7 +20,9 @@ const userFromDbObject = (dbObject: UserDbObject): User => ({
 const userQueryResolvers: Resolvers = {
 	Query: {
 		allUsers: async () => {
+			console.log('entered all users ...');
 			const collection = await getUserCollection();
+			console.log('found collection: ', collection);
 			return await collection.find().map(userFromDbObject).toArray();
 		},
 		getUser: authenticated(async (_: any, args, context) => {
