@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
-import { Group } from '@lib/dao/types';
-import { NonUser, User } from '@lib/graphql/types';
+import { Group } from '@src/dao/types';
+import { NonUser, User } from '@src/graphql/types';
 import { Fragment } from 'react';
 
 const id = '620a82bd0ad70c0d27d4adcf';

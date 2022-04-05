@@ -7,8 +7,8 @@ import {
 	User,
 	CreateUserInput,
 	useCreateUserMutation
-} from '@lib/graphql/types';
-import { isEmpty } from '@lib/utils/sanitizers';
+} from '@src/graphql/types';
+import { isEmpty } from '@src/utils/sanitizers';
 import { useRouter } from 'next/router';
 
 gql`

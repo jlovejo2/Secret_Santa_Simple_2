@@ -1,4 +1,4 @@
-import { useIndexQuery, useCreateTodoMutation } from '@lib/graphql/types';
+import { useIndexQuery, useCreateTodoMutation } from '@src/graphql/types';
 import { gql } from '@apollo/client';
 import { Todo } from '@components/index';
 import { useState, useEffect, FormEvent } from 'react';

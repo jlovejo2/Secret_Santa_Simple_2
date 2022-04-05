@@ -5,7 +5,7 @@ import {
 	NonUser,
 	useUpdateGroupMutation,
 	useSendPicksNodeMailerMutation
-} from '@lib/graphql/types';
+} from '@src/graphql/types';
 import GroupSummary from './GroupSummary';
 import { useForm } from '@hooks/index';
 import {
@@ -14,8 +14,8 @@ import {
 	maxLengthRule,
 	minLengthRule
 } from '@hooks/useForm/helper';
-import { chooseSecretSanta } from '@lib/utils/custom-functions';
-import { GroupMember } from '@lib/graphql/types';
+import { chooseSecretSanta } from '@src/utils/custom-functions';
+import { GroupMember } from '@src/graphql/types';
 
 gql`
 	mutation sendPicksNodeMailer($input: SendPicksInput!) {

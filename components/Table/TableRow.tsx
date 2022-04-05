@@ -1,5 +1,5 @@
 import React, { Fragment, SyntheticEvent } from 'react';
-import { GroupMember } from '@lib/graphql/types';
+import { GroupMember } from '@src/graphql/types';
 
 type TableRowProps = {
 	groupDetails: GroupMember[];

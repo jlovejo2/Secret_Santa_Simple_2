@@ -1,27 +1,24 @@
-import { ApolloServer } from 'apollo-server-micro';
+import { ApolloServer, makeExecutableSchema } from 'apollo-server-micro';
 import { fstat, readFileSync } from 'fs';
 import 'graphql-import-node';
-// import { schema } from '@graphql/index';
-// import { join } from 'path';
-// import { makeExecutableSchema } from '@graphql-tools/schema';
-// import { loadFilesSync } from '@graphql-tools/load-files';
-// import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
-// import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
-import { tradeTokenForUser } from '@lib/auth/auth-helpers';
+import { tradeTokenForUser } from '@src/auth/auth-helpers';
 import { join, resolve } from 'path';
-
 import { loadFilesSync } from '@graphql-tools/load-files';
 import {
 	loadSchemaSync,
 	loadSchema,
 	loadTypedefsSync
 } from '@graphql-tools/load';
-// import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
-import { createSchema } from '@lib/graphql/schema/schema';
 import { printSchema } from 'graphql';
-// import resolvers from './resolvers';
+import {
+	GroupMutations,
+	GroupQueries
+} from '@src/graphql/schema/group/resolvers';
+import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
+import { UserMutations, UserQueries } from '@src/graphql/schema/user/resolvers';
+import { TodoMutations, TodoQueries } from '@src/graphql/schema/todo/resolvers';
 
 console.log(
 	'This is the server root',
@@ -30,59 +27,31 @@ console.log(
 	join(__dirname, `schema/**/*.graphql`)
 );
 
-// used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
-// process.cwd() returns the value of directory where we run the node process
-// __dirname reutrns the value of the directory where the current running file resides
-// const loadedTypesFiles = loadFilesSync(
-// 	join(__dirname, 'graphql/schema/**/*.graphql')
-// );
+// loaders: [new GraphQLFileLoader()]
 
-// const loadedTypesFiles = loadTypedefsSync(
-// 	join(__dirname, './graphql/schema/**/*.graphql'),
-// 	{
-// 		loaders: [new GraphQLFileLoader()]
-// 	}
-// );
+const loadedTypesFiles = loadFilesSync(
+	join(process.cwd(), `src/graphql/**/*.graphql`)
+);
 
-// console.log('these are the loaded types files', loadedTypesFiles);
+console.log('these are the loaded types files', loadedTypesFiles);
 
-// const typeDefs = mergeTypeDefs(loadedTypesFiles.map(source => source.document));
-// const resolvers = mergeResolvers([
-// 	GroupMutations,
-// 	GroupQueries,
-// 	UserMutations,
-// 	UserQueries,
-// 	TodoMutations,
-// 	TodoQueries
-// ]);
+const typeDefs = mergeTypeDefs(loadedTypesFiles);
 
-// console.log('these are the merged resolvers: ', resolvers);
+const resolvers = mergeResolvers([
+	GroupMutations,
+	GroupQueries,
+	UserMutations,
+	UserQueries,
+	TodoMutations,
+	TodoQueries
+]);
 
-// const schema = makeExecutableSchema({
-// 	typeDefs: [DIRECTIVES, typeDefs],
-// 	resolvers
-// });
-
-// import resolvers from './resolvers';
-
-// used process.cwd() here instead of __dirname.  Made it easier for me to visualize the glob pattern to write
-// process.cwd() returns the value of directory where we run the node process
-// __dirname reutrns the value of the directory where the current running file resides
-// const loadedTypesFiles = loadFilesSync(
-// 	join(process.cwd(), './src/graphql/**/*.graphql')
-// );
-
-// const loadedResolverFiles = loadFilesSync(
-// 	join(process.cwd(), './src/graphql/**/resolvers/*.ts')
-// );
-
-// const typeDefs = mergeTypeDefs(loadedTypesFiles);
-// const resolvers = mergeResolvers(loadedResolverFiles);
-
-// const schema = makeExecutableSchema({
-// 	typeDefs: [DIRECTIVES, typeDefs],
-// 	resolvers,
-// });
+const createSchema = () => {
+	return makeExecutableSchema({
+		typeDefs: [DIRECTIVES, typeDefs],
+		resolvers
+	});
+};
 
 const schema = createSchema();
 

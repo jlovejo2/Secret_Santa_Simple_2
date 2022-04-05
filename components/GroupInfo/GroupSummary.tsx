@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { GroupMember } from '@lib/graphql/types';
+import { GroupMember } from '@src/graphql/types';
 import { Fragment } from 'react';
 import { TableHeader, TableRow } from '../Table';
 // import { emailSender } from '../../dao/nodeMailer';

@@ -1,6 +1,6 @@
 import React from 'react';
-import { CreateGroupInput } from '@lib/dao';
-import { GroupMember } from '@lib/graphql/types';
+import { CreateGroupInput } from '@src/dao';
+import { GroupMember } from '@src/graphql/types';
 
 type TableHeaderProps = {
 	groupDetails:

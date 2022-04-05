@@ -13,7 +13,7 @@ module.exports = {
 			'./components'
 		);
 		config.resolve.alias['@hooks'] = path.join(process.cwd(), './hooks');
-		config.resolve.alias['@lib'] = path.join(process.cwd(), './lib');
+		config.resolve.alias['@src'] = path.join(process.cwd(), './src');
 		config.resolve.alias['@graphql'] = path.join(process.cwd(), './src/graphql');
 		config.resolve.alias['@dao'] = path.join(process.cwd(), './src/dao');
 		config.resolve.alias['@auth'] = path.join(process.cwd(), './src/auth');
