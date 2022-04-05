@@ -19,6 +19,15 @@ import {
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { UserMutations, UserQueries } from '@src/graphql/schema/user/resolvers';
 import { TodoMutations, TodoQueries } from '@src/graphql/schema/todo/resolvers';
+import '@src/graphql/schema/group/types/schema.graphql';
+import '@src/graphql/schema/group/types/mutation.graphql';
+import '@src/graphql/schema/group/types/query.graphql';
+import '@src/graphql/schema/user/types/schema.graphql';
+import '@src/graphql/schema/user/types/mutation.graphql';
+import '@src/graphql/schema/user/types/query.graphql';
+import '@src/graphql/schema/todo/types/schema.graphql';
+import '@src/graphql/schema/todo/types/mutation.graphql';
+import '@src/graphql/schema/todo/types/query.graphql';
 
 console.log(
 	'This is the server root',
