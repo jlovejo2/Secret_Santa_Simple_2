@@ -19,15 +19,15 @@ import {
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { UserMutations, UserQueries } from '@src/graphql/schema/user/resolvers';
 import { TodoMutations, TodoQueries } from '@src/graphql/schema/todo/resolvers';
-import '@src/graphql/schema/group/types/schema.graphql';
-import '@src/graphql/schema/group/types/mutation.graphql';
-import '@src/graphql/schema/group/types/query.graphql';
-import '@src/graphql/schema/user/types/schema.graphql';
-import '@src/graphql/schema/user/types/mutation.graphql';
-import '@src/graphql/schema/user/types/query.graphql';
-import '@src/graphql/schema/todo/types/schema.graphql';
-import '@src/graphql/schema/todo/types/mutation.graphql';
-import '@src/graphql/schema/todo/types/query.graphql';
+import groupSchema from '@src/graphql/schema/group/types/schema.graphql';
+import groupMutation from '@src/graphql/schema/group/types/mutation.graphql';
+import groupQuery from '@src/graphql/schema/group/types/query.graphql';
+import userSchema from '@src/graphql/schema/user/types/schema.graphql';
+import userMutation from '@src/graphql/schema/user/types/mutation.graphql';
+import userQuery from '@src/graphql/schema/user/types/query.graphql';
+import todoSchema from '@src/graphql/schema/todo/types/schema.graphql';
+import todoMutation from '@src/graphql/schema/todo/types/mutation.graphql';
+import todoQuery from '@src/graphql/schema/todo/types/query.graphql';
 
 console.log(
 	'This is the server root',
@@ -38,13 +38,23 @@ console.log(
 
 // loaders: [new GraphQLFileLoader()]
 
-const loadedTypesFiles = loadFilesSync(
-	join(process.cwd(), `src/graphql/**/*.graphql`)
-);
+// const loadedTypesFiles = loadFilesSync(
+// 	join(process.cwd(), `src/graphql/**/*.graphql`)
+// );
 
-console.log('these are the loaded types files', loadedTypesFiles);
+// console.log('these are the loaded types files', loadedTypesFiles);
 
-const typeDefs = mergeTypeDefs(loadedTypesFiles);
+const typeDefs = mergeTypeDefs([
+	groupSchema,
+	groupMutation,
+	groupQuery,
+	userSchema,
+	userMutation,
+	userQuery,
+	todoSchema,
+	todoMutation,
+	todoQuery
+]);
 
 const resolvers = mergeResolvers([
 	GroupMutations,
