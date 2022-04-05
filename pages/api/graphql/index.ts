@@ -29,20 +29,10 @@ import todoSchema from '@src/graphql/schema/todo/types/schema.graphql';
 import todoMutation from '@src/graphql/schema/todo/types/mutation.graphql';
 import todoQuery from '@src/graphql/schema/todo/types/query.graphql';
 
-console.log(
-	'This is the server root',
-	`${process.cwd()}`,
-	`${__dirname}`,
-	join(__dirname, `schema/**/*.graphql`)
-);
-
-// loaders: [new GraphQLFileLoader()]
-
+// Could not use loadFilesSync because Vercel does not know to include the .graphql files in build process.  Have to import them in so that webpack can use graphql-loader to compile them for vercel to build
 // const loadedTypesFiles = loadFilesSync(
 // 	join(process.cwd(), `src/graphql/**/*.graphql`)
 // );
-
-// console.log('these are the loaded types files', loadedTypesFiles);
 
 const typeDefs = mergeTypeDefs([
 	groupSchema,
@@ -73,8 +63,6 @@ const createSchema = () => {
 };
 
 const schema = createSchema();
-
-console.log(printSchema(schema));
 
 const HEADER_NAME = 'authorization';
 
