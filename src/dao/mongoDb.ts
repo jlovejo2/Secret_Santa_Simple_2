@@ -13,7 +13,7 @@ if (!DB_USER) {
 } else if (!DB_NAME) {
 	throw new Error('Please define the DB_NAME env variable');
 } else {
-	url = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_CLUSTER}.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+	url = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_CLUSTER}.mongodb.net/test?retryWrites=true&w=majority`;
 }
 
 export let client: MongoClient;
@@ -34,7 +34,7 @@ export const connect = async (): Promise<Db> => {
 	console.log('database url: ', url);
 
 	try {
-		client = new MongoClient(url, opts);
+		client = new MongoClient(url);
 		console.log('created mongo client ...');
 		await client.connect();
 		console.log('successfully connected to database ...');
