@@ -4,6 +4,7 @@ module.exports = {
 	webpack: (config, options) => {
 		config.module.rules.push({
 			test: /\.graphql?$/,
+			exclude: /node_modules/,
 			use: ['webpack-graphql-loader']
 		});
 
