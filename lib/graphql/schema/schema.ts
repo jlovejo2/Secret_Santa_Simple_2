@@ -11,12 +11,9 @@ import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { UserMutations, UserQueries } from '@lib/graphql/schema/user/resolvers';
 import { TodoMutations, TodoQueries } from '@lib/graphql/schema/todo/resolvers';
 
-const loadedTypesFiles = loadTypedefsSync(
-	join(__dirname, './graphql/schema/**/*.graphql'),
-	{
-		loaders: [new GraphQLFileLoader()]
-	}
-);
+const loadedTypesFiles = loadTypedefsSync('./**/*.graphql', {
+	loaders: [new GraphQLFileLoader()]
+});
 
 console.log('these are the loaded types files', loadedTypesFiles);
 
