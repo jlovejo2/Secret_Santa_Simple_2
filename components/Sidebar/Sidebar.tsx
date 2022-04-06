@@ -186,7 +186,7 @@ const Sidebar = (props: SidebarProps) => {
 						<div className='w-full'>
 							<div className='flex justify-center mb-4 w-full px-6'>
 								<div className='relative w-full'>
-									<MagnifyingGlassIcon />
+									<MagnifyingGlassIcon width={15} height={15} />
 									<input
 										className='bg-gray-200 focus:outline-none rounded w-full text-sm text-gray-500  pl-10 py-2'
 										type='text'
